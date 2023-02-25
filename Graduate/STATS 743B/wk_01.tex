@@ -1,0 +1,373 @@
+\makeheading{Lecture 1}{\printdate{2022-01-11}}%chktex 8
+\section*{Order Statistics}
+Let $ X_1,X_2,\ldots,X_n $ be a random sample of size $ n $ from a population with CDF $ F(x) $
+and PDF $ f(x) $. Let $ X_{1:n}\le \cdots \le X_{n:n} $ denote the corresponding order statistics obtained by arranging the $ X_i $'s
+in increasing (non-decreasing) order of magnitude. Then, their distributions, dependence properties,
+moments, characteristics, etc.\ can be made use of effectively to develop inferential methods.
+\section*{Binomial Derivation}
+The CDF of $ X_{r:n} $, for $ r=1,2,\ldots,n $, is
+\begin{align*}
+    F_{r:n}(x)
+     & =\Prob{X_{r:n}\le x}                                                                                                    \\
+     & =\Prob{\text{at least $ r $ of the $ X_i $'s are $ \le x $}}                                                            \\
+     & =\sum_{i=r}^{n}\Prob{\text{exactly $ i $ of $ x_i $'s are $ \le x_i $}} &  & \text{because they are mutually exclusive} \\
+     & =\sum_{i=r}^{n}\binom{n}{i}\bigl(F(x)\bigr)^i\bigl(1-F(x)\bigr)^{n-i}                                                   \\
+     & =I_{F(x)}(r,n-r+1),
+\end{align*}
+where
+\[ I_p(a,b)=\frac{1}{B(a,b)}\int_{0}^{p}t^{a-1}(1-t)^{b-1}\odif{t},\text{ for } 0<p<1, \]
+is the Incomplete Beta Ratio function.
+
+\section*{Pearson's Identity}
+For $ 0<p<1 $,
+\[ I_p(r,n-r+1)=\sum_{i=r}^{n}\binom{n}{i}p^i (1-p)^{n-i},\text{ for } r=1,2,\ldots,n. \]
+It connects the survival function of binomial distribution
+with the cumulative distribution function of beta distribution. (Proof by integration of parts)
+\begin{Remark}{}{}
+    The expression of the CDF of $ X_{r:n} $ in (1) holds whether the distribution $ F(x) $ is continuous or discrete.
+    \tcblower{}
+    If the distribution is continuous, then the PDF of $ X_{r:n} $, for $ r=1,\ldots,n $, can be obtained from (1) as
+    \begin{align*}
+        f_{r:n}(x)
+         & =\odv*{F_{r:n}(x)}{x}                                                       \\
+         & =\odv*{I_{F(x)}(r,n-r+1)}{x}                                                \\
+         & =\odv*{\frac{1}{B(r,n-r+1)}\int_{0}^{F(x)}t^{r-1}(1-t)^{n-r}\odif{t}}{x}    \\
+         & =\frac{1}{B(r,n-r+1)}\bigl(F(x)\bigr)^{r-1}\bigl(1-F(x)\bigr)^{n-r}f(x)     \\
+         & =\frac{n!}{(r-1)!(n-r)!}\bigl(F(x)\bigr)^{r-1}\bigl(1-F(x)\bigr)^{n-r}f(x).
+    \end{align*}
+    If the population distribution $ F(x) $ is discrete, however, the above method can not be used. But,
+    we can find the PDF of $ X_{r:n} $ (for $ r=1,\ldots,n $) as
+    \begin{align*}
+        f_{r:n}(x)
+         & =\Prob{X_{r:n}=x}                                                   \\
+         & =F_{r:n}(x)-F_{r:n}(x-)                                             \\
+         & =\frac{1}{B(r,n-r+1)}\int_{F(x-)}^{F(x)}t^{r-1}(1-t)^{n-r}\odif{t}.
+    \end{align*}
+\end{Remark}
+\section*{Derivation from Jacobian}
+Now, let us focus on the case when the population distribution is continuous. In this case, with $ f(x) $
+as the PDF, due to independence of $ X_i $'s, their joint density is
+\[ f_{X_1,\ldots,X_n}(x_1,\ldots,x_n)=\prod_{i=1}^{n}f(x_i),\quad x_i\in S. \]
+Now, let us introduce the transformation
+\[ X_{1:n}=\min{X_1,\ldots,X_n},\ldots,X_{n:n}=\max{X_1,\ldots,X_n}. \]
+Then, evidently, it is an $ n! $-to-$ 1 $ transformation, and so the joint density
+function of $ (X_{1:n},\ldots,X_{n:n}) $ is
+\[ f_{1,\ldots,n:n}(x_1,\ldots,x_n)=n!\prod_{i=1}^{n}f(x_i),\; x_1<x_2<\cdots<x_n. \]
+From (4), we can obtain, by integrating out $ (x_{r+1},\ldots,x_n) $ and $ (x_1,\ldots,x_{r-1}) $,
+the PDF of $ X_{r:n} $ ($ r=1,\ldots,n $) as follows:
+\[ \underset{x_r<x_{r+1}<\cdots<x_n}{\int\int\cdots\int}f(x_{r+1})\cdots f(x_n)\odif{x_n}\odif{x_{n-1}}\cdots\odif{x_{r+1}}=\frac{[1-F(x_r)]^{n-r}}{(n-r)!} \]
+and
+\[ \underset{x_1<x_2<\cdots<x_r}{\int\int\cdots\int}f(x_1)\cdots f(x_{r-1})\odif{x_1}\odif{x_{2}}\cdots\odif{x_{r-1}}=\frac{[F(x_r)]^{r-1}}{(r-1)!} \]
+so that we obtain the PDF of $ X_{r:n} $ as
+\[ f_{r:n}(x_r)=\frac{n!}{(r-1)!(n-r)!}\bigl(F(x_r)\bigr)^{r-1}\bigl(1-F(x_r)\bigr)^{n-r}f(x_r). \]
+Similarly, from (4), we can obtain, by integrating out
+$ (x_{s+1},\ldots,x_n) $, $ (x_{r+1},\ldots,x_{s-1}) $
+and $ (x_1,\ldots,x_{r-1}) $, the joint PDF
+of $ (X_{r:n},X_{s:n}) $, for $ 1\le r<s\le n $, as follows:
+\[ \underset{x_s<x_{s+1}<\cdots<x_n}{\int\int\cdots\int}f(x_{s+1})\cdots f(x_n)\odif{x_n}\odif{x_{n-1}}\odif{x_{s+1}}=\frac{[1-F(x_s)]^{n-s}}{(n-s)!}, \]
+\[ \mathop{\int\int\cdots\int}\limits_{x_r<x_{r+1}<\cdots<x_{s-1}<x_s}f(x_{r+1})\cdots f(x_{s-1})\odif{x_{r+1}}\odif{x_{r+2}}\odif{x_{s-1}}=\frac{[F(x_s)-F(x_r)]^{s-r-1}}{(s-r-1)!}, \]
+and
+\[ \underset{x_1<x_2<\cdots<x_{r-1}<x_r}{\int\int\cdots\int}f(x_{1})\cdots f(x_{r-1})\odif{x_1}\odif{x_2}\odif{x_{r-1}}=\frac{[F(x_r)]^{r-1}}{(r-1)!}, \]
+so that we can obtain the joint PDF of $ (X_{r:n},X_{s:n}) $,
+for $ 1\le r<s\le n $ as
+\begin{align*}
+    f_{r,s:n}(x_r,x_s) & =\frac{n!}{(r-1)!(s-r-1)!(n-s)!}\bigl(F(x_r)\bigr)^{r-1}\bigl(F(x_s)-F(x_r)\bigr)^{s-r-1}\bigl(1-F(x_s)\bigr)^{n-s}f(x_r)f(x_s), \\
+                       & \quad\text{ for } x_r<x_s.
+\end{align*}
+\section*{Multinomial Derivation}
+For directly deriving the PDF of $ X_{r:n} $, let us consider
+\[ \Prob{x\le X_{r:n}\le x+\Delta x}=
+    \frac{n!}{(r-1)!1!(n-r)!}\bigl(F(x)\bigr)^{r-1}\bigl(F(x+\Delta x)-F(x)\bigr)^{1}\bigl(1-F(x+\Delta x)\bigr)^{n-r}
+    +\mathcal{O}((\Delta x)^2), \]
+where $ \mathcal{O}((\Delta x)^2) $ corresponds to more than
+one $ x_i $ in the interval $ (x,x+\Delta x) $.
+Then, we obtain the density of $ X_{r:n} $ as follows:
+\begin{align*}
+    f_{r:n}(x)
+     & =\lim\limits_{{\Delta x} \to {0}}\frac{\Prob{x\le X_{r:n}\le x+\Delta x}}{\Delta x}                                       \\
+     & =\frac{n!}{(r-1)!1!(n-r)!}\bigl(F(x)\bigr)^{r-1}\lim\limits_{{\Delta x} \to {0}}\biggl[\bigl(F(x+\Delta x)-F(x)\bigr)^{1} \\
+     & \phantom{{}={}}\quad \bigl(1-F(x+\Delta x)\bigr)^{n-r}\biggr] +\mathcal{O}((\Delta x)^2)                                  \\
+     & =\frac{n!}{(r-1)!(n-r)!}\bigl(F(x)\bigr)^{r-1}f(x)\bigl(1-F(x)\bigr)^{n-r},
+\end{align*}
+exactly as before.
+
+Similarly, for deriving the joint PDF
+of $ (X_{r:n},X_{s:n}) $, for $ 1\le r<s\le n $, let us consider the multinomial
+probability
+\begin{align*}
+     & \Prob{x<X_{r:n}\le x+\Delta x,y< X_{s:n}\le y+\Delta y}                                                            \\
+     & =\frac{n!}{(r-1)!1!(s-r-1)!1!(n-s)!}
+    \bigl(F(x)\bigr)^{r-1}\bigl(F(x+\Delta x)-F(x)\bigr)^1                                                                \\
+     & \phantom{=}\times\bigl(F(y)-F(x+\Delta x)\bigr)^{s-r-1}
+    \bigl(F(y+\Delta y)-F(y)\bigr)^1\bigl(1-F(y+\Delta y)\bigr)^{n-s}                                                     \\
+     & \phantom{=}+\mathcal{O}((\Delta x)^2 \Delta y)\to\text{corresponds to more than one $ X_i $ in $ (x,x+\Delta x) $} \\
+     & \phantom{=}+\mathcal{O}(\Delta x (\Delta y)^2)\to\text{corresponds to more than one $ X_i $ in $ (y,y+\Delta y) $}
+\end{align*}
+Then, we obtain the joint density of $ (X_{r:n},X_{s:n}) $ as follows:
+\begin{align*}
+    f_{r,s:n}(x,y)
+     & =\lim\limits_{\Delta {x} \to {0},\Delta y\to 0}
+    \frac{\Prob{x<X_{r:n}\le x+\Delta x,y< X_{s:n}\le y+\Delta y}}{\Delta x \Delta y}                                                                                                                                 \\
+     & =\frac{n!}{(r-1)!1!(s-r-1)!1!(n-s)!}\bigl(F(x)\bigr)^{r-1}                                                                                                                                                     \\
+     & \times\lim\limits_{{\Delta x} \to {0}}\biggl[\frac{\bigl(F(x+\Delta x)-F(x)\bigr)^1}{\Delta x}\bigl(F(y)-F(x+\Delta x)\bigr)^{s-r-1}\biggr]                                                                    \\
+     & \times \lim\limits_{{\Delta y } \to {0}}\biggl[\frac{\bigl(F(y+\Delta y)-F(y)\bigr)^1}{\Delta y}\bigl(1-F(y+\Delta y)\bigr)^{n-s}\biggr]+\mathcal{O}((\Delta x)^2 \Delta y)+\mathcal{O}(\Delta x (\Delta y)^2) \\
+     & =\frac{n!}{(r-1)!(s-r-1)!(n-s)!}\bigl(F(x)\bigr)^{r-1}f(x)\bigl(F(y)-F(x)\bigr)^{s-r-1}f(y)\bigl(1-F(y)\bigr)^{n-s},\; x<y,
+\end{align*}
+exactly as before.
+\begin{Example}{}{}
+    Let us consider $ \text{Uniform}(0,1) $ distribution with
+    \[ f(x)=1\text{ for }0<x<1,\qquad F(x)=x\text{ for }0<x<1. \]
+    Then, from (2), we have the PDF of $ X_{r:n} $ (for $ 1\le r\le n $) to be
+    \[ f_{r:n}(x)=\frac{1}{B(r,n-r+1)}x^{r-1}(1-x)^{n-r}\text{ for }0<x<1; \]
+    that is,
+    \[ X_{r:n}\dist \BetaDist{r,n-r+1}. \]
+    So, we readily have
+    \[ \E{X_{r:n}}=\frac{r}{n+1}=\pi_r,\qquad \Var{X_{r:n}}=\frac{r(n-r+1)}{(n+1)^2(n+2)}=\frac{\pi_r(1-\pi_r)}{n+2}. \]
+    Similarly, from (6), we have the joint PDF of $ (X_{r:n},X_{s:n}) $
+    for $ 1\le r<s\le n $, to be
+    \[ f_{r,s:n}(x,y)=\frac{1}{B(r,s-r,n-s+1)}x^{r-1}(y-s)^{s-r-1}(1-y)^{n-s}\text{ for }0<x<y<1, \]
+    which implies
+    \[ (X_{r:n},X_{s:n})\dist \text{BivBeta}(r,s-r,n-s+1). \]
+    From this, we can readily find, for $ 1\le r<s\le n $,
+    \begin{align*}
+        \Cov{X_{r:n},X_{s:n}}
+         & =\E{X_{r:n}X_{s:n}}-\E{X_{r:n}}\E{X_{s:n}} \\
+         & =\frac{\pi(n-s+1)}{(n+1)^2(n+2)}           \\
+         & =\frac{\pi_r(1-\pi_s)}{n+2};
+    \end{align*}
+    observe that they are always positively correlated. Moreover,
+    \[ \rho_{X_{r:n},X_{s:n}}=\frac{\Cov{X_{r:n},X_{s:n}}}{\sqrt{\Var{X_{r:n}}\Var{X_{s:n}}}}
+        =\sqrt{\frac{\pi_r}{1-\pi_r}\times\frac{1-\pi_s}{\pi_s}}, \]
+    free of $ n $ (just a function of proportions $ \frac{r}{n+1} $ and $ \frac{s}{n+1} $).
+\end{Example}
+\section*{Probability Integral Transform}
+Suppose $ X $ is a continuous random variable with CDF $ F(x) $ and PDF
+$ f(x) $. Then, the transformed variable $ U=F(x) $ is uniformly distributed
+over $ (0,1) $.
+
+\textbf{Proof}: For $ u\in (0,1) $, consider
+\begin{align*}
+    \Prob{U\le u}
+     & =\Prob{F(x)\le u} \\
+     & =\Prob{X\le Q(u)} \\
+     & =F(Q(u))          \\
+     & =u,
+\end{align*}
+where $ Q(u) $ is the quantile function (i.e., it is $ F^{-1} $ in the case
+of absolute continuous function), which means
+$ U=F(x) $ is $ \text{Uniform}(0,1) $.
+
+\begin{Remark}{}{}
+    The above result will hold even if the population distribution
+    is not absolutely continuous, but has discontinuities.
+    All we have to do is take $ Q $ as the generalized quantile
+    function with right inverse.
+
+    Since $ F(x) $ is a non-decreasing function, if we have
+    $ (X_{1:n},X_{2:n},\ldots,X_{n:n}) $ as order statistics
+    from a continuous distribution with CDF $ F(x) $, then the
+    transformed variables $ \bigl(F(X_{1:n}),F(X_{2:n}),\ldots,F(X_{n:n})\bigr) $
+    will be distributed as $ \text{Uniform}(0,1) $ order statistics,
+    $ (U_{1:n},U_{2:n},\ldots,U_{n:n}) $ no matter what the distribution
+    of $ F(\:\cdot\:) $ is!
+\end{Remark}
+
+\section*{Probability-Probability Plot}
+One important application of the previous result is in model validation methods.
+Because
+\[ \bigl(F(X_{1:n},\ldots,F(X_{n:n}))\bigr)\text{ and }
+    (U_{1:n},\ldots,U_{n:n}) \]
+have identical distributions no matter what the population
+distribution $  F(\:\cdot\:) $ is, we can use it to examine whether an
+assumed $  F(\:\cdot\:) $ is reasonable for the data at hand. This is done by a
+P-P plot as follows:
+\begin{itemize}
+    \item Step 1: From the given data $ (x_{1:n},\ldots,x_{n:n}) $,
+          estimate the parameters of the assumed model $  F(\:\cdot\:) $;
+    \item Step 2: With the estimated parameter values,
+          say $ \hat{\theta} $, find the values of
+          \[ \bigl(F(x_{1:n};\hat{\theta}),F(x_{2:n};\hat{\theta}),\ldots,
+              F(x_{n:n};\hat{\theta})\bigr). \]
+          These are the ``empirical'' (or observed) probabilities;
+    \item Step 3: Plot these against the ``theoretical''
+          probabilities
+          \[ \biggl(\E{U_{1:n}}=\frac{1}{n+1},\E{U_{2:n}}=\frac{2}{n+1},\ldots,
+              \E{U_{n:n}}=\frac{n}{n+1}\biggr). \]
+          A near straight line fit would provide support for the assumed model
+          $  F(\:\cdot\:) $.
+\end{itemize}
+\begin{Remark}{}{}
+    One can also indicate variability at each point by estimating
+    $ \Var{F(x_{i:n})} $ (using delta method).
+\end{Remark}
+\section*{Quantile-Quantile Plot}
+Another important and related application is the Q-Q plot.
+In it, we invert the distributional relationship to use
+\[ (X_{1:n},X_{2:n},\ldots,X_{n:n})\text{ and }
+    (F^{-1}(U_{1:n}),F^{-1}(U_{2:n}),\ldots,
+    F^{-1}(U_{n:n})) \]
+have identical distribution, where $ Q\equiv F^{-1}(\:\cdot\:) $
+is the quantile function of the assumed model. Then,
+the $ Q-Q $ plot proceeds as follows:
+\begin{itemize}
+    \item Step 1: Determine the order statistics from the given data,
+          $ x_{1:n},x_{2:n},\ldots,x_{n:n} $, which are the empirical quantiles;
+    \item Plot them against the theoretical quantiles
+          \[ \biggl(F^{-1}\biggl(\frac{1}{n+1}\biggr),F^{-1}\biggl(\frac{2}{n+1}\biggr),\ldots,
+              F^{-1}\biggl(\frac{n}{n+1}\biggr)\biggr). \]
+          Once again, a near straight line fit would provide support for the assumed
+          model $ F(\:\cdot\:) $.
+\end{itemize}
+\begin{Remark}{}{}
+    Once again, we can indicate the variability at each point by estimating
+    $ \Var{X_{i:n}} $.
+\end{Remark}
+\begin{Remark}{}{}
+    In both cases, rather than making a qualitative assessment on
+    ``near straight line fit'', can can make it quantitatively
+    by using the correlation coefficient or any other
+    ``measure of fit'' (correlation-type goodness-of-fit test).
+\end{Remark}
+\begin{Remark}{}{}
+    Note that estimation of the model parameters is avoided in Q-Q plot,
+    but is necessary in a P-P plot!
+\end{Remark}
+\section*{Pivot 1}
+A pivot is a random variable, which is a function of the data
+and the parameter of the model, whose distribution is free of the parameter(s).
+
+Pivots are essential quantities for developing inferential methods such as
+interval estimation, hypothesis tests, etc.
+
+\begin{Example}{}{}
+    Let $ X_1,\ldots,X_n $ be a random sample from $ \EXP{\theta} $
+    distribution with PDF
+    \[ f(x;\theta)=\frac{1}{\theta}e^{-x/\theta},\; x>0,\, \theta>0. \]
+    Then, it is well-known that
+    \[ \sum_{i=1}^{n}X_i \sim \GAM{n,\theta}, \]
+    where $ n $ is the shape parameter and $ \theta $ is the scale parameter
+    of the Gamma distribution. Hence,
+    \[ Y=\frac{\sum_{i=1}^{n}X_i}{\theta} \]
+    is a pivot (for $ \theta $) since its distribution is $ \GAM{n,1} $
+    which is free of the parameter $ \theta $.
+\end{Example}
+\begin{Example}{}{}
+    Suppose $ X_1,\ldots,X_n $ is a random sample from
+    $ \N{\mu,\sigma^2} $ distribution.
+    Let $ \bar{X} $ and $ S^2 $ denote the sample mean
+    and sample variance, respectively. Then, it
+    is known that
+    \[ \bar{X} \sim \N*{\mu,\frac{\sigma^2}{n}}\text{ and }\frac{(n-1)S^2}{\sigma^2}\sim \chi^2_{n-1}. \]
+    So, if we consider
+    \[ \bar{X}-\mu \sim \N*{0,\frac{\sigma^2}{n}}, \]
+    it will not be a pivot if $ \sigma^2 $ is unknown, and it will be a pivot
+    for $ \mu $ only if $ \sigma^2 $ is known. However,
+    if we consider
+    \[ \frac{\bar{X}-\mu}{S/\sqrt{n}}, \]
+    it will be a pivot (for $ \mu $) since its distribution will be
+    Student's $ t $ distribution with $ n-1 $ degrees of freedom,
+    as it is free of both $ \mu $ and $ \sigma^2 $. Similarly,
+    \[ \frac{(n-1)S^2}{\sigma^2} \]
+    will be a pivot (for $ \sigma^2 $) as its distribution is central $ \chi^2 $
+    distribution with $ n-1 $ degrees of freedom, and is free of $ \mu $
+    and $ \sigma^2 $.
+\end{Example}
+\begin{Example}{}{}
+    Suppose $ X_1,X_2,\ldots,X_n $ is a random sample from
+    $ \U{0,\theta} $ distribution. Let $ X_{1:n},\dots,X_{n:n} $
+    be the corresponding order statistics. Then,
+    \[ T=\frac{X_{n:n}}{\theta} \]
+    is a pivot (for $ \theta $) since its density function is
+    \[ f_T(t)=nt^{n-1},\; 0<t<1, \]
+    which is free of $ \theta $.
+\end{Example}
+\begin{Remark}{}{}
+    All the pivotal quantities discussed above are all
+    ``parametric pivots'' as they are pivots for
+    parameters of a specific parametric model assumed.
+\end{Remark}
+\begin{Example}{}{}
+    Let $ X_1,\ldots,X_n $ be a random sample from
+    $ \BERN{\pi} $ distribution, where $ \pi\in(0,1) $ is the probability
+    of success. Then, it is well-known that
+    \[ Y=\sum_{i=1}^{n}X_i \sim \BIN{n,\pi}. \]
+    As the distribution of $ Y $ depends on the parameter $ \pi $,
+    it is not a pivot. In fact, no exact pivot exists in this case.
+
+    However, by the use of Central Limit Theorem, it is known that
+    \[ Z=\frac{Y-n\pi}{\sqrt{n\pi(1-\pi)}}\stackrel{\text{asymp.}}{\sim}\N{0,1}. \]
+    As the distribution of $ Z $ is, asymptotically, standard normal,
+    which is free of $ \pi $, it can serve as a pivot. But, note that
+    it is only an approximate pivot for $ \pi $.
+\end{Example}
+\section*{Pivot for Population Quantile}
+Suppose we have a random sample from $ \N{\mu,\sigma^2} $
+distribution, and that we are interested in inferring about $ p $-th
+quantile $ \xi_p=\mu+\sigma z_p $, where $ z_p $ is the $ p $-th quantile
+of the standard normal distribution. Then, it is evident that, with
+$ \bar{X} $ and $ S $ as estimates of $ \mu $ and $ \sigma $
+respectively, then an estimate of $ \xi_p $ is
+\[ \hat{\xi}_p=\hat{\mu}+\hat{\sigma}z_p=\bar{X}+z_p S. \]
+Then, the variable
+\begin{align*}
+    T
+     & =\frac{\hat{\xi}_p-\xi_p}{S}                                 \\
+     & =\frac{(\bar{X}+z_p S)-(\mu+z_p\sigma)}{S}                   \\
+     & =\frac{(\bar{X}-\mu)+z_p(S-\sigma)}{S}                       \\
+     & =\frac{\bar{X}-\mu}{S}+z_p\biggl(1-\frac{1}{S/\sigma}\biggr)
+\end{align*}
+is a pivot as its distribution is free of parameters $ \mu $
+and $ \sigma $. Hence, this pivot could be used for developing inference for
+the $ p $-th quantile $ \xi_p $ of the normal distribution.
+\begin{Exercise}{}{}
+    Can you think of a way to find its percentage points?
+\end{Exercise}
+\begin{Remark}{}{}
+    Though the above derivation is shown for normal distribution,
+    it can be done similarly for any member of location-scale family
+    of distributions like Logistic, Laplace, Gumbel distributions.
+\end{Remark}
+\section*{Non-parametric Confidence Interval for Quantile}
+Now, let us assume we have a random sample
+$ X_1,X_2,\ldots,X_n $ from a distribution function $ F(x) $
+that is continuous. Let $ \xi_p $ be the $ p $-th quantile
+of $ F $. Then,
+$ F(\xi_p)=\Prob{X\le \xi_p}=p $. We are interested in a confidence interval
+for $ \xi_p $, but without assuming a specific form of the
+distribution $ F $, like normal!
+
+Let $ X_{1:n},X_{2:n},\ldots,X_{n:n} $ denote the order statistics obtained
+from the sample. Let $ X_{r:n} $ and $ X_{s:n} $
+be two selected order statistics, for $ 1\le r<s\le n $. Then, we have:
+\begin{align*}
+    \Prob{X_{r:n}\le \xi_p\le X_{s:n}}
+     & =\Prob{F(X_{r:n})\le F(\xi_p)\le F(X_{s:n})}                                         \\
+     & =\Prob{U_{r:n}\le p\le U_{s:n}}                                                      \\
+     & =\Prob{p\le U_{s:n}}-\Prob{p<U_{r:n}}                                                \\
+     & =1-\Prob{U_{s:n}<p}-\bigl(1-\Prob{U_{r:n}<p}\bigr)                                   \\
+     & =\Prob{U_{r:n}<p}-\Prob{U_{s:n}<p}                                                   \\
+     & =\sum_{i=r}^{p}\binom{n}{i}p^i (1-p)^{n-i}-\sum_{i=s}^{n}\binom{n}{i}p^i (1-p)^{n-i} \\
+     & =\sum_{i=r}^{s-1}\binom{n}{i}p^i (1-p)^{n-i},
+\end{align*}
+where $ U_{r:n} $ and $ U_{s:n} $ are order statistics from $ \text{Uniform}(0,1) $ distribution.
+Thus, $ (X_{r:n},X_{s:n}) $ is a non-parametric confidence interval for the $ p $-th
+population quantile $ \xi_p $, with its coverage probability not
+depending on $ F $, but only on $ p $ and $ n $.
+
+So, for a given confidence level $ 1-\alpha $,
+all we need to do is, for a given sample size $ n $ and the quantile
+level $ p $, we need to determine integers $ r $ and $ s $ such that
+\[ 1\le r<s\le n \]
+and
+\[ \sum_{i=r}^{s-1}\binom{n}{i}p^i (1-p)^{n-i}\approx 1-\alpha. \]
+Note that $ 1-\alpha $ may not be achievable exactly as the binomial
+distribution is discrete and so has jumps.
+\begin{Remark}{}{}
+    The choice of $ r $ and $ s $ may not be unique. So,
+    if there is more than one choice of $ (r,s) $ satisfying
+    the above conditions, then it would be meaningful to choose
+    that pair $ (r,s) $ for which
+    \[ s-r\text{is the smallest} \]
+    among all these choices satisfying the conditions. This would then correspond
+    to the ``narrowest non-parametric confidence interval for population quantile.''
+\end{Remark}

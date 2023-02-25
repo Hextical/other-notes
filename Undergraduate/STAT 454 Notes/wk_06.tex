@@ -1,0 +1,301 @@
+\chapter{General Theory and Methods of Unequal Probability Sampling}
+\makeheading{Lecture 10}{\printdate{2022-02-07}}%chktex 8
+\section{Sample Inclusion Probabilities}
+The first order and the second order inclusion probabilities:
+\[ \pi_i=\Prob{i\in S},\qquad \pi_{ij}=\Prob{i,j\in S}. \]
+\begin{itemize}
+      \item Inclusion probabilities are defined for all units in the population.
+      \item Inclusion probabilities are usually only computed for units in the
+            sample (to construct point and variance estimators).
+      \item Inclusion probabilities are the fundamental tool for general theory of unequal probability sampling.
+      \item A useful special case: $ \pi_{ii}=\pi_i $:
+            \[ \pi_{ii}=\Prob{i\in S,i\in S}=\Prob{i\in S}=\pi_i \]
+\end{itemize}
+\subsection*{Inclusion probabilities for some simple sampling designs}
+\begin{enumerate}[(1)]
+      \item SRSWOR ($ N $, $ n $):
+            \[ \pi_i=\Prob{i\in S}=\frac{\binom{N-1}{n-1}}{\binom{N}{n}}=\frac{n}{N}. \]
+            \[ \pi_{ij}=\Prob{i\in S,j\in S}=\frac{\binom{N-2}{n-2}}{\binom{N}{n}}=\frac{n(n-1)}{N(N-1)},\; i\ne j. \]
+      \item Stratified SRSWOR\@:
+            \begin{itemize}
+                  \item $ U=U_1\cup \cdots \cup U_H $;
+                  \item $ N=N_1+\cdots+N_H $;
+                  \item $ n=n_1+\cdots+n_H $.
+            \end{itemize}
+            \[ \pi_i=\frac{n_h}{N_h},\; i\in U_h. \]
+            \[ \pi_{ij}=\begin{dcases}
+                        \frac{n_h(n_h-1)}{N_h(N_h-1)},                          & i,j\in U_h                     \\
+                        \frac{n_h}{N_h}\cdot \frac{n_{h^\prime}}{n_{h^\prime}}, & i\in U_h,\, j\in U_{h^\prime}.
+                  \end{dcases} \]
+      \item Single-stage cluster sampling with clusters selected by SRSWOR ($ S_c $, $ K $, $ k $):
+            \[ S\colon n=\sum_{i\in S_c}M_i. \]
+            \[ \pi_i=\Prob{i\in S}=\frac{k}{K}. \]
+            \[ \pi_{ij}=\begin{dcases}
+                        \frac{k}{K},           & \text{$i,j$ in the same cluster},       \\
+                        \frac{k(k-1)}{K(K-1)}, & \text{$i,j$ in two different clusters}.
+                  \end{dcases} \]
+      \item Two-stage cluster sampling with SRSWOR at both stages ($ S_c $, $ K $, $ k $; $ S_i $, $ M_i $, $ m_i $):
+            \begin{align*}
+                  \pi_i
+                   & =\Prob{i\in S}                                             \\
+                   & =\Prob{i\in S_{\ell},\ell\in S_c}                          \\
+                   & =\Prob{\ell\in S_c}\Prob{i\in S_{\ell}\given \ell \in S_c} \\
+                   & =\frac{k}{K}\cdot \frac{m_{\ell}}{M_{\ell}}.
+            \end{align*}
+            \[ \pi_{ij}=\begin{dcases}
+                        \frac{k}{K}\cdot \frac{m_{\ell}(m_{\ell}-1)}{M_{\ell}(M_{\ell}-1)},                                & \text{$i,j$ in cluster $ \ell $},                               \\
+                        \frac{k(k-1)}{K(K-1)}\cdot \frac{m_{\ell}}{M_{\ell}}\cdot \frac{m_{\ell^\prime}}{M_{\ell^\prime}}, & \text{$i$ in cluster $ \ell $; $j$ in cluster $ \ell^\prime $}.
+                  \end{dcases} \]
+\end{enumerate}
+\subsection{Equalities related to inclusion probabilities}
+The sample indicator variables are the basic tool:
+\[ A_i=1,\; i\in S,\qquad A_i=0,\; i\notin S. \]
+\begin{enumerate}[(1)]
+      \item For any sampling design,
+            \[ \E{A_i}=\Prob{i\in S}=\pi_i,\qquad \V{A_i}=\pi_i(1-\pi_i). \]
+      \item For any sampling design, with $ i\ne j $:
+            \[ \Cov{A_i,A_j}=\E{A_i A_j}-\E{A_i}\E{A_j}=\pi_{ij}-\pi_i\pi_j. \]
+            \[ \E{A_i A_j}=\Prob{A_i=1,A_j=1}=\Prob{i\in S,j\in S}=\pi_{ij}. \]
+            If $ i=j $, then
+            \[ \Cov{A_i,A_i}=\V{A_i}=\pi_{ii}-\pi_i\pi_i=\pi_i(1-\pi_i). \]
+      \item For any sampling design,
+            \[ \sum_{i=1}^{N}A_i=n, \]
+            where $ n $ is the overall sample size (could be a random number under certain designs).
+
+            This leads to
+            \[ \sum_{i=1}^{N}\pi_i=\E{n}. \]
+            If the design has a fixed sample size, we have
+            \[ \sum_{i=1}^{N}\pi_i=n. \]
+      \item For any sampling design,
+            \[ \sum_{j=1}^{N}A_i A_j=nA_i,\qquad \sum_{i=1}^{N}\sum_{j=1}^{N}A_i A_j^2=n^2, \]
+            which leads to
+            \[ \sum_{j=1}^{N}\pi_{ij}=\E{n A_i},\qquad \sum_{i=1}^{N}\sum_{j=1}^{N}\pi_{ij}=\E{n^2}. \]
+            When $ n $ is random, $ \E{n A_i}\ne \E{n}\E{A_i} $.
+
+            For sampling designs with a fixed sample size $ n $, we have
+            \[ \sum_{j=1}^{N}\pi_{ij}=n\pi_i,\qquad \sum_{i=1}^{N}\sum_{j=1}^{N}\pi_{ij}=n^2,\qquad \sum_{i\ne j}^{N}\sum_{j=1}^{N}\pi_{ij}=n(n-1). \]
+            Those equalities are useful to check computational errors in
+            applications or simulation studies.
+\end{enumerate}
+\section{The Horvitz-Thompson Estimator}
+\subsection{The general setting and the estimator}
+\begin{itemize}
+      \item The parameter of interest: $ T_y=\sum_{i=1}^{N}y_i $.
+      \item A general sampling design with $ \pi_i>0 $ and $ \pi_{ij}>0 $.
+      \item The survey data: $ \Set{y_i,i\in S} $, or $ \Set[\big]{(i,y_i),i\in S} $ (with labels/ID).
+      \item Information available from the survey design:
+            \[ \Set{\pi_i,i\in S},\qquad \Set{\pi_{ij},i,j\in S}. \]
+\end{itemize}
+The Horvitz-Thompson (HT, 1952 JASA) estimator of $ T_y $:
+\[ \hat{T}_{y\HT}=\sum_{i\in S}\frac{y_i}{\pi_i}=\sum_{i\in S}d_i y_i, \]
+where $ d_i=1/\pi_i $ are called the \emph{basic design weights}.
+
+Narain (1953) published a paper in an Indian journal with the same
+proposed estimator.
+
+\textbf{Notes on the Horvitz-Thompson estimator}:
+\begin{itemize}
+      \item The HT estimator is the most important fundamental piece of
+            modern design-based sampling theory.
+      \item The HT estimator was adopted (much later) by researchers on
+            missing data problems as the \emph{inverse probability weighted} (IPW)
+            estimator.
+      \item The value of the basic design weight $ d_i=1/\pi_i $ can be interpreted as:
+            ``\emph{the number of units in the survey population which are
+                  represented by unit $i$ selected for the survey sample}.''
+
+            In SRSWOR\@: $ N=100 $, $ n=5 $, we have
+            \[ \pi_i=\frac{5}{100}=\frac{1}{20},\qquad d_i=\frac{1}{\pi_i}=20 \]
+\end{itemize}
+\subsection{Properties of the Horvitz-Thompson estimator}
+\begin{enumerate}[(1)]
+      \item The HT estimator is design unbiased for $ T_y $.
+            \[ \E{\hat{T}_{y\HT}}=T_y\qquad \text{(Point Estimator)}. \]
+      \item The theoretical variance of $ \hat{T}_{y\HT} $ is given by
+            \[ \V{\hat{T}_{y\HT}}=\sum_{i=1}^{N}\sum_{j=1}^{N}(\pi_{ij}-\pi_i\pi_j)\frac{y_i}{\pi_i}\frac{y_j}{\pi_j}\qquad \text{(Theoretical Variance)}. \]
+      \item An unbiased variance estimator for $ \hat{T}_{y\HT} $ is given by
+            \[ \v{\hat{T}_{y\HT}}=\sum_{i\in S}\sum_{j\in S}\frac{\pi_{ij}-\pi_i\pi_j}{\pi_{ij}}\frac{y_i}{\pi_i}\frac{y_j}{\pi_j}\qquad \text{(Variance estimator)}. \]
+            Also, $ \E[\big]{\v{\hat{T}_{y\HT}}}=\V{\hat{T}_{y\HT}} $.
+\end{enumerate}
+\textbf{Sketch of Proofs}: (1) and (2): Use indicators $ A_i $.
+\[ \hat{T}_{y\HT}=\sum_{i\in S}\frac{y_i}{\pi_i}=\sum_{i=1}^{N}A_i \frac{y_i}{\pi_i}. \]
+\[ \E{\hat{T}_{y\HT}}=\sum_{i=1}^{N}\underbrace{\E{A_i}}_{\pi_i}\frac{y_i}{\pi_i}=\sum_{i=1}^{N}y_i=T_y. \]
+\[ \V{\hat{T}_{y\HT}}=\sum_{i=1}^{N}\sum_{j=1}^{N}\underbrace{\Cov{A_i,A_j}}_{\pi_{ij}-\pi_i\pi_j}\frac{y_i}{\pi_i}\frac{y_j}{\pi_j}. \]
+(3): A more general question: How to estimate a quadratic quantity
+\[ Q=\sum_{i=1}^{N}\sum_{j=1}^{N}c(y_i,y_j)? \]
+The answer:
+\[ \hat{Q}=\sum_{i\in S}\sum_{j\in S}\frac{c(y_i,y_j)}{\pi_{ij}}. \]
+Homework: Show that $ \E{\hat{Q}}=Q $.
+\[ \hat{Q}=\sum_{i=1}^{N}\sum_{j=1}^{N}A_i A_j \frac{c(y_i,y_j)}{\pi_{ij}}. \]
+\subsection{Estimation of the population mean \texorpdfstring{$\mu_y$}{μy} and the Hájek estimator}
+\begin{enumerate}[(1)]
+      \item When the population size $N$ is known, the Horvitz-Thompson
+            estimator for the population mean $ \mu_y $ is given by
+            \[ \hat{\mu}_{y\HT}=\frac{1}{N}\sum_{i\in S}\frac{y_i}{\pi_i}=\frac{1}{N}\hat{T}_{y\HT}. \]
+            It is a design-unbiased estimator for $ \mu_y $ with theoretical variance and
+            variance estimator given respectively by
+            \[ \V{\hat{\mu}_{y\HT}}=\frac{1}{N^2}\V{\hat{T}_{y\HT}},\qquad \v{\hat{\mu}_{y\HT}}=\frac{1}{N^2}\v{\hat{T}_{y\HT}}. \]
+      \item When the population size $N$ is unknown, which is often the case
+            for two-stage or multi-stage cluster sampling, an exactly
+            design-unbiased estimator of $ \mu_y $ might not be available.
+
+            A design-unbiased estimator for $N$:
+            \[ \hat{N}=\sum_{i\in S}\frac{1}{\pi_i}=\sum_{i\in S}d_i. \]
+            \begin{enumerate}[(i)]
+                  \item $ \hat{N}=\sum_{i=1}^{N}A_i \frac{1}{\pi_i}\implies \E{\hat{N}}=N $.
+                  \item $ \hat{N}=\hat{T}_{y\HT} $ when $ y_i=1 $ for all $ i $: $ T_y=N $.
+            \end{enumerate}
+            The population mean $ \mu_y $ can be estimated by the Hájek estimator
+            \[ \hat{\mu}_{yH}=\frac{1}{\hat{N}}\sum_{i\in S}\frac{y_i}{\pi_i}=\frac{1}{\hat{N}}\sum_{i\in S}d_i y_i=\frac{\sum_{i\in S}d_i y_i}{\sum_{i\in S}d_i}. \]
+            (Properties to be discussed in Chapter 5).
+\end{enumerate}
+
+\makeheading{Lecture 11}{\printdate{2022-02-09}}%chktex 8
+\subsection{The Yates-Grundy-Sen Variance Formula for the HT Estimator}
+For sampling designs with fixed sample size $n$, there are useful
+alternative expressions for $ \V{\hat{T}_{y\HT}} $ and $ \v{\hat{T}_{y\HT}} $.
+\begin{enumerate}[(1)]
+      \item The theoretical variance
+            \[ \V{\hat{T}_{y\HT}}=\frac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}(\pi_i\pi_j-\pi_{ij})\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}. \]
+      \item The variance estimator
+            \[ \v{\hat{T}_{y\HT}}=\frac{1}{2}\sum_{i\in S}\sum_{j\in S}\frac{\pi_i\pi_j-\pi_{ij}}{\pi_{ij}}\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}. \]
+\end{enumerate}
+\textbf{Proof}. Not required for tests; results useful.
+
+\section{PPS Sampling and the HT Estimator: An Optimal Strategy}
+\subsection{A hypothetical scenario}
+Suppose that $ y_i>0 $ for all $ i $. All values $ \Set{y_1,y_2,\ldots,y_N} $
+are known. We select a sample size $ S $ of fixed size $ n $ with $ \pi_i\propto y_i $.
+We must have
+\[ \sum_{i=1}^{N}\pi_i=n,\qquad \pi_i=cy_i\implies c \sum_{i=1}^{N}y_i=n\implies c=\frac{n}{T_y}.  \]
+This leads to
+\[ \pi_i=n \frac{y_i}{T_y},\; i=1,2,\ldots,N. \]
+The HT estimator of $ T_y=\sum_{i=1}^{N}y_i $ is given by
+\[ \hat{T}_{y\HT}=\sum_{i\in S}\frac{y_i}{\pi_i}=T_y \sum_{i\in S}\frac{y_i}{n y_i}=T_y. \]
+The HT estimator equals exactly the true value $ T_y $ (no error in
+estimation).
+
+\subsection{A practical scenario}
+There exists a variable $z$ which is correlated to $y$ and provides a
+measure for the ``size'' of the sampling units. Some examples:
+\begin{itemize}
+      \item Expenditure survey: $y$ --- expenses; $z$ --- previous income;
+      \item Agriculture survey: $y$ --- yield of a farm product; $z$ --- acreage of the
+            farm;
+      \item Business survey: $y$ --- total sales; $z$ --- number of workers;
+      \item Multi-stage cluster sampling: $z$ --- cluster size ($ M_i $).
+\end{itemize}
+We assume that
+\begin{itemize}
+      \item The values $ z_1,z_2,\ldots,z_N $ are available at the survey design stage;
+      \item The value $ z_i $ provides a measure of the ``size'' for unit $ i $, and $ z_i>0 $ for all $ i $;
+      \item The size variable $ z $ and the study variable $ y $ are \textbf{positively correlated}.
+\end{itemize}
+
+The PPS (\emph{the inclusion probability proportional to size}) sampling
+design, i.e., $ \pi_i\propto z_i $:
+\[ \pi_i=n \frac{z_i}{T_z},\; i=1,2,\ldots,N. \]
+For most of the discussions going forward, we assume that the size variable $ z $ is re-scaled such that
+\[ \sum_{i=1}^{N}z_i=1. \]
+Equal inclusion probabilities:
+\[ z_1=z_2=\cdots=z_N=\frac{1}{N},\quad \pi_i=n z_i=\frac{n}{N}\qquad \text{(SRSWOR)}. \]
+We have
+\[ \pi_i=n z_i,\; i=1,2,\ldots,N. \]
+The re-scaled size variable must satisfy $ z_i\le 1/n $ with the given $ n $.
+
+\subsection{An optimal strategy}
+We assume that $z_i > 0$ for all $i$, and $y_i$ and $z_i$ are highly correlated.
+
+We show that the PPS sampling design, combined with the
+Horvitz-Thompson estimator for the population total, is an ``optimal
+strategy'' in terms of the ``anticipated variance.''
+
+\textbf{(1) The concept of \emph{superpopulation} models}
+
+The finite population values $ \Set[\big]{(y_i,z_i),i=1,2,\ldots,N} $ are treated as
+fixed under the design-based framework.
+
+Under the \emph{superpopulation model} concept, $ \Set[\big]{(y_i,z_i),i=1,2,\ldots,N} $
+are viewed as a random sample from a statistical model, denoted as $ \xi $.
+\[ \text{Super population $ \xi $}\rightarrow \text{Finite population $ U $}\rightarrow \text{Survey sample $ S $}. \]
+
+\textbf{Example ($ \star $)}. Suppose that the finite population values $ \Set[\big]{(y_i,z_i),i=1,2,\ldots,N} $
+follow a simple linear regression model ($ \xi $),
+\[ y_i=\beta z_i+z_i\varepsilon_i,\; i=1,2,\ldots,N, \]
+where the error terms are independent and satisfy
+\[ \Esp{\varepsilon_i}{\xi}=0,\qquad \Vsp{\varepsilon_i}{\xi}=\tau^2, \]
+with $ \Esp{}{\xi} $ and $ \Vsp{}{\xi} $ denoting expectation and variance
+under the model, $ \xi $. We have
+\[ \Esp{y_i\given z_i}{\xi}=\beta z_i,\qquad \Vsp{y_i\given z_i}{\xi}=z_i^2\tau^2. \]
+A semi-parametric model specified through the first two conditional moments.
+
+\textbf{(2) An optimal estimator of $T_y$}
+
+\textbf{A well-known (negative) result} (Godambe, 1955): The minimum
+variance linear unbiased estimator does not exist among the general
+Godambe-class of linear estimator under the design-based framework.
+
+\textbf{A useful concept for optimality}: The anticipated variance under a
+superpopulation mode ($ \xi $).
+\[ \Esp[\big]{\Vsp{\hat{T}_{y\HT}}{p}}{\xi}, \]
+where $ \Vsp{\hat{T}_{y\HT}}{p} $ is the design-based variance ($ p $: probability
+sampling design).
+\begin{itemize}
+      \item Under the probability sampling design, $ p $: $ (y_i,z_i) $ are
+            fixed, but $ S $ is random.
+      \item Under the super population model, $ \xi $: $ y_i $
+            is random given $ z_i $ and the sampling selection becomes irrelevant (the survey
+            design is non-informative: the superpopulation model holds for the
+            sample).
+\end{itemize}
+
+\textbf{An important (positive) result} (Godambe, 1955): The anticipated
+variance of the HT estimator under model ($ \star $) is minimized under the
+PPS sampling design with $ \pi_i\propto z_i $ and fixed sample size $n$.
+
+$ n $ is fixed; The Yates-Grundy-Sen variance formula for the HT estimator:
+\[ \Vsp{\hat{T}_{y\HT}}{p}=\sum_{i=1}^{N}\sum_{j=1}^{N}(\pi_i\pi_j-\pi_{ij})\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}. \]
+\[ \Esp[\big]{\Vsp{\hat{T}_{y\HT}}{p}}{\xi}=\sum_{i=1}^{N}\sum_{j=1}^{N}(\pi_i\pi_j-\pi_{ij})\Esp*{\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}}{\xi}. \]
+Need to find
+\[ \Esp*{\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}}{\xi},\; i\ne j. \]
+
+Major steps for the proof:
+\begin{itemize}
+      \item Under the model $ (\star) $ and for $ i\ne j $, we have
+            \[ \Esp*{\biggl(\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}\biggr)^{\!2}}{\xi}=\beta^2\biggl(\frac{z_i}{\pi_i}-\frac{z_j}{\pi_j}\biggr)^{\!2}+
+                  \tau^2\biggl(\frac{z_i^2}{\pi_i^2}+\frac{z_j^2}{\pi_j^2}\biggr). \]
+            \[ \Esp{Y^2}{\xi}=\bigl(\Esp{Y}{\xi}\bigr)^2+\Vsp{Y}{\xi}. \]
+            From earlier, we know that:
+            \[ \Esp{y_i\given z_i}{\xi}=\beta z_i,\qquad \Vsp{y_i\given z_i}{\xi}=z_i^2\tau^2. \]
+            Therefore,
+            \[ \Esp*{\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}}{\xi}=\beta\biggl(\frac{z_i}{\pi_i}-\frac{z_j}{\pi_j}\biggr). \]
+            \[ \Vsp*{\frac{y_i}{\pi_i}-\frac{y_j}{\pi_j}}{\xi}=\tau^2\biggl(\frac{z_i^2}{\pi_i^2}+\frac{z_j^2}{\pi_j^2}\biggr). \]
+      \item Identities under any fixed sample size design:
+            \[ \sum_{i=1}^{N}\sum_{j\ne i,j=1}^{N}(\pi_i\pi_j-\pi_{ij})\frac{z_i^2}{\pi_i^2}=\sum_{i=1}^{N}\pi_i(1-\pi_i)\frac{z_i^2}{\pi_i^2}, \]
+            \[ \sum_{i=1}^{N}\sum_{j\ne i,j=1}^{N}(\pi_i\pi_j-\pi_{ij})\frac{z_j^2}{\pi_j^2}=\sum_{i=1}^{N}\pi_i(1-\pi_i)\frac{z_i^2}{\pi_i^2} \]
+            \[ \text{First equation you get by: }\sum_{i=1}^{N}\biggl(\sum_{j\ne i,j=1}^{N}(\pi_i\pi_j-\pi_{ij})\biggr)\frac{z_i^2}{\pi_i^2}. \]
+            \[ \sum_{i\ne j,j=1}^{N}(\pi_i\pi_i-\pi_{ij})=\pi_i(n-\pi_i)-(n\pi_i-\pi_{ii})=\pi_i(1-\pi_i). \]
+            \[ \pi_i(1-\pi_i)\frac{z_i^2}{\pi_i^2}=\frac{z_i^2}{\pi_i^2}-z_i^2. \]
+      \item Use the Yates-Grundy-Sen variance formula to obtain
+            \[  \Esp[\big]{\Vsp{\hat{T}_{y\HT}}{p}}{\xi}=\frac{\beta^2}{2}D_1+\tau^2 D_2-\tau^2 D_3, \]
+            where
+            \[ D_1=\sum_{i=1}^{N}\sum_{j\ne i,j=1}^{N}(\pi_i\pi_j-\pi_{ij})\biggl(\frac{z_i}{\pi_i}-\frac{z_j}{\pi_j}\biggr)^{\!2}, \]
+            \[ D_2=\sum_{i=1}^{N}\frac{z_i^2}{\pi_i}, \]
+            \[ D_3=\sum_{i=1}^{N}z_i^2. \]
+      \item Under the constraint $ \sum_{i=1}^{N}\pi_i=n $, $ D_2 $ is minimized when $ \pi_i\propto z_i $.
+            \[ \mathcal{L}(\pi_1,\ldots,\pi_N)=\sum_{i=1}^{N}\frac{z_i^2}{\pi_i}+\lambda\biggl(\sum_{i=1}^{N}\pi_i-n\biggr). \]
+            \[ \pdv{\mathcal{L}}{\pi_i}=-\frac{z_i^2}{\pi_i^2}+\lambda=0. \]
+            \[ \pi_i^2=\frac{1}{\lambda}z_i^2\implies \pi_i\propto z_i. \]
+      \item The anticipated variance $ \Esp[\big]{\Vsp{\hat{T}_{y\HT}}{p}}{\xi} $ is minimized when $ \pi_i\propto z_i $.
+            \begin{itemize}
+                  \item $ D_2 $ is minimized when $ \pi_i\propto z_i $.
+                  \item $ D_3 $ does not depend on $ \pi_i $.
+                  \item $ D_1 $:
+                        \[ D_1=\Vsp{\hat{T}_{z\HT}}{p}\ge 0. \]
+                        \[ D_1=0,\;\text{ if }\pi_i\propto z_i. \]
+            \end{itemize}
+      \item The PPS sampling design combined with the HT estimator is an
+            \textbf{optimal strategy}. An important aspect of the optimal strategy is
+            the assumption that the response variable $y$ and the size variable
+            $z$ is positively correlated.
+\end{itemize}

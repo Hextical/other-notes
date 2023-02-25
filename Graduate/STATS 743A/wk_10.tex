@@ -1,0 +1,222 @@
+\makeheading{Lecture 17}{\printdate{2022-11-30}}%chktex 8
+\begin{Definition}{}{}
+    We say a sequence of events $ (A_n)_{n\ge 1} $
+    happens \textbf{infinitely often}
+    on an outcome $ \omega $ if
+    for all $ N $, there exists $ n>N $ such that
+    $ \omega\in A_n $ where
+    \[ \Set[\big]{(A_n)_{n\ge 1}\text{ i.o}}=\bigcap_{N\ge 1}\bigcup_{n\ge N}. \]
+\end{Definition}
+\begin{Theorem}{Borel-Cantelli Lemma}{borel}
+    If $ \sum_{n=1}^{\infty}\Prob{A_n}<\infty $, then
+    \[ \ProbB{(A_n)_{n\ge 1}\text{ i.o}}=0. \]
+    \tcblower{}
+    \textbf{Proof}:
+    Let $ Y=\sum_{n=1}^{\infty}\Ind{A_n} $, so $ Y\in\mathbf{N}\cup \Set{\infty} $.
+    \begin{align*}
+        \E{Y}
+         & =\E*{\sum_{n=1}^{\infty}\Ind{A_n}}               \\
+         & =\sum_{n=1}^{\infty}\E{\Ind{A_n}}                \\
+         & =\sum_{n=1}^{\infty}(1 \Prob{A_n}+0\Prob{A_n^c}) \\
+         & =\sum_{n=1}^{\infty}\Prob{A_n}                   \\
+         & <\infty.
+    \end{align*}
+    Thus, $ \ProbB{Y=\infty}=0 $. Alternatively,
+    \[ \ProbB{Y>n}\le \frac{\E{Y}}{n}\xrightarrow[]{n\to\infty}0, \]
+    so $ \ProbB{Y=\infty}=0 $.
+\end{Theorem}
+\begin{Corollary}{}{}
+    If the events $ A_n $ are independent, then the converse of~\Cref{thm:borel} is also true.
+    \tcblower{}
+    \textbf{Proof}: Suppose the $ (A_n)_{n\ge 1} $ are independent
+    and that $ \sum_{n=1}^{\infty}\Prob{A_n}=\infty $ and we will show
+    $ \ProbB{(A_n)\text{ i.o.}}=1 $.
+    For all $ N\in\mathbf{N} $,
+    \begin{align*}
+        \Prob*{\bigcup_{n\ge N}A_n}
+         & =1-\Prob*{\bigcup_{n\ge N}^{\infty}A_n^c} \\
+         & =1-\prod_{n\ge N}(1-\Prob{A_n})           \\
+         & \ge 1-\prod_{n\ge N}e^{-\Prob{A_n}}       \\
+         & =1-e^{-\sum_{n\ge N}\Prob{A_n}}           \\
+         & =1-e^{-\infty}                            \\
+         & =1.
+    \end{align*}
+\end{Corollary}
+\begin{Example}{Convergence in Probability $\not\implies$ Almost Sure Convergence}{}
+    For all $ n\ge 1 $, $ X_n\iid \BERN{1/n} $.
+    Then,
+    \[ \ProbB{\abs{X_n-0}>\varepsilon}=\frac{1}{n}\to 0. \]
+    But,
+    \[ \sum_{n=1}^{\infty}\ProbB{X_n=1}=\sum_{n=1}^{\infty}\frac{1}{n}=\infty. \]
+    Let $ Y_n=n X_n $, so
+    \[ Y_n=\begin{cases}
+            n, & \text{w.p. }\frac{1}{n},   \\
+            0, & \text{w.p. }1-\frac{1}{n}.
+        \end{cases} \]
+    $ \E{Y_n}=1 $ for every $ n $,
+    \[ Y_n\inp 0, \]
+    but $ \E{Y_n}\to 1 $, so $ Y_n\not\as 0 $.
+\end{Example}
+\begin{Lemma}{Kronecker's Lemma}{}
+    For a sequence $ (X_n)_{n\ge 1}\in (0,\infty)^{\mathbf{N}} $,
+    if
+    $ \sum_{n=1}^{\infty}\frac{X_n}{n}<\infty $,
+    then
+    $ \lim\limits_{{N} \to {\infty}}\frac{1}{N}\sum_{n=1}^{N}X_n=0 $.
+    \tcblower{}
+    \textbf{Proof}: Suppose
+    $ S=\sum_{n=1}^{\infty}\frac{X_n}{n}<\infty $, then
+    \[ \sum_{n=1}^{N}\frac{X_n}{n}-\sum_{n=1}^{N}\frac{X_n}{N}
+        =\sum_{n=1}^{N}\frac{X_n}{n}\biggl(1-\frac{n}{N}\biggr)\xrightarrow[]{n\to\infty}S. \]
+
+    Fix $ \varepsilon>0 $. Let $ N_1 $ be sufficiently large such that
+    \[ \sum_{n=N_1}^{\infty}\frac{X_n}{n}<\frac{\varepsilon}{2}, \]
+    and let $ N_2>N_1 $ be sufficiently large so that
+    \[ \frac{N_1}{N_2}<\frac{\varepsilon}{2S}, \]
+    that is, $ N_2=\lceil \frac{2N_1S}{\varepsilon}\rceil $.
+    Then,
+    \begin{align*}
+        \sum_{n=1}^{N_2}\frac{X_n}{n}\biggl(1-\frac{n}{N_2}\biggr)
+         & \ge \sum_{n=1}^{N_1}\frac{X_n}{n}\biggl(1-\frac{N_1}{N_2}\biggr)                \\
+         & \ge \biggl(1-\frac{\varepsilon}{2S}\biggr)\sum_{n=1}^{N_1}\frac{X_n}{n}         \\
+         & \ge \biggl(1-\frac{\varepsilon}{2S}\biggr)\biggl(S-\frac{\varepsilon}{2}\biggr) \\
+         & =S-S \frac{\varepsilon}{2S}-\frac{\varepsilon}{2}+\frac{\varepsilon^2}{4S}      \\
+         & \ge S-\frac{\varepsilon}{2}-\frac{\varepsilon}{2}                               \\
+         & =S-\varepsilon.
+    \end{align*}
+    We conclude that
+    \[ \sum_{n=1}^{N}\frac{X_n}{n}-\sum_{n=1}^{N}\frac{X_n}{N}\xrightarrow[]{n\to\infty}S. \]
+    Therefore,
+    \[ \sum_{n=1}^{N}\frac{X_n}{N}\xrightarrow[]{N\to\infty} S-S=0. \]
+\end{Lemma}
+\begin{Theorem}{Strong Law of Large Numbers}{}
+    If $ X_1,X_2,\ldots $ is a sequence of IID random variables with
+    $ \E{\abs{X_i}}<\infty $, then
+    \[ \frac{1}{n}\sum_{j=1}^{n}X_j\as \E{X_1} \]
+    as $ n\to\infty $.
+    \tcblower{}
+    \textbf{First Step of Proof}:
+    Let $ Y_n=X_n\Ind{\abs{X_n}\le n} $.
+\end{Theorem}
+\makeheading{Lecture 18}{\printdate{2022-12-02}}%chktex 8
+\begin{Theorem}{Kolmogorov's Inequality}{}
+    Suppose $ X_1,\ldots,X_n $ are independent random variables
+    with finite expectation. For $ 1\le j\le n $,
+    let $ S_j=X_1+\cdots+X_j $. Then for any $ \varepsilon>0 $,
+    \[ \Prob*{\operatorname*{max}_{1\le j\le n}\abs[\big]{S_j-\E{S_j}}\ge \varepsilon}\le
+        \frac{\Var{S_n}}{\varepsilon^2}. \]
+    \tcblower{}
+    \textbf{Proof}: Assume WLOG, $ \E{X_j}=0 $ for $ j=1,\ldots,n $,
+    so $ \E{S_j}=0 $ as well. Let
+    \[ A_j=\begin{cases}
+            \abs{S_j}<\varepsilon,    & 1\le j<k,         \\
+            \abs{S_k}\ge \varepsilon, & \text{otherwise}.
+        \end{cases} \]
+    \[ A=\bigcup_{k=1}^n A_k=\Set{\operatorname*{max}_{1\le j\le n}\abs{S_j}\ge \varepsilon}. \]
+    Let $ \Ind{A}=1 $ if $ A $ happens, and $\Ind{A}=0$ otherwise.
+    Now,
+    \[ \Var{S_n}=\E{S_n^2}\ge \E{S_n^2\Ind{A}}=\E*{S_n^2\biggl(\sum_{k=1}^{n}\Ind{A_k}\biggr)}=\sum_{k=1}^{n}\E{S_n^2\Ind{A_k}}. \]
+    For $ 1\le k\le n $, define $ Y_k=X_{k+1}+X_{k+2}+\cdots+X_n $ so that
+    \[ S_n=S_k+Y_k. \]
+    \begin{align*}
+        \E{S_n^2\Ind{A_k}}
+         & =\E*{(S_k+Y_k)^2\Ind{A_k}}                                                       \\
+         & =\E{S_k^2\Ind{A_k}}+2\E{S_k Y_k\Ind{A_k}}+\E{Y_k^2\Ind{A_k}}                     \\
+         & =\E{S_k^2\Ind{A_k}}+2\E{S_k\Ind{A_k}}\underbrace{\E{Y_k}}_{0}+\E{Y_k^2\Ind{A_k}} \\
+         & =\E{S_k^2\Ind{A_k}}+\underbrace{\E{Y_k^2\Ind{A_k}}}_{\ge 0}                      \\
+         & \ge \E{S_k^2\Ind{A_k}}                                                           \\
+         & \ge \E{\varepsilon^2\Ind{A_k}}                                                   \\
+         & =\varepsilon^2\Prob{A_k}.
+    \end{align*}
+    Plugging this back in,
+    \[ \Var{S_n}\ge \sum_{k=1}^{n}\E{S_n^2\Ind{A_k}}
+        \ge \sum_{k=1}^{n}\varepsilon^2\Prob{A_k}
+        =\varepsilon^2\Prob{A_k}. \]
+    Thus,
+    \[ \Prob{A}\le \frac{\Var{S_n}}{\varepsilon^2}. \]
+\end{Theorem}
+\begin{Theorem}{Kolmogorov's Criterion}{}
+    Suppose $ X_1,X_2,\ldots $ are independent
+    random variables with
+    \[ \sum_{k=1}^{\infty}\frac{\Var{X_n}}{k^2}<\infty. \]
+    Then,
+    \[ \frac{S_n-\E{S_n}}{n}\as 0\text{ as $ n\to\infty $}, \]
+    where $ S_n=\sum_{k=1}^{n}X_k $ for $ n\ge 1 $.
+    \tcblower{}
+    \textbf{Proof}: Assume WLOG that
+    $ \E{S_k}=0 $ for $ k\ge 1 $. Fix $ \varepsilon>0 $.
+    Let
+    \[ A_k=\frac{\abs{S_n}}{n}\ge \varepsilon,\; \text{ for some } n\in\interval[open left]{2^{k-1}}{2^k}. \]
+    We want to show
+    \[ \ProbB{(A_k)_{k\ge 1}\text{ i.o.}}=0. \]
+    Using the Borel-Cantelli lemma, we want to show
+    $ \sum_{k=1}^{\infty}\Prob{A_k}<\infty $.
+    \begin{align*}
+        \Prob{A_k}
+         & \le\ProbB{\abs{S_n}\ge 2^{k-1}\varepsilon}            &  & \text{for some }n\le 2^k          \\
+         & \le \frac{\Var{S_{2^k}}}{(2^{k-1}\varepsilon)^2}      &  & \text{by Kolmogorov's Inequality} \\
+         & =\frac{4}{\varepsilon^2}\frac{\Var{S_{2^k}}}{2^{2k}}.
+    \end{align*}
+    Therefore,
+    \begin{align*}
+        \sum_{k=1}^{\infty}\Prob{A_k}
+         & \le \frac{4}{\varepsilon^2}\sum_{k=1}^{\infty}\frac{\Var{S_{2^k}}}{2^{2k}}                                     \\
+         & =\frac{4}{\varepsilon^2}\sum_{k=1}^{\infty}2^{-2k}\sum_{j=1}^{2^k}\Var{X_j}                                    \\
+         & =\frac{4}{\varepsilon^2}\sum_{\substack{1\le k<\infty                                                          \\1\le j\le 2^k}}2^{-2k}\Var{X_j}                         \\
+         & =\frac{4}{\varepsilon^2}\sum_{j=1}^{\infty}\Var{X_j}\sum_{k=\lceil\mathrm{log}_2(j)\rceil }^{\infty}(2^{-2})^k \\
+         & =\frac{4}{\varepsilon^2}\sum_{j=1}^{\infty}\Var{X_j}\frac{(2^{-2})^{\lceil \mathrm{log}_2(j)\rceil}}{1-2^{-2}} \\
+         & \le \frac{4}{\varepsilon^2}\frac{4}{3}\sum_{j=1}^{\infty}\Var{X_k}(2^{-2})^{\mathrm{log}_2(j)}                 \\
+         & =\frac{16}{3\varepsilon^2}\sum_{j=1}^{\infty}\Var{X_j}j^{-2}                                                   \\
+         & <\infty
+    \end{align*}
+    by our hypothesis. It's worth noting that to change the sums we have
+    $ j\le 2^k $, $ 2^k\ge j $, $ k\ge \mathrm{log}_2(j) $ so $ k\ge \lceil \mathrm{log}_2(j)\rceil $.
+    Therefore,
+    by Borel-Cantelli lemma,
+    \[ \ProbB{(A_k)_{k\ge 1}\text{ i.o.}}=0. \]
+    Since this holds for every $ \varepsilon>0 $,
+    \[ \ProbB*{\lim\limits_{{n} \to {\infty}}\frac{\abs{S_n}}{n}=0}=1. \]
+\end{Theorem}
+\begin{Theorem}{Strong Law of Large Numbers (IID)}{}
+    If $ X_1,X_2,\ldots $ are IID variables with finite expectation
+    and $ S_n=\sum_{j=1}^{n}X_j $ for $ n\ge 1 $, then
+    \[ \frac{S_n}{n}\as \E{X_1}\text{ as }n\to\infty. \]
+    \tcblower{}
+    \textbf{Proof}: For $ n\ge 1 $, let
+    $ Y_n=X_n\Ind{\abs{X_n}\le n} $.
+    \begin{align*}
+        \sum_{n=1}^{\infty}\ProbB{\abs{X_n}>n}
+         & =\sum_{n=1}^{\infty}\sum_{k=n}^{\infty}\ProbB{k<\abs{X_1}\le k+1} \\
+         & =\sum_{k=1}^{\infty}\sum_{n=1}^{k}\ProbB{k<\abs{X_1}\le k+1}      \\
+         & =\sum_{k=1}^{\infty}k\ProbB{k\le \abs{X_1}\le k+1}                \\
+         & \le \E[\big]{\abs{X_1}}                                           \\
+         & <\infty.
+    \end{align*}
+    Thus, by Borel-Cantelli,
+    \[ \ProbB{X_n\ne Y_n\text{ i.o.}}=0. \]
+    Hence, it suffices to prove
+    \[ \frac{S_n'}{n}\as \E{X_1}\text{ as }n\to\infty, \]
+    where $ S_n'=\sum_{j=1}^{n}Y_j $. We can also assume WLOG
+    $ \E{X_1}=0 $.
+    \[ \E{Y_n}=\E{X_1\Ind{\abs{X_1}\le n}}\to \E{X_1}\text{ as }n\to\infty \]
+    (Application of the Dominated Convergence Theorem). Therefore,
+    \[ \frac{1}{n}\sum_{j=1}^{n}\E{Y_j}\to 0\text{ as }n\to\infty. \]
+    It would suffice to prove
+    \[ \frac{1}{n}\sum_{j=1}^{n}(\underbrace{Y_j-\E{Y_j}}_{Z_j})\as 0\text{ as }n\to\infty. \]
+    Note that $ \E{Z_j}=0\implies \Var{Z_j}=\Var{Y_j} $.
+    By Kolmogorov's Criterion, it would be sufficient to show
+    \[ \sum_{k=1}^{\infty}\frac{\Var{Z_j}}{j^2}<\infty. \]
+    \begin{align*}
+        \sum_{k=1}^{\infty}\frac{\Var{Y_k}}{k^2}
+         & \le \sum_{k=1}^{\infty}\frac{\E{Y_k^2}}{k^2}                                                                   \\
+         & =\sum_{k=1}^{\infty}\frac{\E{X_k^2\Ind{X_k}<k}}{k^2}                                                           \\
+         & =\sum_{k=1}^{\infty}\frac{1}{k^2}\sum_{j=1}^{k}\E{X_1^2\Ind{j-1<\abs{X_1}<j}}                                  \\
+         & =\sum_{j=1}^{\infty}\E{X_j^2\Ind{j-1<\abs{X_j}\le j}}\sum_{k=j}^{\infty}\frac{1}{k^2}                          \\
+         & \le \sum_{j=1}^{\infty}\E{X_j^2\Ind{j-1<\abs{X_j}\le j}} \frac{C}{j}                  &  & \text{for some }C>0 \\
+         & \le \sum_{j=1}^{\infty}\E{j\abs{X_1}\Ind{j-1<\abs{X_1}\le j}}\frac{C}{j}                                       \\
+         & =C\sum_{j=1}^{\infty}\E{\abs{X_1}\Ind{j-1<\abs{X_1}\le j}}                                                     \\
+         & =C\E*{\abs{X_1}\sum_{j=1}^{\infty}\Ind{j-1<\abs{X_1}\le j}}                                                    \\
+         & =C\E{\abs{X_1}}                                                                                                \\
+         & <\infty.
+    \end{align*}
+\end{Theorem}

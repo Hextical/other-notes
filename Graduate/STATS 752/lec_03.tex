@@ -1,0 +1,202 @@
+\makeheading{Lecture 3}{\printdate{2023-01-16}}%chktex 8
+\section{Lecture 3: Some Basic Lemmas}
+\begin{Lemma}{}{lem_31}
+    Let $ \Vector{b} $ be a vector and $ \Matrix{W} $ be a positive definite
+    symmetric matrix. Then,
+    \[ \int_{-\infty}^{\infty}
+        \cdots\int_{-\infty}^{\infty}
+        \exp*{-\frac{1}{2}\Vector{x}'\Matrix{W}^{-1}\Vector{x}+\Vector{b}'\Vector{x}}\odif{\Vector{x}}
+        =(2\pi)^{n/2}\abs{\Matrix{W}}^{1/2}\exp*{\frac{\Vector{b}'\Matrix{W}\Vector{b}}{2}}. \]
+\end{Lemma}
+\begin{Lemma}{}{lem_32}
+    Let $ \Matrix{A} $ be a symmetric matrix and
+    $ \Vector{X} \sim \MN{\Vector{\mu},\Matrix{\Sigma}} $. Then,
+    \[ M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+        =\abs{\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma}}^{-1/2}
+        \exp*{-\frac{1}{2}\Vector{\mu}'\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})^{-1}\bigr]\Matrix{\Sigma}^{-1}\Vector{\mu}} \]
+    for small enough $ t $.
+    \tcblower{}
+    \textbf{Proof}: By definition,
+    \begin{align*}
+         & M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)                                                                         \\
+         & =\E[\big]{\exp{t \Vector{x}' \Matrix{A}\Vector{x}}}                                                            \\
+         & =\int_{-\infty}^{\infty}\cdots \int_{-\infty}^{\infty}
+        \frac{1}{(2\pi)^{n/2}\abs{\Matrix{\Sigma}}^{1/2}}
+        \exp{t \Vector{x}' \Matrix{A}\Vector{x}}
+        \exp*{-\frac{1}{2}(\Vector{x}-\Vector{\mu})' \Matrix{\Sigma}^{-1}(\Vector{x}-\Vector{\mu})}
+        \odif{\Vector{x}}                                                                                                 \\
+         & =(2\pi)^{-n/2}\abs{\Matrix{\Sigma}}^{-1/2}
+        \int_{-\infty}^{\infty}\cdots \int_{-\infty}^{\infty}
+        \exp*{\Vector{x}' t \Matrix{A}\Vector{x}-\frac{1}{2}
+            (\Vector{x}'\Matrix{\Sigma}^{-1}\Vector{x}-2 \Vector{x}' \Matrix{\Sigma}^{-1}\Vector{\mu}+\Vector{\mu}' \Matrix{\Sigma}^{-1}\Vector{\mu})}
+        \odif{\Vector{x}}                                                                                                 \\
+         & =(2\pi)^{-n/2}\abs{\Matrix{\Sigma}}^{-1/2}\exp*{-\frac{1}{2}\Vector{\mu}' \Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \int_{-\infty}^{\infty}\cdots \int_{-\infty}^{\infty}
+        \exp*{-\frac{1}{2}\Vector{x}'\underbrace{(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})\Matrix{\Sigma}^{-1}}_{\Matrix{W}}\Vector{x}+\underbrace{\Vector{\mu}' \Matrix{\Sigma}^{-1}}_{\Vector{b}}\Vector{x}}
+        \odif{\Vector{x}}                                                                                                 \\
+         & =(2\pi)^{-n/2}\abs{\Matrix{\Sigma}}^{-1/2}\exp*{-\frac{1}{2}\Vector{\mu}'\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        (2\pi)^{n/2}\abs*{\Matrix{W}^{-1}}^{1/2}\exp*{\frac{\Vector{b}'\Matrix{W}^{-1}\Vector{b}}{2}}\text{ by Lemma 3.1} \\
+         & =\abs{\Matrix{\Sigma}}^{-1/2}\exp*{-\frac{1}{2}\Vector{\mu}'\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \abs*{\Matrix{W}^{-1}}^{1/2}\exp*{\frac{\Vector{b}'\Matrix{W}^{-1}\Vector{b}}{2}}.
+    \end{align*}
+    Note that
+    \[ \Matrix{W}^{-1}=\bigl[(\Matrix{I}-2t \Matrix{A\Sigma})\Matrix{\Sigma}^{-1}\bigr]^{-1}=\Matrix{\Sigma}(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}, \]
+    and
+    \begin{align*}
+        \Vector{b}\Matrix{W}^{-1}\Vector{b}
+         & =\Vector{\mu}'\Matrix{\Sigma}^{-1}\Matrix{\Sigma}(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}\Matrix{\Sigma}^{-1}\Vector{\mu} \\
+         & =\Vector{\mu}'(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}\Matrix{\Sigma}^{-1}\Vector{\mu},
+    \end{align*}
+    and
+    \[ \abs{\Matrix{W}^{-1}}^{1/2}=\abs[\Big]{\bigl[(\Matrix{I}-2t \Matrix{A\Sigma})\Matrix{\Sigma}^{-1}\bigr]^{-1}}^{1/2}
+        =\abs{\Matrix{I}-2t \Matrix{A\Sigma}}^{-1/2}\abs{\Matrix{\Sigma}}^{1/2}. \]
+    Continuing,
+    \begin{align*}
+        M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+         & =\abs{\Matrix{\Sigma}}^{-1/2}\exp*{-\frac{1}{2}\Vector{\mu}'\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \abs*{\Matrix{W}^{-1}}^{1/2}\exp*{\frac{\Vector{b}'\Matrix{W}^{-1}\Vector{b}}{2}}                \\
+         & =\exp*{-\frac{1}{2}\Vector{\mu}'\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \exp*{\frac{1}{2}\Vector{\mu}'(\Matrix{I}-2t \Matrix{A\Sigma})\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \abs{\Matrix{I}-2t \Matrix{A\Sigma}}^{-1/2}                                                      \\
+         & =\exp*{-\frac{1}{2}\Vector{\mu}'\Matrix{\Sigma}^{-1}\Vector{\mu}
+            +\frac{1}{2}\Vector{\mu}'(\Matrix{I}-2t \Matrix{A\Sigma})\Matrix{\Sigma}^{-1}\Vector{\mu}}
+        \abs{\Matrix{I}-2t \Matrix{A\Sigma}}^{-1/2}                                                      \\
+         & =\frac{1}{\sqrt{\abs{\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma}}}}
+        \exp*{-\frac{1}{2}\Vector{\mu}'\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})^{-1}\bigr]\Matrix{\Sigma}^{-1}\Vector{\mu}}.
+    \end{align*}
+\end{Lemma}
+\begin{Lemma}{}{lem_33}
+    Let $ \lambda_1,\ldots,\lambda_n $ be the eigenvalues of $ \Matrix{A \Sigma} $. Then,
+    \[ \abs{\Matrix{I}-2t \Matrix{A\Sigma}}=(1-2t\lambda_1)\cdots(1-2t\lambda_n). \]
+    \tcblower{}
+    \textbf{Proof}:
+    By the spectral theorem,
+    \[ \Matrix{A\Sigma}=\Matrix{Q}'\diag{\lambda_1,\ldots,\lambda_n}\Matrix{Q}. \]
+    Then,
+    \begin{align*}
+        \Matrix{I}-2t \Matrix{A\Sigma}
+         & =\Matrix{I}-2t \Matrix{Q}'\diag{\lambda_1,\ldots,\lambda_n}\Matrix{Q}  \\
+         & =\Matrix{I}-\Matrix{Q}'\diag{2t\lambda_1,\ldots,2t\lambda_n}\Matrix{Q} \\
+         & =\Matrix{Q}'\diag{1-2t\lambda_1,\ldots,1-2t\lambda_n}\Matrix{Q}.
+    \end{align*}
+    Therefore,
+    \begin{align*}
+        \abs{\Matrix{I}-2t \Matrix{A\Sigma}}
+         & =\abs{\Matrix{Q}'}\abs{\diag{1-2t\lambda_1,\ldots,1-2t\lambda_n}}\abs{\Matrix{Q}} \\
+         & =(1-2t\lambda_1)\cdots(1-2t\lambda_n).
+    \end{align*}
+\end{Lemma}
+\begin{Lemma}{}{lem_34}
+    For $ t $ small enough, we have
+    \[ \Matrix{I}-(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}=-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r. \]
+    \tcblower{}
+    \textbf{Proof}:
+    If $ t $ is small enough, then $ \Matrix{I}-2t \Matrix{A\Sigma} $ is invertible. Thus,
+    \[ (\Matrix{I}-2t \Matrix{A\Sigma})\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}\bigr]
+        =\Matrix{I}-2t \Matrix{A\Sigma}-\Matrix{I}
+        =-2t \Matrix{A\Sigma}. \]
+    On the other hand,
+    \begin{align*}
+        (\Matrix{I}-2t \Matrix{A\Sigma})\biggl(-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r\biggr)
+         & =-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r+\underbrace{\sum_{r=2}^{\infty}(2t)^r(\Matrix{A\Sigma})^r}_{\sum_{r=1}^{\infty}(2t)^{r+1}(\Matrix{A\Sigma})^{r+1}} \\
+         & =-(2t)\Matrix{A\Sigma}.
+    \end{align*}
+    Therefore,
+    \[ (\Matrix{I}-2t \Matrix{A\Sigma})\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}\bigr]=
+        (\Matrix{I}-2t \Matrix{A\Sigma})\biggl(-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r\biggr) \]
+    For small enough $ t $, the inverse of $ \Matrix{I}-2t \Matrix{A\Sigma} $ exists, so
+    \[ \Matrix{I}-(\Matrix{I}-2t \Matrix{A\Sigma})^{-1}=-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r. \]
+\end{Lemma}
+\begin{Definition}{Cumulant Generating Function}{}
+    Let $ M_X(t) $ be the moment generating function of $ X $. Then,
+    \[ K_X(t)=\log{M_X(t)} \]
+    is called the \textbf{cumulant generating function}. By Taylor's expansion,
+    \[ K_X(t)=\sum_{n=1}^{\infty}\kappa_n \frac{t^n}{n!}. \]
+    $ \kappa_n=K^{(n)}(0) $ is the $ n $-th cumulant.
+\end{Definition}
+\begin{Example}{}{}
+    Let $ X \sim \N{\mu,\sigma^2} $. Then,
+    \[ M_X(t)=\exp*{\mu t+\frac{\sigma^2}{2}t^2}\implies
+        K_X(t)=\mu t+\frac{\sigma^2}{2}t^2\implies \kappa_1=\mu,\quad \kappa_2=\sigma^2,\quad \kappa_i=0,\; i\ge 3. \]
+\end{Example}
+\begin{Lemma}{}{}
+    For any $ X $ with $ K_X(t) $ well-defined,
+    \[ \kappa_1=\E{X},\quad \kappa_2=\Var{X}. \]
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{align*}
+        \odv{K_X(t)}{t}_{t=0}
+         & =\odv{\log{M_X(t)}}{t}_{t=0}           \\
+         & =\evalat*{\frac{M_X'(t)}{M_X(t)}}{t=0} \\
+         & =M_X'(0)                               \\
+         & =\E{X}                                 \\
+         & =\kappa_1.
+    \end{align*}
+    \begin{align*}
+        \odv{K_X'(t)}{t}_{t=0}
+         & =\odv*{\frac{M_X'(t)}{M_X(t)}}{t}_{t=0}                     \\
+         & =\evalat*{\frac{M_X''(t)M_X(t)-(M_X'(t))^2}{M_X^2(t)}}{t=0} \\
+         & =\E{X^2}-\E{X}^2                                            \\
+         & =\Var{X}                                                    \\
+         & =\kappa_2.
+    \end{align*}
+\end{Lemma}
+\begin{Theorem}{}{}
+    Let $ \Vector{X} \sim \MN{\Vector{\mu},\Matrix{\Sigma}} $. For any symmetric
+    matrix $ \Matrix{A} $ and $ \lambda_1,\ldots,\lambda_n $ are eigenvalues of $ \Matrix{A\Sigma} $
+    \[ K_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+        =-\frac{1}{2}\sum_{i=1}^{n}\log{1-2t\lambda_i}+\frac{1}{2}\Vector{\mu}' \sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}. \]
+    \[ \kappa_r=2^{r-1}(r-1)!\bigl[\tr{(\Matrix{A\Sigma})^r}+r \Vector{\mu}' \Matrix{A}(\Matrix{\Sigma A})^{r-1}\Vector{\mu}\bigr]. \]
+    In particular,
+    \begin{align*}
+        \kappa_1 & =\E{\Vector{X}'\Matrix{A}\Vector{X}}=\tr{\Matrix{A\Sigma}}+\Vector{\mu}'\Matrix{A}\Vector{\mu}.  \\
+        \kappa_2 & =\Var{\Vector{X}'\Matrix{A}\Vector{X}}                                                           \\
+                 & =2\bigl[\tr*{(\Matrix{A\Sigma})^2}+2 \Vector{\mu}'\Matrix{A}\Matrix{\Sigma A}\Vector{\mu} \bigr] \\
+                 & =2\tr*{(\Matrix{A\Sigma})^2}+4\Vector{\mu}'\Matrix{A\Sigma A}\Vector{\mu}.
+    \end{align*}
+    \tcblower{}
+    \textbf{Proof}:
+
+    \underline{Step 1}:
+    Since $ \Vector{X}\sim \MN{\Vector{\mu},\Matrix{\Sigma}} $,
+    by Lemma 3.2,
+    \[ M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+        =\abs{\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma}}^{-1/2}
+        \exp*{-\frac{1}{2}\Vector{\mu}'\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})^{-1}\bigr]\Matrix{\Sigma}^{-1}\Vector{\mu}}. \]
+    Therefore,
+    \begin{align*}
+        K_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+         & =\log{M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)}                                                                                                                                                                              \\
+         & =\log*{\abs{\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma}}^{-1/2}
+        \exp*{-\frac{1}{2}\Vector{\mu}'\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})^{-1}\bigr]\Matrix{\Sigma}^{-1}\Vector{\mu}}}                                                                                        \\
+         & =-\frac{1}{2}\log*{\abs{\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma}}}-\frac{1}{2}\Vector{\mu}'\bigl[\Matrix{I}-(\Matrix{I}-2t \Matrix{A}\Matrix{\Sigma})^{-1}\bigr]\Matrix{\Sigma}^{-1}\Vector{\mu}                            \\
+         & =-\frac{1}{2}\log*{(1-2t\lambda_1)\cdots(1-2t\lambda_n)}-\frac{1}{2}\Vector{\mu}'\biggl(-\sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r\biggr)\Matrix{\Sigma}^{-1}\Vector{\mu}                   &  & \text{Lemma 3.3, 3.4} \\
+         & =-\frac{1}{2}\sum_{i=1}^{n}\log{1-2t\lambda_i}+\frac{1}{2}\Vector{\mu}' \sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}.
+    \end{align*}
+    \underline{Step 2}: The Taylor expansion for $ \log{1-x} $ is
+    \[ -x-\frac{x^2}{2}-\frac{x^3}{3}-\cdots=-\sum_{r=1}^{\infty}\frac{x^r}{r}. \]
+    Therefore, using the Taylor expansion of $ \log{1-2t\lambda_i} $, we may rewrite
+    the first term of $ K_{\Vector{X}'\Matrix{A}\Vector{X}}(t) $ as
+    \begin{align*}
+        -\frac{1}{2}\sum_{i=1}^{n}\log{1-2t\lambda_i}
+         & =\frac{1}{2}\sum_{i=1}^{n}
+        \sum_{r=1}^{\infty}\frac{(2t\lambda_i)^r}{r}                                                                                           \\
+         & =\frac{1}{2}\sum_{r=1}^{\infty}\frac{(2t)^r \sum_{i=1}^{n}\lambda_i^r}{r}                                                           \\
+         & =\frac{1}{2}\sum_{r=1}^{\infty}\frac{(r-1)!(2t)^r\tr{(\Matrix{A\Sigma})^r}}{r!} &  & \text{ since $\frac{(r-1)!}{r!}=\frac{1}{r}$}.
+    \end{align*}
+    \underline{Step 3}: Rewrite the second term of $  K_{\Vector{X}'\Matrix{A}\Vector{X}}(t) $ as
+    \[ \frac{1}{2}\Vector{\mu}' \sum_{r=1}^{\infty}(2t)^r(\Matrix{A\Sigma})^r
+        \Matrix{\Sigma}^{-1}\Vector{\mu}
+        =\frac{1}{2}\sum_{r=1}^{\infty}(2t)^r\bigl(\Vector{\mu}'(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}\bigr)
+        =\frac{1}{2}\sum_{r=1}^{\infty}\frac{r! 2^r t^r\Vector{\mu}'(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}}{r!}. \]
+    \underline{Step 4}: Combining steps 1 to 3, we get
+    \begin{align*}
+        K_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+         & =\frac{1}{2}\sum_{r=1}^{\infty}\frac{(r-1)!(2t)^r\tr{(\Matrix{A\Sigma})^r}}{r!}
+        +\frac{r!2^r t^r \Vector{\mu}'(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}}{r!}                                                                                              \\
+         & =\sum_{r=1}^{\infty}2^{r-1}(r-1)! \frac{[\tr{(\Matrix{A\Sigma})^r}+r \Vector{\mu}'(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}]t^r}{r!}                                   \\
+         & =\sum_{r=1}^{\infty}\underbrace{2^{r-1}(r-1)!\bigl[\tr{(\Matrix{A\Sigma})^r}+r \Vector{\mu}'(\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}\Vector{\mu}\bigr]}_{\kappa_r}\frac{t^r}{r!},
+    \end{align*}
+    noting that $ (\Matrix{A\Sigma})^r \Matrix{\Sigma}^{-1}=(\Matrix{\Sigma A})^{r-1} $
+    to get the desired result.
+\end{Theorem}

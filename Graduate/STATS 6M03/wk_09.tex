@@ -1,0 +1,299 @@
+\makeheading{Lecture 22}{\printdate{2022-10-14}}%chktex 8
+\section{Introduction to Bayesian Inference}
+\subsection*{Introduction}
+\begin{itemize}
+      \item I would like to discuss some Bayesian topics in multivariate statistics.
+      \item But I am aware that many of you will not yet have encountered the
+            Bayesian paradigm.
+      \item Therefore, I am going to devote a lecture or two to introducing the
+            Bayesian paradigm.
+      \item This introduction will assume $n$ realizations of a univariate random
+            variable $ X $, which we denote $ x_1,\ldots,x_n $ or $ \Vector{x} $.
+\end{itemize}
+\subsection*{Probability \& the Bayesian Approach}
+\begin{itemize}
+      \item First, we are going to look a little more closely at what a probability
+            means.
+      \item We will also look at some aspects of the Bayesian approach.
+      \item I am going to present this material from what may be considered a
+            reasonably pro-Bayesian viewpoint.
+      \item This is only fair really\textellipsis{}
+\end{itemize}
+\subsection*{What is Probability?}
+\begin{itemize}
+      \item You will have seen this standard definition before.
+      \item We talk about the probability of an event. If $ E $ is an event, then we denote the probability of $ E $
+            occurring by $ \Prob{E} $.
+      \item For an experiment with possible outcomes $ E_1,\ldots,E_n $, the probability $ \Prob{E_i} $ must obey the following rules:
+            \begin{itemize}
+                  \item $ 0\le \Prob{E_i}\le 1 $ for all $ E_i $.
+                  \item $ \Prob{E_1}+\cdots+\Prob{E_n}=1 $.
+                  \item $ \Prob{\emptyset}=0 $.
+                  \item The OR law for mutually exclusive events.
+            \end{itemize}
+\end{itemize}
+\subsection*{The Rules of Probability}
+\begin{itemize}
+      \item A probability is a number that measures our uncertainty in a random
+            variable $X$.
+      \item  A popular way to view a probability is to consider that it must obey the
+            following three laws, known as the \textbf{calculus of probability}:
+            \begin{itemize}
+                  \item Convexity: $ 0\le \Prob{X}\le 1 $.
+                  \item Additivity: If both $X_1$ and $X_2$ are mutually exclusive then
+                        \[ \Prob{X_1\cup X_2}=\Prob{X_1}+\Prob{X_2}. \]
+                  \item Multiplicativity:
+                        \[ \Prob{X_1\cap X_2}=\Prob{X_1}\Prob{X_2\given X_1}. \]
+            \end{itemize}
+      \item We must also consider that a certain event that is assigned a probability
+            of $1$ and an impossible event is assigned a probability of $0$.
+\end{itemize}
+\subsection*{Alternatives to Probability}
+\begin{itemize}
+      \item There are several competing theories to probability for quantifying
+            uncertainty.
+      \item The most well known is fuzzy logic and its counterpart fuzzy set theory.
+      \item Another is possibility theory.
+      \item These competitors have been used successfully in some applications.
+      \item However, they all lack a justification from more fundamental ideas about
+            uncertainty that probability possesses.
+\end{itemize}
+\subsection*{The Meaning of a Probability}
+\begin{itemize}
+      \item What precisely is the meaning of a probability?
+      \item We can easily define a probability very precisely, but that will not tell us
+            it means.
+      \item The actually meaning of a probability is a topic that continues to be the
+            subject of some debate.
+      \item We are going to look at two popular concepts.
+      \item Namely, \textbf{physical probability} and \textbf{psychological probability}.
+\end{itemize}
+\subsection*{Physical Probability}
+\begin{itemize}
+      \item Also known as material probability, intrinsic probability, objective
+            probability or propensity.
+      \item Probability is viewed as a property of the material world, like mass or
+            volume, which exists irrespective of minds and logic.
+      \item A physical probability is typically defined in one of two ways: first
+            principles and relative frequency.
+      \item \textbf{First Principles}:
+            There are $n$ possible outcomes to some random quantity. For an event
+            $E$ to occur, one of $r$ specific outcomes must occur. By making an
+            assumption that each outcome is equally likely, $ \Prob{E}=r/n $.
+      \item \textbf{Relative Frequency}:
+            The proportion of times that $X$ has been observed to occur in a long
+            sequence of essentially identical experiments.
+      \item The relative frequency notion is usually adopted and people who adopt
+            this interpretation of probability are called frequentists.
+\end{itemize}
+\subsection*{Psychological Probability}
+\begin{itemize}
+      \item A degree of belief, or intensity of conviction, used for betting or making
+            decisions, not necessarily after mature consideration.
+      \item It does not have to be consistent with one's other opinions.
+      \item When a psychological probability is coherent (see De Finetti) and obeys
+            the laws of probability then it is called \textbf{subjective probability}.
+      \item The subjective probability notion is usually adopted and people who
+            adopt this notion are called \textbf{subjectivists} or, some would say, \textbf{Bayesians}.
+\end{itemize}
+\subsection*{Frequentist vs Subjectivist}
+\begin{itemize}
+      \item Frequentist
+            \begin{enumerate}
+                  \item Probably still the most widely used.
+                  \item Consistent (everyone should get the same probability for a given
+                        event).
+                  \item Assumes that an experiment can be repeated indefinitely under
+                        almost identical conditions. This excludes one-off events.
+                  \item What are `almost identical conditions'?
+            \end{enumerate}
+      \item Subjectivist
+            \begin{enumerate}
+                  \item Concerned with individual behaviour.
+                  \item Varies from individual to individual --- no ``correct'' probability for a
+                        given event.
+                  \item Applies to a wider range of situations, including one-off situations.
+            \end{enumerate}
+\end{itemize}
+\subsection*{The Bayesian Paradigm}
+\begin{itemize}
+      \item For our purposes today, we are going to assume that all Bayesians are
+            subjectivists.
+      \item Bayesians obey the laws of probability strictly and conduct statistical
+            inference accordingly.
+      \item One can think of Bayesians as using observed data to update their
+            existing, or prior, knowledge.
+      \item In a moment, an example, first some revision.
+\end{itemize}
+\subsection*{Conditional Probability}
+\begin{itemize}
+      \item Recall the \textbf{AND} Rule: if $E$ and $F$ are two events then
+            \[ \Prob{E\cap F}=\Prob{E}\Prob{F\given E}, \]
+            where $F \mid E$ means the occurrence of an event $F$ given that an event $E$
+            has already occurred.
+      \item Now, dividing both sides of the above equation by $ \Prob{E} $ gives us the
+            definition of a conditional probability.
+      \item The probability that an event $F$ occurs given that an event $E$ has
+            already occurred is given by
+            \[ \Prob{F\given E}=\frac{\Prob{E\cap F}}{\Prob{E}}. \]
+      \item Using the fact that $ \Prob{E\cap F}=\Prob{F\cap E} $ and noting that
+            $ \Prob{F\cap E}=\Prob{E\given F}\Prob{F} $, we can write the expression for $ \Prob{F\given E} $
+            as follows.
+            \begin{equation}
+                  \Prob{F\given E}=\frac{\Prob{E\given F}\Prob{F}}{\Prob{E}}\label{eqbayes}.
+            \end{equation}
+      \item Now, we can also rewrite the term $ \Prob{E} $ in this equation.
+\end{itemize}
+\subsection*{The Partition Law}
+\begin{itemize}
+      \item This approach can be generalized to get a general formula for $ \Prob{E} $ in
+            terms of conditional probabilities.
+      \item \textbf{The Partition Theorem}: Suppose the outcome of an event $ E $ depends on an event
+            $ F $ which has possible outcomes $ F_1,\ldots,F_n $, then
+            \[ \Prob{E}=\sum_{i=1}^{n}\Prob{E\given F_i}\Prob{F_i}. \]
+\end{itemize}
+\subsection*{Bayes' Theorem}
+\begin{itemize}
+      \item The Partition Theorem replaces $ \Prob{E} $ in the denominator of~\Cref{eqbayes} to give Bayes' Theorem.
+      \item \textbf{Bayes' Theorem}: Suppose the outcome of an event $ E $ depends on an event
+            $ F $ which has possible outcomes $ F_1,\ldots,F_n $, then
+            \[ \Prob{F_j\given E}=\frac{\Prob{E\given F_j}\Prob{F_j}}{\sum_{i=1}^{n}\Prob{E\given F_i}\Prob{F_i}}, \]
+            for $ j=1,2,\ldots,n $.
+      \item However, the result is not actually due to Bayes.
+\end{itemize}
+\subsection*{Thomas Bayes}
+\begin{itemize}
+      \item Fisher wrote that:
+
+            ``For the first serious attempt known to us to give a rational
+            account of the process of scientific inference as a means of
+            understanding the real world, in the sense in which this term is
+            understood by experimental investigators, we must look back over
+            two hundred years to an English clergyman, the Reverend Thomas
+            Bayes, whose life spanned the first half of the eighteenth century.''
+      \item What Bayes actually showed was for one case of continuous $X$, and it is
+            not clear that he would agree entirely with all aspects of what has
+            become known as \textbf{Bayesian inference}.
+\end{itemize}
+\subsection*{A Bayesian Example}
+\begin{itemize}
+      \item Suppose I am Bayesian.
+      \item I want to estimate the height of men in Ireland.
+      \item A reasonable description of my (prior) belief is that the height of men in
+            Ireland is $ \N{1.70,0.15^2} $.
+      \item Data are then collected, and my views are `updated'.
+      \item But how?
+\end{itemize}
+\subsection*{The Bayesian Approach I}
+\begin{itemize}
+      \item Denote the probability density that describes my prior belief by $ h(\theta) $.
+      \item Then, $ h(\theta) $ is called the \textbf{prior distribution}.
+      \item Once we observe our data, we write down the likelihood
+            $ \mathcal{L}(\theta\mid \Vector{x})=p(\Vector{x}\mid \theta) $.
+      \item We then compute the \textbf{posterior distribution} $ h(\theta\mid \Vector{x}) $.
+      \item We can find $ h(\theta\mid \Vector{x}) $ using Bayes theorem.
+\end{itemize}
+\subsection*{The Bayesian Approach II}
+\begin{itemize}
+      \item From Bayes theorem,
+            \[ h(\theta\mid \Vector{x})=\frac{p(\Vector{x}\mid \theta)h(\theta)}{\int_{\Theta}p(\Vector{x}\mid \theta)h(\theta)\odif{\theta}}. \]
+      \item Noting that the denominator is a constant with respect to $ \theta $, we can write
+            \[ h(\theta\mid \Vector{x})\propto p(\Vector{x}\mid \theta)h(\theta). \]
+      \item We also know that
+            \[ \int_{\Theta}h(\theta\mid \Vector{x})\odif{\theta}=1. \]
+\end{itemize}
+\subsection*{Example 1}
+\begin{itemize}
+      \item Suppose we have $ x_1,x_2,\ldots,x_n $ each from a $ \BERN{\theta} $.
+      \item Suppose that our prior is a $ \BetaDist{\alpha,\beta} $, so that
+            \[ h(\theta)=\frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1},\; 0<\theta<1. \]
+      \item What is the posterior distribution?
+            \begin{framed}
+                  First,
+                  \[ p(\Vector{x}\mid \theta)=\prod_{i=1}^n \theta^{x_i}(1-\theta)^{1-x_i}=\theta^{\sum_{i=1}^{n}x_i}(1-\theta)^{n-\sum_{i=1}^{n}x_i}. \]
+                  Therefore,
+                  \begin{align*}
+                        h(\theta\mid \Vector{x})
+                         & \propto p(\Vector{x}\mid \theta)h(\theta)                                                                                                                \\
+                         & =\theta^{\sum_{i=1}^{n}x_i}(1-\theta)^{n-\sum_{i=1}^{n}x_i}\frac{\Gamma(\alpha,\beta)}{\Gamma(\alpha)\Gamma(\beta)}\theta^{\alpha-1}(1-\theta)^{\beta-1} \\
+                         & \propto \theta^{\sum_{i=1}^{n}x_i}(1-\theta)^{n-\sum_{i=1}^{n}x_i}\theta^{\alpha-1}(1-\theta)^{\beta-1}                                                  \\
+                         & = \theta^{\sum_{i=1}^{n}x_i+\alpha-1}(1-\theta)^{n-\sum_{i=1}^{n}x_i+\beta-1},
+                  \end{align*}
+                  which is the functional form of $ \BetaDist{\sum_{i=1}^{n}x_i+\alpha,n-\sum_{i=1}^{n}x_i+\beta} $.
+            \end{framed}
+      \item What is the posterior mean?
+            \begin{framed}
+                  From our distribution above,
+                  \begin{align*}
+                        \E{\theta\mid \Vector{x}}=\frac{\sum_{i=1}^{n}x_i+\alpha}{\alpha+n+\beta}
+                         & =\frac{\sum_{i=1}^{n}x_i+\alpha}{\alpha+n+\beta}                                                                                                              \\
+                         & =\biggl(\frac{n}{\alpha+\beta+n}\biggr)\frac{1}{n}\sum_{i=1}^{n}x_i+\biggl(\frac{\alpha+\beta}{\alpha+\beta+n}\biggr)\frac{\alpha}{\alpha+\beta}              \\
+                         & =\biggl(1-\frac{\alpha+\beta}{\alpha+\beta+n}\biggr)\frac{1}{n}\sum_{i=1}^{n}x_i+\biggl(\frac{\alpha+\beta}{\alpha+\beta+n}\biggr)\frac{\alpha}{\alpha+\beta} \\
+                         & =(1-\gamma_n)\hat{\theta}+\gamma_n\E{\theta},
+                  \end{align*}
+                  where $ \E{\theta}=\frac{\alpha}{\alpha+\beta} $ is the prior mean, $ \hat{\theta}=\frac{1}{n}\sum_{i=1}^{n}x_i $ is the MLE
+                  of the data, and $ \gamma_n=\frac{\alpha+\beta}{\alpha+\beta+n} $. We observe that as $ n\to\infty $,
+                  $ \gamma_n\to 0 $, so that $ \E{\theta\mid \Vector{x}}\to \hat{\theta} $, which is obvious. If we collect an infinite amount of
+                  data, we do not care about our prior knowledge.
+            \end{framed}
+\end{itemize}
+\subsection*{Notes}
+\begin{itemize}
+      \item Note that in using this beta prior, we have distilled our prior beliefs to
+            two numbers: $ \alpha $ and $ \beta $.
+      \item Note also that some people use a $ \BetaDist{1,1} $, which is a uniform, to
+            indicate `no' prior knowledge.
+      \item There are problems using uniform priors in this way, which we shall see
+            later on.
+      \item When the prior and the posterior for $ \theta $ are from the same distribution,
+            this is called \textbf{conjugacy}.
+      \item The definition of a conjugate prior is important, so let's be careful.
+      \item A \textbf{conjugate prior} $ h(\theta) $ is a distribution such that the posterior
+            $ h(\theta\mid \Vector{x}) $ is of the same distribution type.
+      \item If $ X \sim \BetaDist{\alpha,\beta} $, then
+            \[ \E{X}=\frac{\alpha}{\alpha+\beta},\quad \Var{X}=\frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}. \]
+\end{itemize}
+\subsection*{Example 2}
+\begin{itemize}
+      \item Show that the conjugate prior distribution for the $ \POI{\lambda} $ is the Gamma distribution.
+            \begin{framed}
+                  First,
+                  \[ p(\Vector{x}\mid \lambda)=\prod_{i=1}^n p(x_i\mid \lambda)=\lambda^{x_i}\frac{e^{-\lambda}}{x_i!}
+                        =\lambda^{\sum_{i=1}^{n}x_i}e^{-n\lambda}\prod_{i=1}^n \frac{1}{x_i}\propto \lambda^{\sum_{i=1}^{n}x_i}e^{-n\lambda}. \]
+                  Assuming that $ \lambda \sim \GAM{\alpha,\beta} $, we have
+                  \[ h(\lambda)=\frac{\beta^\alpha}{\Gamma(\alpha)}\lambda^{\alpha-1}e^{-\beta\lambda}\propto \lambda^{\alpha-1}e^{-\beta\lambda}. \]
+                  Therefore,
+                  \begin{align*}
+                        h(\lambda\mid \Vector{x})
+                         & \propto p(\Vector{x}\mid \lambda)h(\lambda)                                         \\
+                         & \propto \lambda^{\sum_{i=1}^{n}x_i}e^{-n\lambda}\lambda^{\alpha-1}e^{-\beta\lambda} \\
+                         & =\lambda^{\alpha+\sum_{i=1}^{n}x_i-1}e^{-(\beta+n)\lambda},
+                  \end{align*}
+                  which is the functional form of $ \GAM{\alpha+\sum_{i=1}^{n}x_i,\beta+n} $.
+            \end{framed}
+\end{itemize}
+\subsection*{Example 3}
+\begin{itemize}
+      \item We want to assess the probability $ \theta $ that a quarter, when tossed, will
+            land heads-up.
+      \item Your prior belief is that $ \theta $ is probably $0.5$ but may be anywhere from $0.3$
+            to $0.7$.
+      \item Construct a beta distribution for $ \theta $ that reflects your prior beliefs.
+      \item The coin is tossed $10$ times and lands heads-up $7$ times.
+      \item What is the posterior mean and variance?
+\end{itemize}
+\begin{framed}
+      Since prior belief is that $ \theta $ is probably $0.5$, but may be anywhere from $0.3$
+      to $0.7$, we have
+      \[ \E{\theta}\pm 2\sqrt{\Var{\theta}}=(0.3,0.7), \]
+      where $ \E{\theta}=0.5 $. Hence,
+      \[ 0.5\pm 2\sqrt{\Var{\theta}}=(0.3,0.7)\implies \Var{\theta}=0.01. \]
+      Hence,
+      \[ \frac{\alpha}{\alpha+\beta}=0.5\implies \alpha=\beta. \]
+      \[ \frac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}=0.01\implies \alpha=12.  \]
+      Therefore, $ h(\theta) $, our prior distribution, is
+      \[ h(\theta)\propto \theta^{11}(1-\theta)^{11}, \]
+      which is $ \BetaDist{12,12} $.
+
+      From earlier, we see that $ h(\Vector{x}\mid \theta)\propto \BetaDist{7+12,10-7+12}=\BetaDist{19,15} $.
+\end{framed}

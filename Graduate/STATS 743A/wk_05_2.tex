@@ -1,0 +1,146 @@
+
+\makeheading{Lecture 10}{\printdate{2022-10-21}}%chktex 8
+\underline{Author's Note}:
+Missed lecture due to convocation. The following lecture is
+typed \underline{after} the lecture, and the notes were
+sourced from \textbf{Zhang Yiran} (main source), Baek Inwook, and Zhang Zhiyue.
+
+\begin{Definition}{Polya's Urn}{}
+    Start with one \textcolor{red}{red} ($ \R $) and one
+    \textcolor{blue}{blue} ($ \B $) ball.
+    At each step, select a
+    ball at random, then put it back into the urn along with an
+    additional ball of the same colour.
+    \tcblower{}
+    \textbf{Question}: Does the percentage of $ \B $ converge?
+    If so, to what number?
+\end{Definition}
+\begin{Example}{Order in Polya's Urn is Irrelevant}{}
+    \begin{align*}
+        \ProbB{\R\B\B\B\R\B\R}
+         & =\frac{1}{2}\frac{1}{3}\frac{2}{4}\frac{3}{5}\frac{2}{6}\frac{4}{7}\frac{3}{8} \\
+         & =\frac{4!3!}{8!}.                                                              \\
+        \ProbB{\R\R\R\B\B\B\B}
+         & =\frac{1}{2}\frac{2}{3}\frac{3}{4}\frac{1}{5}\frac{2}{6}\frac{3}{7}\frac{4}{8} \\
+         & =\frac{4!3!}{8!}.
+    \end{align*}
+    Therefore, the two sequences are exchangeable; that is,
+    order of $ \R $ and $ \B $ is irrelevant.
+\end{Example}
+\begin{Example}{}{}
+    \begin{align*}
+        \ProbB{3\R+4\B\text{ in the first $7$ picks}}
+         & =\frac{4!3!}{8!}\binom{7}{3}=\frac{1}{8},
+    \end{align*}
+    where we multiplied by $ \binom{7}{3} $ because this is the
+    number of ways to make a sequence of $ 3\R4\B $. Also,
+    \[ \ProbB{1\R+6\B}=\frac{1!6!}{8!}\binom{7}{1}=\frac{1}{8}. \]
+\end{Example}
+\begin{Example}{Random Spinner Game}{}
+    Suppose $ X_i \iid\text{Uniform}[0,1] $
+    is independent of $ Y $ for $ i\ge 1 $, and define
+    \[ C_i=\begin{cases}
+            \B, & X_i<Y,    \\
+            \R, & X_i\ge Y.
+        \end{cases} \]
+    \underline{Remarks}:
+    \begin{itemize}
+        \item $ \ProbB{\text{$1\textsuperscript{st}$ is }\B}=
+                  \ProbB{C_1=\B}=\ProbB{X_1<Y} $.
+        \item Since $ X_1 $ and $ Y $ are iid,
+              \[ \ProbB{X_1<Y}=\ProbB{Y<X_1}. \]
+        \item Since $ X_1 $ and $ Y $ are continuous and independent,
+              \[ \ProbB{X_1=Y}=0. \]
+    \end{itemize}
+    Using these facts, we have
+    \[ 2\ProbB{X_1<Y}=\ProbB{X_1<Y}+\ProbB{Y<X_1}=1-\ProbB{X_1=Y}=1. \]
+    Therefore, $ \ProbB{X_1<Y}=1/2 $, that is $ \Prob{C_1=\B}=1/2 $.
+    \begin{align*}
+        \Prob{\Set{C_2=\B}\given \Set{C_1=\B}}
+         & =\frac{\ProbB{C_1=\B,C_2=\B}}{\ProbB{C_1=\B}} \\
+         & =\frac{\ProbB{C_1=C_2=\B}}{\ProbB{C_1=\B}}    \\
+         & =\frac{1/3}{1/2}                              \\
+         & =\frac{2}{3},
+    \end{align*}
+    where the numerator was calculated via
+    \begin{align*}
+        \ProbB{C_1=C_2=\B}
+         & =\ProbB{X_1<Y,X_2<Y}                                               \\
+         & =\int_{0}^{1}\int_{0}^{y}\int_{0}^{y}1\odif{x_1}\odif{x_2}\odif{y} \\
+         & =\frac{1}{3}.
+    \end{align*}
+    Therefore, $ \Prob{\Set{C_2=\B}\given \Set{C_1=\B}}=\frac{1/3}{1/2}=\frac{2}{3} $.
+
+    For the same reason as before,
+    \[
+        \ProbB{X_1<X_2<Y}=\ProbB{X_2<X_1<Y}=\cdots=\ProbB{Y<X_1<X_2}=\frac{1}{3!}=\frac{1}{6}.
+    \]
+    \begin{align*}
+        \Prob{\Set{C_9=\B}\given \Set{\B\B\R\B\R\R\B\B}}
+         & =\ProbB{X_1,X_2,X_4,X_7,X_8<Y,\; X_3,X_5,X_6>Y} \\
+         & =\frac{5!3!}{9!}.
+    \end{align*}
+    The random spinner game is the same process as Polya's urn.
+
+    \begin{itemize}
+        \item Conditionally given $ Y $, the $ C_i $'s are
+              independent each with probability $ Y $ of being $ \B $.
+        \item By the law of large numbers, the percentage of
+              $ \B $ picks converges to $ Y $.
+    \end{itemize}
+\end{Example}
+\begin{Theorem}{De Finetti's Theorem for Polya's Urn}{}
+    The percentage of $ \B $ picks converges almost surely
+    (100\% probability to converge). Let $ Y $ denote the
+    limit,
+    \begin{itemize}
+        \item $ Y \sim \text{Uniform}[0,1] $.
+        \item Given $ Y $, the picks are conditionally
+              independent each with probability $ Y $ of being
+              $ \B $.
+    \end{itemize}
+\end{Theorem}
+\begin{Example}{}{}
+    The conditional cdf of $ Y $ given $ C_1=\B $ is
+    \begin{align*}
+        F_{Y\mid C_1=\B}
+         & =\Prob{\Set{Y\le t}\given \Set{C_1=\B}}                      \\
+         & =\frac{\Prob{\Set{Y\le t}\cap \Set{C_1=\B}}}{\ProbB{C_1=\B}} \\
+         & =\frac{t^2/2}{1/2}                                           \\
+         & =t^2,
+    \end{align*}
+    where numerator is calculated via
+    \[ \Prob{\Set{Y\le t}\cap\Set{C_1=\B}}
+        =\int_{0}^{t}\int_{0}^{y}1\odif{x_1}\odif{y}=\frac{t^2}{2}.
+    \]
+    The conditional pdf of $ Y $ given $ C_1=\B $ is
+    \[ f_{Y\mid C_1=\B}(t)
+        =\begin{cases} 2t, & t\in[0,1],        \\
+              0,  & \text{otherwise}.\end{cases} \]
+\end{Example}
+\begin{Theorem}{Law of Total Probability (Continuous)}{}
+    If $ Y $ is a continuous random variable with pdf $
+        f_Y $, then for any event $ A $,
+    \[ \Prob{A}=\int_{-\infty}^{\infty}\Prob{A\given
+            \Set{Y=y}}f_Y(y)\odif{y}, \]
+    given we can make sense of the conditional probability.
+\end{Theorem}
+\begin{Example}{}{}
+    Using the Law of Total Probability, the conditional cdf of
+    $ Y $ given $ \B\B\R\B\R\R\B\B $
+    \begin{align*}
+        F_{Y\mid \B\B\R\B\R\R\B\B}(t)
+         & =\Prob{\Set{Y\le t}\cap\Set{\B\B\R\B\R\R\B\B}}      \\
+         & =\int_{0}^{t}\Prob{\Set{\B\B\R\B\R\R\B\B}\given
+        \Set{Y=y}}\odif{y}                                     \\
+         & =\int_{0}^{t}\frac{y^5(1-y)^3}{(5!3!)/(9!)}\odif{y} \\
+         & =\frac{9!}{5!3!}\int_{0}^{t}y^5(1-y)^3\odif{y}.
+    \end{align*}
+    The conditional pdf of $ Y $ given $ \B\B\R\B\R\R\B\B $ is
+    \[
+        f_{Y\mid \B\B\R\B\R\R\B\B}(t)
+        =\begin{dcases} \frac{9!}{5!3!}t^5(1-t)^3, & t\in[0,1],        \\
+               0,                         & \text{otherwise},\end{dcases} \]
+    which is the
+    $ \BetaDist{6,4} $ distribution.
+\end{Example}

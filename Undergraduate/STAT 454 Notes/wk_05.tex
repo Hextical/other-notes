@@ -1,0 +1,317 @@
+\makeheading{Lecture 8}{\printdate{2022-01-31}}%chktex 8
+\textbf{Basic Concepts of Cluster Sampling}:
+\begin{itemize}
+      \item The population consists of $K$ clusters (groups).
+      \item \emph{Single-stage cluster sampling}: A subset of the clusters is
+            selected, and all units in the selected cluster are observed for the
+            final sample.
+      \item \emph{Two-stage cluster sampling}: A subset of the clusters is selected,
+            and within each selected cluster, a subset of units is selected for
+            the final sample.
+      \item Sampling frames for single-stage and two-stage cluster sampling:\\
+            (1) First stage sampling frame: A complete list of clusters in the
+            population\\
+            (2) Second stage sampling frames: A complete list of units for
+            each selected cluster
+      \item More complex sampling designs: Stratified \emph{multi-stage cluster
+                  sampling} with unequal selection probabilities at each stage.
+\end{itemize}
+
+\section{Single-stage Cluster Sampling}
+\subsection{Notation}
+\begin{itemize}
+      \item $ K $: The total number of clusters in the population.
+      \item $ M_i $: The total number of units in cluster $ i $.
+      \item $ y_{ij} $: The value of $ y $ for unit $ j $ in cluster $ i $.
+      \item $ N=\sum_{i=1}^{K}M_i $: The overall population size.
+\end{itemize}
+The mean and the total for the $ i\textsuperscript{th} $ cluster are given by
+\[ \mu_i=\frac{1}{M_i}\sum_{j=1}^{M_i}y_{ij},\qquad T_i=\sum_{j=1}^{M_i}y_{ij}=M_i \mu_i,\; i=1,2,\ldots,K. \]
+The population total is given by
+\[ T_y=\sum_{i=1}^{K}\sum_{j=1}^{M_i}y_{ij}=\sum_{i=1}^{K}T_i=\sum_{i=1}^{K}M_i \mu_i, \]
+and the population mean is given by $ \mu_y=T_y/N $.
+
+\subsection{Single-stage cluster sampling with clusters selected by SRSWOR}
+The sampling procedure:
+\begin{enumerate}
+      \item Select $ k $ clusters from the list of $ K $ clusters using SRSWOR, with a pre-specified
+            $ k $. Let $ S_c $ be the set of labels for the $ k $ selected clusters.
+      \item For $ i\in S_c $, select all $ M_i $ units for the final sample.
+\end{enumerate}
+The total number of units in the final sample (overall sample size):
+\[ n=\sum_{i\in S_c}M_i. \]
+The sample data on the $ y $-variable:
+\[ \Set{y_{ij}\given j=1,2,\ldots,M_i,\, i\in S_c}. \]
+The cluster total $ T_i=\sum_{j=1}^{M_i}y_{ij} $ is known for $ i\in S_c $. The
+``condensed'' sample data set:
+\[ \Set{T_i,\, i\in S_c}. \]
+
+Other information available from the sampling frames and the design:
+\begin{itemize}
+      \item The total number of clusters, $ K $.
+      \item The number of clusters selected, $ k $.
+      \item The cluster size $ M_i $ for $ i\in S_c $ (selected clusters). $ M_i $
+            may not be known if $ i\notin S_c $.
+\end{itemize}
+Other notes:
+\begin{itemize}
+      \item The overall sample size $ n=\sum_{i\in S_c} M_i $ is typically a random number and is not controlled
+            at the design stage except for the special case where the cluster sizes $ M_i=M $ are all equal. In this case,
+            $ n=kM $.
+      \item The overall population size $ N=\sum_{i=1}^{K}M_i $ is often \textbf{unknown}.
+      \item Estimation of $ T_i=\sum_{i=1}^{K}T_i $ does not lead to estimation of $ \mu_y=T_y/N $ and vice versa.
+      \item Need to have an estimator for $ N $.
+\end{itemize}
+
+\subsection{Estimation of the population total \texorpdfstring{$ T_y $}{Ty}}
+
+Re-write the population total as
+
+\[ T_y=\sum_{i=1}^{K}T_i=K\biggl(\frac{1}{K}\sum_{i=1}^{K}T_i\biggr)=K\mu_T. \]
+\textbf{The question}: Why do we introduce
+\[ \mu_T=\frac{1}{K}\sum_{i=1}^{K}T_i?\qquad \mu_y=\frac{1}{N}\sum_{i=1}^{N}y_i. \]
+\textbf{The answer}: The $ \mu_T $ is not a parameter of interest, but it is
+a ``population mean'' and can be estimated by the corresponding ``sample mean''
+under SRSWOR,
+\[ \hat{\mu}_T=\frac{1}{k}\sum_{i\in S_c}T_i.\qquad \bar{y}=\frac{1}{n}\sum_{i\in S}y_i. \]
+This leads to $ \hat{T}_y=K\hat{\mu}_T $, where $ K $ is known.
+
+\textbf{Main results on estimating $ T_y $}: Under single-stage cluster sampling
+with clusters selected by SRSWOR,
+\begin{enumerate}[(a)]
+      \item An unbiased estimator for the population total $ T_y $ is given by
+            \[ \hat{T}_y=K\biggl(\frac{1}{k}\sum_{i\in S_c}T_i\biggr)=K\hat{\mu}_T, \]
+            where $ \hat{\mu}_T=k^{-1}\sum_{i\in S_c}T_i $ is the sample mean of cluster totals.
+      \item The design-based variance of $ \hat{T}_y $ is given by
+            \[ \V{\hat{T}_y}=K^2\biggl(1-\frac{k}{K}\biggr)\frac{\sigma_T^2}{k}, \]
+            where $ \sigma_T^2=(K-1)^{-1}\sum_{i=1}^{K}(T_i-\mu_T)^2 $, and $ \mu_T=K^{-1}\sum_{i=1}^{K}T_i $
+            is the population mean of cluster totals.
+      \item An unbiased variance estimator for $ \hat{T}_y $ is given by
+            \[ \v{\hat{T}_y}=K^2\biggl(1-\frac{k}{K}\biggr)\frac{s_T^2}{k}, \]
+            where $ s_T^2=(k-1)^{-1}\sum_{i\in S_c}(T_i-\hat{\mu}_T)^2 $ and
+            $ \hat{\mu}_T=k^{-1}\sum_{i\in S_c}T_i $.
+\end{enumerate}
+
+\subsection{Estimation of the population mean \texorpdfstring{$\mu_y$}{μy}}
+
+If $ N $ is known, we can simply use $ \hat{\mu}_y=\hat{T}_y/N $.
+
+If $ N=\sum_{i=1}^{K}M_i $ is unknown, we re-write the population mean as
+\[ \mu_y=\frac{1}{N}\sum_{i=1}^{K}T_i=\frac{\sum_{i=1}^{K}T_i}{\sum_{i=1}^{K}M_i}=\frac{K^{-1}\sum_{i=1}^{K}T_i}{K^{-1}\sum_{i=1}^{K}M_i}=\frac{\mu_T}{\mu_M}, \]
+where
+\[ \mu_M=\frac{1}{K}\sum_{i=1}^{K}M_i \]
+is the ``population mean'' for the variable $ M_i $ (average cluster size), and can be
+estimated by the corresponding ``sample mean''
+\[ \hat{\mu}_M=\frac{1}{k}\sum_{i\in S_c}M_i. \]
+
+The population mean $ \mu_y $ can be estimated by
+\[ \hat{\mu}_y=\frac{\hat{\mu}_T}{\hat{\mu}_M}=\frac{k^{-1}\sum_{i\in S_c}T_i}{k^{-1}\sum_{i\in S_c}M_i}
+      =\frac{\sum_{i\in S_c}T_i}{\sum_{i\in S_c}M_i}=\frac{1}{n}\sum_{i\in S_c}\sum_{j=1}^{M_i}y_{ij}, \]
+where $ n=\sum_{i\in S_c}M_i $ is the overall sample size.
+
+\textbf{Notes}:
+\begin{itemize}
+      \item The overall sample size $ n $ is usually a random number.
+      \item The $ \hat{\mu}_y $ looks like a sample mean, but its theoretical properties need to
+            be derived using a ``ratio estimator.''
+      \item Ratio estimators will be discussed in Chapter 5.
+\end{itemize}
+
+\subsection{A comparison between SRSWOR and Single-stage cluster sampling}
+
+(This is technically a challenge topic under general scenarios with
+unequal $ M_i $)
+
+Consider a simple scenario where
+\begin{itemize}
+      \item All clusters have the same size: $ M_i=M $ ($ M\ge 2 $).
+      \item The overall population size is $ N=KM $ (and is known).
+      \item The overall sample size is $ n=kM $ (and is a fixed number).
+      \item The sampling fraction $ n/N=(kM)/(KM)=k/K $.
+      \item The estimators $ \hat{\mu}_M $ and $ \hat{\mu}_y $ reduce to
+            \[ \hat{\mu}_M=k^{-1}\sum_{i\in S_c}M_i=M,\qquad \hat{\mu}_y=\frac{\hat{\mu}_T}{\hat{\mu}_M}=M^{-1}\hat{\mu}_T, \]
+            and $ \hat{\mu}_T=\frac{1}{k}\sum_{i\in S_c}T_i $ is a ``sample mean.''
+      \item The $ \hat{\mu}_y $ is an unbiased estimator of $ \mu_y $.
+\end{itemize}
+
+Under single-stage cluster sampling with clusters selected by
+SRSWOR,
+\[ \V{\hat{\mu}_y}=\frac{1}{M^2}\biggl(1-\frac{k}{K}\biggr)\frac{\sigma_T^2}{k}=\biggl(1-\frac{n}{N}\biggr)\frac{M^{-1}\sigma_T^2}{n}. \]
+It can be shown (Problem 3.8 for STAT 854)
+\[ M^{-1}\sigma_T^2\approx \sigma_y^2\bigl(1+(M-1)\rho\bigr), \]
+where $ \rho $ is the \emph{intra-cluster correlation coefficient}
+and is defined as follows: Randomly select a cluster, and then randomly select two units
+from the cluster without replacement; let $ Z_1 $ and $ Z_2 $ be the
+values of $ y $ for the two selected units,
+\[ \rho=\frac{\Cov{Z_1,Z_2}}{\sqrt{\V{Z_1}\V{Z_2}}}. \]
+We have
+\[ \V{\hat{\mu}_y}\approx \biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}\bigl(1+(M-1)\rho\bigr). \]
+
+\textbf{Key results for the comparison of two sampling strategies}:
+\begin{itemize}
+      \item Under the simple scenario with single stage cluster sampling,
+            \[ \V{\hat{\mu}_y}\approx \biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}\bigl(1+(M-1)\rho\bigr). \]
+      \item If we take a sample of the same overall size $ n $ by SRSWOR and use the sample mean $ \bar{y} $
+            to estimate $ \mu_y $, we have
+            \[ \V{\bar{y}}=\biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}. \]
+\end{itemize}
+\begin{enumerate}[(i)]
+      \item It is very common in survey practice that units within the same
+            cluster are positively correlated, i.e., $ \rho>0 $ and consequently
+            single-stage cluster sampling is less efficient than SRSWOR\@.
+      \item For situations where $ \rho<0 $, cluster sampling can be more
+            efficient.
+      \item When $\rho = 0$, the clusters behave like random groups of units
+            from the population. Under such scenarios single-stage cluster
+            sampling will result in a final sample which is similar to the one
+            selected by non-cluster sampling methods.
+\end{enumerate}
+\begin{itemize}
+      \item \textbf{Homework}: Find examples of the three scenarios listed above.
+\end{itemize}
+\makeheading{Lecture 9}{\printdate{2022-02-02}}%chktex 8
+\section{Two-stage Cluster Sampling}
+
+\emph{Primary sampling unit (PSU)}: clusters.\\
+(The first-stage sample selects $k$ clusters from the population of $K$
+clusters)
+
+\emph{Secondary sampling unit (SSU)}: units within clusters.\\
+(The second-stage sample selects $ m_i $ units from the list of $ M_i $ units if
+cluster $i$ is selected in the first stage)
+
+\subsection{Two-stage cluster sampling with SRSWOR at both stages}
+The sampling procedures:
+\begin{enumerate}
+      \item Select $k$ clusters from the list of $K$ clusters using SRSWOR, with
+            a pre-specified $k$. Let $ S_c $ be the set of labels for the $k$ selected
+            clusters.
+      \item For $ i\in S_c $ and a pre-specified $ m_i $, select a second-stage sample $ S_i $
+            of $ m_i $ units from the list of $ M_i $ units in cluster $i$ using SRSWOR\@;
+            the processes are carried out independently for different clusters.
+\end{enumerate}
+
+The overall sample size is
+\[ n=\sum_{i\in S_c}m_i. \]
+The choice of $ m_i $ (as part of the survey design):
+\begin{itemize}
+      \item A constant $ m_i=m $ is used across all clusters; $ n=mk $ is fixed.
+      \item A fixed second-stage sampling fraction, i.e., choose $ m_i $ such that
+            $ m_i/M_i=c $ for a pre-specified proportion $ c $ across all clusters;
+            $ n=c\sum_{i\in S_c}M_i $ is a random number (e.g., $ c=5\%,10\%,\ldots$).
+\end{itemize}
+The sample data on the $ y $-variable:
+\[ \Set{y_{ij}:j\in S_i,i\in S_c}. \]
+Other information available:
+\begin{itemize}
+      \item The total number of clusters, $K$, and the number of clusters
+            sampled, $k$.
+      \item The cluster size $ M_i $ and the second-stage sample size $ m_i $ for
+            $ i\in S_c $.
+\end{itemize}
+
+The cluster mean and the cluster variance (cluster level population
+parameters):
+\[ \mu_i=\frac{1}{M_i}\sum_{j=1}^{M_i}y_{ij},\qquad \sigma_i^2=\frac{1}{M_i-1}\sum_{j=1}^{M_i}(y_{ij}-\mu_i)^2. \]
+\textbf{Note}:
+\begin{itemize}
+      \item Under stage-stage cluster sampling, both $ \mu_i $ and $ \sigma_i^2 $ can be computed from the sample data for cluster
+            $ i\in S_c $.
+      \item Under two-stage cluster sampling, both $ \mu_i $ and $ \sigma_i^2 $ are \textbf{unknown} even if cluster
+            $ i $ is selected in the first stage.
+      \item Under two-stage cluster sampling, $ T_i=\sum_{j=1}^{M_i}y_{ij}=M_i\mu_i $ are unknown.
+\end{itemize}
+
+\subsection{Estimation of the population total \texorpdfstring{$ T_y $}{Ty}}
+
+The second-stage cluster sample mean and sample variance:
+\[ \bar{y}_i=\frac{1}{m_i}\sum_{j\in S_i}y_{ij},\qquad s_i^2=\frac{1}{m_i-1}\sum_{j\in S_i}(y_{ij}-\bar{y}_i)^2. \]
+The second-stage sample $ S_i $ of size $ m_i $ is selected by SRSWOR from the cluster of $ M_i $ units:
+\[ \E{\bar{y}_i}=\mu_i,\qquad \V{\bar{y}_i}=\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}. \]
+The cluster total $ T_i=M_i\mu_i $ can be estimated by
+\[ \hat{T}_i=M_i\bar{y}_i. \]
+\textbf{Note}: $ M_i $ is known for $ i\in S_c $. (Part of second stage frame info).
+
+The ``introduced bridge parameter'' $ \mu_T=K^{-1}\sum_{i=1}^{K}T_i $ can be estimated by
+\[ \tilde{\mu}_T=\frac{1}{k}\sum_{i\in S_c}\hat{T}_i=\frac{1}{k}\sum_{i\in S_c}M_i\bar{y}_i. \]
+\textbf{Comparison to single-stage cluster sampling}:
+\[ \hat{\mu}_T=\frac{1}{k}\sum_{i\in S_c}T_i. \]
+(Difference in notation: tilde vs hat).
+
+The population total $ T_y=\sum_{i=1}^{K}T_i=K\mu_T $ can be estimated by
+\[ \tilde{T}_y=K\tilde{\mu}_T. \]
+$ K $ is available from the first-stage sampling frame information.
+\begin{enumerate}
+      \item $ \E{\tilde{T}_y}=K\E{\tilde{\mu}_T} $.
+      \item $ \V{\tilde{T}_y}=K^2\V{\tilde{\mu}_T} $.
+      \item $ \v{\tilde{T}_y}=K^2\v{\tilde{\mu}_T} $.
+\end{enumerate}
+
+\textbf{Main theoretical results on $ \tilde{\mu}_T $}: Under two stage-cluster sampling
+with SRSWOR at both stages,
+\begin{enumerate}[(a)]
+      \item The estimator $ \tilde{\mu}_T $ is unbiased for $ \mu_T $.
+      \item The design-based variance of $ \tilde{\mu}_T $ is given by
+            \[ \V{\tilde{\mu}_T}=\biggl(1-\frac{k}{K}\biggr)\frac{\sigma_T^2}{k}+\frac{1}{k}\frac{1}{K}\sum_{i=1}^{K}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}, \]
+            where $ \sigma_T^2=(K-1)^{-1}\sum_{i=1}^{K}(T_i-\mu_T)^2 $ and $ \sigma_i^2 $ is the cluster variance.
+      \item An unbiased variance estimator for $ \tilde{\mu}_T $ is given by
+            \[ \v{\tilde{\mu}_T}=\biggl(1-\frac{k}{K}\biggr)\frac{\hat{\sigma}_T^2}{k}+\frac{1}{K}\frac{1}{k}\sum_{i\in S_c}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{s_i^2}{m_i}, \]
+            where $ \hat{\sigma}_T^2=(k-1)^{-1}\sum_{i\in S_c}(\hat{T}_i-\tilde{\mu}_T)^2 $ and $ s_i^2 $ is the cluster sample variance.
+\end{enumerate}
+
+\textbf{Two technical arguments for the proofs of (a), (b) and (c)}:
+\begin{enumerate}
+      \item For any random variables $ X $ and $ Y $, we have
+            \[ \E{X}=\E[\big]{\E{X\given Y}}, \]
+            and
+            \[ \V{X}=\E[\big]{\V{X\given Y}}+\V[\big]{\E{X\given Y}}. \]
+\end{enumerate}
+The proofs involve
+\begin{itemize}
+      \item $ \Esp{}{1} $ and $ \Vsp{}{1} $: the expectation and the variance with respect to the first stage sampling design.
+      \item $ \Esp{}{2} $ and $ \Vsp{}{2} $: the conditional expectation and the conditional
+            variance with respect to the second stage sampling design given
+            the first stage sample.
+\end{itemize}
+Proof of (a):
+\[ \tilde{\mu}_T=\frac{1}{k}\sum_{i\in S_c}M_i\bar{y}_i. \]
+\begin{align*}
+      \E{\tilde{\mu}_T}
+       & =\Esp[\big]{ \Esp{\tilde{\mu}_T}{2} }{1}                    \\
+       & =\Esp*{\frac{1}{k}\sum_{i\in S_c}M_i\Esp{\bar{y}_i}{2} }{1} \\
+       & =\Esp*{\frac{1}{k}\sum_{i\in S_c}M_i\mu_i}{1}               \\
+       & =\Esp*{\frac{1}{k}\sum_{i\in S_c}T_i}{1}                    \\
+       & =\frac{1}{K}\sum_{i=1}^{K}T_i                               \\
+       & =\mu_T.
+\end{align*}
+Proof of (b):
+\[ \tilde{\mu}_T=\frac{1}{k}\sum_{i\in S_c}M_i\bar{y}_i. \]
+\begin{align*}
+      \V{\tilde{\mu}_T}
+       & =\Vsp[\big]{\Esp{\tilde{\mu}_T}{2}}{1}+\Esp[\big]{\Vsp{\tilde{\mu}_T}{2}}{1}                                                                                                                                   \\
+       & =\Vsp*{\frac{1}{k}\sum_{i\in S_c}T_i}{1}+\Esp*{\frac{1}{k^2}\sum_{i\in S_c}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}}{1}                                                                      \\
+       & =\biggl(1-\frac{k}{K}\biggr)\frac{\sigma_T^2}{k}+\frac{1}{k}\Esp[\Bigg]{\underbrace{\frac{1}{k}\sum_{i\in S_c}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}}_{\text{first stage sample mean}}}{1} \\
+       & =\biggl(1-\frac{k}{K}\biggr)\frac{\sigma_T^2}{k}+\frac{1}{k}
+      \underbrace{\frac{1}{K}\sum_{i=1}^{K}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}}_{\text{first stage population mean}}.
+\end{align*}
+\begin{enumerate}[(2)]
+      \item Re-write $ \V{\tilde{\mu}_T} $ as
+            \[ \V{\tilde{\mu}_T}=\biggl(\frac{1}{k}-\frac{1}{K}\biggr)\sigma_T^2+\frac{1}{k}W, \]
+            where
+            \[ \sigma_T^2=\frac{1}{K-1}\sum_{i=1}^{K}(T_i-\mu_T)^2,\qquad W=\frac{1}{K}\sum_{i=1}^{K}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}. \]
+            The ``plug-in'' estimator
+            \[ \hat{\sigma}_T^2=\frac{1}{k-1}\sum_{i\in S_c}(\hat{T}_i-\tilde{\mu}_T)^2 \]
+            is not unbiased for $ \sigma_T^2 $, and instead satisfies (\textbf{homework for STAT 854},
+            hints from Problem 3.11 in the textbook)
+            \[ \E{\hat{\sigma}_T^2}=\sigma_T^2+W. \]
+\end{enumerate}
+Proof of (c):
+\[ \V{\tilde{\mu}_T}=\biggl(\frac{1}{k}-\frac{1}{K}\biggr)\sigma_T^2+\frac{1}{k}W, \]
+\[ W=\frac{1}{K}\sum_{i=1}^{K}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{\sigma_i^2}{m_i}. \]
+\begin{enumerate}[(i)]
+      \item Homework: Show that $ \E{\hat{W}}=W $ (using the same argument from (a)), where
+            \[ \hat{W}=\frac{1}{k}\sum_{i\in S_c}M_i^2\biggl(1-\frac{m_i}{M_i}\biggr)\frac{s_i^2}{m_i}. \]
+      \item $ \E{\hat{\sigma}_T^2}=\sigma_T^2+W $.
+      \item Homework: Show that $ \E[\big]{\v{\tilde{\mu}_T}}=\V{\tilde{\mu}_T} $, where
+            \[ \v{\tilde{\mu}_T}=\biggl(\frac{1}{k}-\frac{1}{K}\biggr)\hat{\sigma}_T^2+{\textcolor{red}{\frac{1}{K}}}\hat{W}. \]
+\end{enumerate}
