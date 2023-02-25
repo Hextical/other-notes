@@ -1,0 +1,211 @@
+\makeheading{Lecture 12}{\printdate{2023-02-16}}%chktex 8
+\section{Lecture 12: Regression Without Full Rank}
+\begin{Definition}{Estimable}{}
+    Let $ \Matrix{A}\in\R^{n\times k} $ with $ \rank{\Matrix{A}}=r<\min{n,k} $,
+    $ \Vector{x}\in\R^{k} $. Given a $ \Vector{b}\in\R^{k\times 1} $, the quantity $ \Vector{b}'\Vector{x} $
+    is called \textbf{estimable} if its value is the same for every solution of $ \Matrix{A}\Vector{x}=\Vector{y} $.
+\end{Definition}
+\begin{Theorem}{}{}
+    Let $ \Matrix{A}\in\R^{n\times k} $, $ \Vector{b}\in\R^{k} $,
+    and $ \Matrix{G} $ be a $ g $-inverse of $ \Matrix{A} $.
+    \[ \Vector{b}'\Vector{x}\text{ is estimable}\iff \Vector{b}'\Matrix{G}\Matrix{A}=\Vector{b}'. \]
+    \tcblower{}
+    \textbf{Proof}:
+    Let $ \Vector{x}_1 $ and $\Vector{x}_2 $ be any two solutions of $ \Matrix{A}\Vector{x}=\Vector{y} $.
+    By Theorem 11.3, there exists $ \Vector{z}_1,\Vector{z}_2\in\R^{k} $
+    such that
+    \begin{align*}
+        \Vector{x}_1 & =\Matrix{G}\Vector{y}+(\Matrix{G}\Matrix{A}-\Matrix{I})\Vector{z}_1  \\
+        \Vector{x}_2 & =\Matrix{G}\Vector{y}+(\Matrix{G}\Matrix{A}-\Matrix{I})\Vector{z}_2.
+    \end{align*}
+    $ (\impliedby) $ \emph{Sufficiency}: Assume that $ \Vector{b}'\Matrix{G}\Matrix{A}=\Vector{b}' $.
+    \begin{align*}
+        \implies \Vector{b}'\Matrix{G}\Matrix{A}-\Vector{b}'            & =\Vector{0}' \\
+        \implies \Vector{b}'(\Matrix{G}\Matrix{A}-\Matrix{I})           & =\Vector{0}' \\
+        \implies \Vector{b}'(\Matrix{G}\Matrix{A}-\Matrix{I})\Vector{z} & =0
+    \end{align*}
+    Now,
+    \begin{align*}
+        \Vector{b}'\Vector{x}_1-\Vector{b}'\Vector{x}_2
+         & =\Vector{b}'(\Vector{x}_1-\Vector{x}_2)                                              \\
+         & =\Vector{b}'\bigl[(\Matrix{G}\Matrix{A}-\Matrix{I})(\Vector{z}_1-\Vector{z}_2)\bigr] \\
+         & =\Vector{b}'(\Matrix{G}\Matrix{A}-\Matrix{I})(\Vector{z}_1-\Vector{z}_2)             \\
+         & =0.
+    \end{align*}
+    Hence, $ \Vector{b}'\Vector{x}_1=\Vector{b}'\Vector{x}_2\implies \Vector{b}'\Vector{x} $ is estimable.
+
+    $ (\implies) $ \emph{Necessity}: Assume that $ \Vector{b}'\Vector{x} $ is estimable. Let $ \Vector{x}_0 $ be a solution
+    of $ \Matrix{A}\Vector{x}=\Vector{y} $. Choose $ \Vector{z}_0 $ such that
+    \[ \Vector{x}_0=\Matrix{G}\Vector{y}+(\Matrix{GA}-\Matrix{I})\Vector{z}_0. \]
+    Let $ z\in\R^{k} $. By definition,
+    \[ \Vector{x}=\Matrix{G}\Vector{y}+(\Matrix{GA}-\Matrix{I})(\Vector{z}_0-\Vector{z}). \]
+    Hence, $ \Vector{x} $ is a solution of $ \Matrix{A}\Vector{x}=\Vector{y} $, and so
+    \begin{align*}
+        \Vector{b}'\Vector{x}
+         & =\Vector{b}'\bigl[\Matrix{G}\Vector{y}+(\Matrix{GA}-\Matrix{I})\Vector{z}_0+(\Matrix{GA}-\Matrix{I})\Vector{z}\bigr] \\
+         & =\Vector{b}'\Vector{x}_0+\Vector{b}_1(\Matrix{GA}-\Matrix{I})\Vector{z}.
+    \end{align*}
+    So, $ \Vector{b}'(\Matrix{GA}-\Matrix{I})\Vector{z}=0 $ for all $ \Vector{z} $,
+    therefore $ \Vector{b}'(\Matrix{GA}-\Matrix{I})=\Vector{0}'\implies \Vector{b}'\Matrix{GA}=\Vector{b}' $.
+\end{Theorem}
+\subsection*{Non-Full Rank Regression}
+In regression, $ \Vector{Y}=\Matrix{X}\Vector{\beta}+\Vector{\varepsilon} $ and
+our normal equation is $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $.
+We consider the case where $ \Matrix{X}'\Matrix{X} $ is not invertible.
+Let $ \Matrix{F} $ be a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $, so
+\[ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y}. \]
+\underline{Claim}: $ \Vector{\beta}_0 $ is a solution of
+\[ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y}. \]
+By Theorem 11.1,
+\[ \Matrix{X}'\Matrix{X}\Vector{\beta}_0=\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Vector{Y}
+    =\Matrix{X}'\Vector{Y}. \]
+However, $ \Vector{\beta}_0 $ may not be a good estimator.
+\begin{Remark}{Properties of $ \Vector{\beta}_0 $}{}
+    \begin{enumerate}[(1)]
+        \item Expectation: $ \E{\Vector{\beta}_0}=\E{\Matrix{F}\Matrix{X}'\Vector{Y}}=\Matrix{F}\Matrix{X}'\E{\Vector{Y}}=\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}\ne \Vector{\beta} $
+              in general.
+        \item Variance:
+              \begin{align*}
+                  \Var{\Vector{\beta}_0}
+                   & =\Cov{\Matrix{F}\Matrix{X}\Vector{Y},\Matrix{F}\Matrix{X}\Vector{Y}}   \\
+                   & =\Matrix{F}\Matrix{X}'\Cov{\Vector{Y},\Vector{Y}}\Matrix{X}\Matrix{F}' \\
+                   & =\sigma^2 \Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}'.
+              \end{align*}
+        \item Fitted values:
+              \begin{align*}
+                  \hat{\Vector{Y}}
+                   & =\Matrix{X}\Vector{\beta}_0                   \\
+                   & =\Matrix{X}\Matrix{F}\Matrix{X}'\Vector{Y}    \\
+                   & =(\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y}.
+              \end{align*}
+              Note that by Theorem 11.2 (3), $ \hat{\Vector{Y}} $ does not depend on which
+              $ g $-inverse ($ \Matrix{F} $) we use.
+        \item SSE\@:
+              \begin{align*}
+                  \SSE
+                   & =(\Vector{Y}-\hat{\Vector{Y}})'(\Vector{Y}-\hat{\Vector{Y}})                                                                                 \\
+                   & =(\Vector{Y}-\Matrix{X}\Matrix{F}\Matrix{X}'\Vector{Y})'(\Vector{Y}-\Matrix{X}\Matrix{F}\Matrix{X}'\Vector{Y})                               \\
+                   & =\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Matrix{Y}                              \\
+                   & =\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Matrix{Y}  &  & \text{Theorem 11.2 (4)} \\
+                   & =\Vector{Y}'(\Matrix{I}-\Matrix{XFX}')\Vector{Y},
+              \end{align*}
+              where
+              \begin{align*}
+                  (\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')
+                   & =\Matrix{I}-2\Matrix{XFX}'+\underbrace{\Matrix{XFX}'\Matrix{X}}_{\Matrix{X}}\Matrix{FX}                              \\
+                   & =\Matrix{I}-2 \Matrix{XFX}'+\Matrix{XFX}'                                               &  & \text{Theorem 11.1 (3)} \\
+                   & =\Matrix{I}-\Matrix{XFX}'.
+              \end{align*}
+    \end{enumerate}
+\end{Remark}
+\begin{Example}{}{}
+    \begin{center}
+        \begin{tabular}{ccc}
+            \toprule
+            \multicolumn{3}{c}{Weights of Six Plants} \\
+            \midrule
+            \multicolumn{3}{c}{Types of Plants}       \\
+            \midrule
+            Normal & Off-type & Aberrant              \\
+            101    & 84       & 32                    \\
+            105    & 88                               \\
+            94                                        \\
+            \midrule\midrule
+            300    & 172      & 32                    \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    Relation between weight and types.
+    Let $ Y= $ weight, $ x_1= $ normal, $ x_2= $ off-type, $ x_3= $ aberrant,
+    where all the covariates are binary.
+    $ Y_{ij}= $ observation of $ j\textsuperscript{th} $ plant of type $ i $ for $ i=1,2,3 $;
+    $ n_1=3 $, $ n_2=2 $, $ n_3=1 $, and $ n=n_1+n_2+n_3=6 $.
+    \[ \Vector{Y}'=\begin{pmatrix}
+            Y_{11} & Y_{12} & Y_{13} & Y_{21} & Y_{22} & Y_{23}
+        \end{pmatrix}. \]
+    Regression model:
+    \[ Y_{ij}=\beta_0+\beta_i+\varepsilon_{ij}. \]
+    \begin{itemize}
+        \item $ \beta_0= $ population mean;
+        \item $ \beta_i= $ effect of type $ i $ on the weight;
+        \item $ \varepsilon_{ij}= $ random error of observation $ Y_{ij} $.
+    \end{itemize}
+    Explicitly, we have
+    \begin{align*}
+        Y_{11} & =\beta_0+\beta_1+0\beta_2+0\beta_3+\varepsilon_{11}  \\
+        Y_{12} & =\beta_0+\beta_1+0\beta_2+0\beta_3+\varepsilon_{12}  \\
+        Y_{13} & =\beta_0+\beta_1+0\beta_2+0\beta_3+\varepsilon_{13}  \\
+        Y_{21} & =\beta_0+0\beta_1+\beta_2+0\beta_3+\varepsilon_{21}  \\
+        Y_{22} & =\beta_0+0\beta_1+\beta_2+0\beta_3+\varepsilon_{22}  \\
+        Y_{23} & =\beta_0+0\beta_1+0\beta_2+\beta_3+\varepsilon_{23}.
+    \end{align*}
+    Therefore, $ \Vector{Y}=\Matrix{X}\Vector{\beta} $ with
+    \[ \Matrix{X}\Vector{\beta}=\begin{pmatrix}
+            1 & 1 & 0 & 0 \\
+            1 & 1 & 0 & 0 \\
+            1 & 1 & 0 & 0 \\
+            1 & 0 & 1 & 0 \\
+            1 & 0 & 1 & 0 \\
+            1 & 0 & 0 & 1
+        \end{pmatrix}. \]
+    Note that $ \rank{\Matrix{X}}=3<\min{6,4} $ so $ \Matrix{X} $ is not full rank.
+    \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+            6 & 3 & 2 & 1 \\
+            3 & 3 & 0 & 0 \\
+            2 & 0 & 2 & 0 \\
+            1 & 0 & 0 & 1
+        \end{pmatrix}. \]
+    \[ \Matrix{X}'\Vector{Y}=\begin{pmatrix}
+            Y_{0.} \\
+            Y_{1.} \\
+            Y_{2.} \\
+            Y_{33}
+        \end{pmatrix}=\begin{pmatrix}
+            504 \\ 300 \\ 172 \\32
+        \end{pmatrix}. \]
+    Normal equation $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $.
+    $ g $-inverse of $ \Matrix{X}'\Matrix{X} $:
+    \[ \Matrix{M}=\begin{pmatrix}
+            3 & 0 & 0 \\
+            0 & 2 & 0 \\
+            0 & 0 & 1
+        \end{pmatrix}\implies
+        \Matrix{F}=\begin{pmatrix}
+            0 & 0   & 0   & 0 \\
+            0 & 1/3 & 0   & 0 \\
+            0 & 0   & 1/2 & 0 \\
+            0 & 0   & 0   & 1
+        \end{pmatrix}. \]
+    Note that
+    \[ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y}=
+        \begin{pmatrix}
+            0 \\100\\86\\32
+        \end{pmatrix} \]
+    is one solution.
+    However, we cannot claim that $ \Vector{\beta}_0 $ is an estimate of $ \Vector{\beta} $.
+    By direct calculation,
+    \[ \Matrix{F}\Matrix{X}'\Matrix{X}
+        =\begin{pmatrix}
+            0 & 0   & 0   & 0 \\
+            0 & 1/3 & 0   & 0 \\
+            0 & 0   & 1/2 & 0 \\
+            0 & 0   & 0   & 1
+        \end{pmatrix}\begin{pmatrix}
+            6 & 3 & 2 & 1 \\
+            3 & 3 & 0 & 0 \\
+            2 & 0 & 2 & 0 \\
+            1 & 0 & 0 & 1
+        \end{pmatrix}=\begin{pmatrix}
+            0 & 0 & 0 & 0 \\
+            1 & 1 & 0 & 0 \\
+            1 & 0 & 1 & 0 \\
+            7 & 3 & 2 & 2
+        \end{pmatrix}. \]
+    Choose $ \Vector{b}'=\begin{pmatrix}
+            1 & 1 & 0 & 0
+        \end{pmatrix} $ and compute
+    \[ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\begin{pmatrix}
+            1 & 1 & 0 & 0
+        \end{pmatrix}=\Vector{b}', \]
+    so $ \Vector{b}'\Vector{\beta}=\beta_0+\beta_1 $ is estimable. Therefore, $ \hat{\beta}_0+\hat{\beta}_1 $ is an estimator of $ \beta_0+\beta_1 $.
+\end{Example}

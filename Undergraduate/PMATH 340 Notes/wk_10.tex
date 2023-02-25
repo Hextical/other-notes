@@ -1,0 +1,217 @@
+\makeheading{Lecture 24}{\printdate{2022-07-04}}%chktex 8
+\section{Multiplicative Functions}
+In this section, we will derive some formulas for $ \phi(n) $ and show that $ \phi(n) $ has an important property called multiplicatively.
+To put this in the proper context, discussion will be made on arithmetic functions, Dirichlet products, and the Mobius inversion formula.
+\begin{Definition}{}{}
+    An arithmetic function is a function defined on the positive integers which takes in the real or complex numbers, that is,
+    a function $ f\colon \mathbf{Z}^+\to \mathbf{C} $.
+\end{Definition}
+For example, $ f\colon \mathbf{Z}^+\to \mathbf{X} $ defined by $ f(n)=\sin(n) $.
+
+Some important arithmetic functions are:
+\begin{enumerate}[(1)]
+    \item The constant function defined by $ C(n)=1 $ for all $ n\in\mathbf{Z}^+ $.
+    \item The indicator function defined by $ I(n)=\begin{cases}
+                  1, & n=1,             \\
+                  0, & \text{otherwise}
+              \end{cases} $
+          for all $ n\in\mathbf{Z}^+ $.
+    \item The identity function defined by $ i(n)=n $ for all $ n\in\mathbf{Z}^+ $.
+    \item The number of divisors function $ \tau\colon \mathbf{Z}^+\to\mathbf{Z}^+ $ defined by
+          \[ \tau(n)=\text{the number of positive divisors of $ n $}=\sum_{d\mid n}^{}1. \]
+    \item The sum of divisors function $ \sigma\colon\mathbf{Z}^+\to\mathbf{Z}^+ $ defined by
+          \[ \sigma(n)=\text{sum of the positive divisors of $ n $}=\sum_{d\mid n}^{}d. \]
+    \item For a fixed odd prime $ p $, the Legendre symbol is arithmetic function denoted by $ \lambda_p $.
+          \[ \lambda_p(n)=\legendre{n}{p}. \]
+    \item The Euler phi function $ \varphi $ is an arithmetic function defined as
+          \[ \varphi(n)=\text{the number of units of $ \mathbf{Z}_n $}. \]
+          Also, $ \varphi(n)= $ the number of integers from $ 1 $ to $ n $ that are coprime to with $ n $.
+\end{enumerate}
+\begin{Definition}{}{}
+    An arithmetic function $ f $ is known as a \textbf{multiplicative function} if
+    \[ f(mn)=f(m)f(n)\; \forall m,n\in\mathbf{Z}^+\land (m,n)=1. \]
+\end{Definition}
+The constant function $ C $, indicator function $ I $, and the identity function $ i $ are multiplicative.
+\begin{Proposition}{}{}
+    Let $ f $ and $ g $ be the multiplicative functions. Then,
+    \begin{enumerate}[i.]
+        \item $ f(1)=1 $.
+        \item The function $ f $ is fully determined by its values at prime powers.
+        \item $ fg $ is also multiplicative.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}: Directly follows from Definition 2.
+\end{Proposition}
+\begin{Definition}{}{}
+    If $ f $ is an arithmetic function, then the divisor sum of $ f $ is defined as
+    \[ \df{f}{n}=\sum_{d\mid n}^{}f(d), \]
+    where $ \sum_{d\mid n}^{} $ means to sum over all the positive divisors of a positive integer $ n $.
+    The divisor sum of $ f $ is evaluated at a positive integer $ n $ takes the positive divisors of $ n $,
+    plugs them into $ f $, and adds the results. A similar convention will hold for products.
+    \tcblower{}
+    \underline{Remark}: Notice the divisor sum is a function which takes an arithmetic function as input and produces
+    an arithmetic function as output.
+\end{Definition}
+\begin{Example}{}{}
+    Suppose $ f\colon\mathbf{Z}^+\to\mathbf{Z}^+ $ defined by $ f(n)=n^2 $. Compute $ \df{f}{12} $.
+    \tcblower{}
+    \textbf{Solution}: $ \df{f}{n} $ is the sum of divisor of $ n $, so
+    \[ \df{f}{12}=\sum_{d\mid 12}^{}n^2=1^2+2^2+3^2+4^2+6^2+12^2=210. \]
+\end{Example}
+\begin{Proposition}{}{}
+    If $ m $ and $ n $ are coprime positive integers, then every positive divisor
+    $ d $ of their product $ mn $ comes from a unique pair $ a $ and $ b $ such that
+    \[ a\mid m\land b\mid n\land ab=d. \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Theorem}{}{}
+    If $ f $ is a multiplicative function $ D(f) $ defined by
+    \[ \df{f}{n}=\sum_{d\mid n}^{}f(d) \]
+    is also multiplicative.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+\begin{Proposition}{}{}
+    The functions $ \tau $ and $ \sigma $ are multiplicative functions.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\makeheading{Lecture 25}{\printdate{2022-07-06}}%chktex 8
+\begin{Theorem}{}{}
+    The Euler function $ \varphi $ is multiplicative, that is,
+    \[ \varphi(mn)=\varphi(m)\varphi(N)\;\forall m,n\in\mathbf{Z}^+\land (m,n)=1. \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+
+\subsection*{Formula for $ \tau(n) $}
+We can get a formula for $ \tau(n) $
+assuming $ \tau $ is multiplicative and considering the unique factorization of $ n $ into primes.
+If $ n=p^e $, then $ \tau(n)=e+1 $. Therefore, if $ n=p_1^{e_1}\cdots p_k^{e_k} $, then
+\[ \tau(n)=(e_1+1)(e_2+1)\cdots(e_k+1) \]
+since $ \tau $ is multiplicative.
+
+\subsection*{Formula for $ \sigma(n) $}
+We can get a formula for $ \sigma(n) $ assuming $ \sigma $ is multiplicative
+and considering the unique factorization of $ n $ into primes.
+If $ n=p^e $, then
+\[ \sigma(n)=1+p+p^2+\cdots+p^e=\frac{p^{e+1}-1}{p-1}. \]
+If $ n=p_1^{e_1}\cdots p_k^{e_k} $, then
+\[ \sigma(n)=\biggl(\frac{p_1^{e_1+1}-1}{p_1-1}\biggr)\cdots \biggl(\frac{p_k^{e_k+1}-1}{p_k-1}\biggr) \]
+since $ \sigma $ is multiplicative.
+
+\subsection*{Formula for $ \varphi(n) $}
+We can get a formula for $ \tau(n) $
+assuming $ \varphi $ is multiplicative and considering the unique factorization of $ n $ into primes.
+If $ n=p^e $, then the only numbers not coprime to $ p^e $ are the multiples of $ p $, and
+there are $ \frac{p^e}{p}=p^{e-1} $ of these. Thus,
+\[ \varphi(p^e)=p^e-p^{e-1}=p^e\biggl(1-\frac{1}{p}\biggr). \]
+If $ n=p_1^{e_1}\cdots p_k^{e_k} $, then
+\[ \varphi(n)=n\biggl(1-\frac{1}{p_1}\biggr)\cdots\biggl(1-\frac{1}{p_k}\biggr)=n\prod_{i=1}^k\biggl(1-\frac{1}{p_k}\biggr). \]
+
+\begin{Example}{}{}
+    Find $ \varphi(20) $.
+    \tcblower{}
+    \textbf{Solution}: Since $ 20=2^2\cdot 5 $, we have
+    \[ \varphi(20)=20\biggl(1-\frac{1}{2}\biggr)\biggl(1-\frac{1}{5}\biggr)=8. \]
+\end{Example}
+Theorem 1 (Lecture 24) applied to Euler's function gives us a nice non-obvious fact.
+\begin{Proposition}{}{}
+    For every positive integer $ n $,
+    \[ \sum_{d\mid n}^{}\varphi(d)=n. \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Definition}{}{}
+    If $ f $ and $ g $ are arithmetic functions, their Dirichlet product is
+    \[ (f*g)(n)=\sum_{d\mid n}^{}f(d)g\biggl(\frac{n}{d}\biggr). \]
+\end{Definition}
+\begin{Proposition}{}{}
+    Let $ f $, $ g $, and $ h $ be arithmetic functions. Then,
+    \begin{enumerate}[(a)]
+        \item $ f*g=g*f $.
+        \item $ (f*g)*h=f*(g*h) $.
+        \item $ f*I=I*f=f $.
+        \item $ f*C=D(f)=C*f $.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Proposition}{}{}
+    The Dirichlet product of two multiplicative functions is again multiplicative.
+\end{Proposition}
+\makeheading{Lecture 26}{\printdate{2022-07-08}}%chktex 8
+\begin{Definition}{}{}
+    The Mobius function $ \mu $ is the arithmetic function defined by
+    \[ \mu(n)=\begin{cases}
+            1,      & n=1,                                                                          \\
+            (-1)^k, & n=p_1p_2\cdots p_k\quad \text{(i.e., $ n $ is a product of distinct primes)}, \\
+            0,      & \text{otherwise (i.e., a prime repeats itself in the factorization of $n$)}.
+        \end{cases} \]
+\end{Definition}
+For example,
+\begin{itemize}
+    \item $ 28=2^2\cdot 7 $, so $ \mu(28)=0 $.
+    \item $ 46=2\cdot 23 $, so $ \mu(46)=(-1)^2=1 $.
+    \item $ 30=2\cdot 3\cdot 5 $, so $ \mu(30)=(-1)^3=-1 $.
+\end{itemize}
+\begin{Exercise}{}{}
+    Construct a table of values of $ \mu(n) $ for $ n=1,2,\ldots,12 $. Further, calculate
+    $ \sum_{d\mid n}^{}\mu(d) $ for $ n=1,2,\ldots,12 $.
+    \tcblower{}
+    \textbf{Solution}:
+\end{Exercise}
+\begin{Exercise}{}{}
+    Prove that the Mobius function is multiplicative.
+<<<<<<< HEAD
+\end{Exercise}
+
+\makeheading{Lecture 26}{\printdate{2022-07-08}}%chktex 8
+=======
+    \tcblower{}
+    \textbf{Proof}:
+\end{Exercise}
+\begin{Proposition}{}{}
+    Let $ n\in\mathbf{Z}^+ $. Then,
+    \[ \sum_{d\mid n}^{}\mu(d)=I(n). \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Lemma}{}{}
+    $ \mu*C=I $.
+\end{Lemma}
+\begin{Theorem}{Mobius Inversion Function}{}
+    Let $ f $ and $ g $ be arithmetic functions and $ g(n)=\sum_{d\mid n}f(d) $,
+    then
+    \[ f(n)=\sum_{d\mid n}^{}\mu(d)g\biggl(\frac{n}{d}\biggr). \]
+    In other words, for a function $ f $, $ f=\mu*D(f) $.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+\subsection*{Illustrations of Mobius Inversions}
+We have seen in Proposition 1 (Lecture 24) that
+$ \sum_{d\mid n}^{}\varphi(d)=n $. By Mobius inversion,
+we have the following result.
+\begin{Proposition}{}{}
+    Let $ n\in\mathbf{Z}^+ $. Then,
+    \begin{enumerate}[(1)]
+        \item $ 1=\sum_{d\mid n}^{}\mu(d)\tau\bigl(\frac{n}{d}\bigr) $.
+        \item $ n=\sum_{d\mid n}^{}\mu(d)\sigma\bigl(\frac{n}{d}\bigr) $.
+        \item $ \varphi(n)=\sum_{d\mid n}^{}\mu(d)\bigl(\frac{n}{d}\bigr) $.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Exercise}{}{}
+    Find $ \varphi(28) $ using the Mobius function.
+    \tcblower{}
+    \textbf{Solution}: Answer is 12.
+\end{Exercise}
+\begin{Theorem}{}{}
+    If $ f $ is an arithmetic function and $ D(f) $
+    is multiplicative, then $ f $ is also multiplcative.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+>>>>>>> be84b5c5f0bc13414796a381fd7deef9d1ea9cc6

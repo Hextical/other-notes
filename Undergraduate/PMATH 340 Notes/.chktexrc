@@ -1,0 +1,9 @@
+QuoteStyle = Traditional
+WipeArg{ 
+    \code:{}
+    \title:{}
+    \section:{}
+    \makeheading:{}
+}
+
+TabSize = 4
