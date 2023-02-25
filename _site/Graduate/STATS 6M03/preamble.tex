@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage[svgnames]{xcolor}
+\usepackage[british]{babel}
+\usepackage[protrusion,expansion,tracking,kerning,babel,final]{microtype}
+\usepackage[margin=1in]{geometry}
+\usepackage[pdfversion=1.7]{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{nicematrix}
+\usepackage{derivative}
+\usepackage{etoolbox}
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{framed}
+
+% just to make sure it exists
+\providecommand\given{}%
+% can be useful to refer to this outside \Set
+\newcommand\SetSymbol[1][]{%
+    \nonscript\:#1\vert{}%
+    \allowbreak%
+    \nonscript\:%
+    \mathopen{}}%
+\DeclarePairedDelimiterXPP{\E}[1]{\operatorname{\mathbb{E}}}[]{}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP\Esp[2]{\operatorname{\mathbb{E}}_{#2}}(){}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP{\Var}[1]{\operatorname{Var}}(){}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP{\Cov}[1]{\operatorname{Cov}}(){}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP\Prob[1]{\operatorname{\mathbb{P}}}(){}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP\Probsp[2]{\operatorname{\mathbb{P}}_{#2}}(){}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+
+\let\exp\relax%
+\let\log\relax%
+\let\ln\relax%
+\let\max\relax%
+\let\min\relax%
+
+\DeclarePairedDelimiterXPP{\exp}[1]{\operatorname{exp}}\{\}{}{%
+\ifblank{#1}{\:\cdot\:}%
+#1}%
+\DeclarePairedDelimiterXPP{\log}[1]{\operatorname{log}}(){}{%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP{\ln}[1]{\operatorname{ln}}(){}{%
+    \ifblank{#1}{\:\cdot\:}%
+    #1}%
+\DeclarePairedDelimiterXPP{\min}[1]{\operatorname{min}}\{\}{}{%
+\ifblank{#1}{\:\cdot\:}%
+#1}%
+\DeclarePairedDelimiterXPP{\max}[1]{\operatorname{max}}\{\}{}{%
+\ifblank{#1}{\:\cdot\:}%
+#1}%
+\DeclarePairedDelimiterXPP{\diag}[1]{\operatorname{diag}}\{\}{}{%
+\ifblank{#1}{\:\cdot\:}%
+#1}%
+\DeclarePairedDelimiterXPP{\tr}[1]{\operatorname{tr}}\{\}{}{%
+\ifblank{#1}{\:\cdot\:}%
+#1}%
+
+
+\DeclarePairedDelimiterX\abs[1]\lvert\rvert{%
+    \ifblank{#1}{\:\cdot\:}{#1}%
+}%
+\DeclarePairedDelimiterX\Set[1]\{\}{%
+\renewcommand\given{:}%
+#1%
+}%
+
+\providecommand{\Vector}[1]{\underline{#1}} % general vector
+\providecommand{\RVector}[1]{\underline{\mathcal{#1}}} % random vector
+\providecommand{\RV}[1]{\mathcal{#1}} % random variable
+\providecommand{\Matrix}[1]{\bm{#1}} % general matrix
+\providecommand{\RMatrix}[1]{\bm{\mathcal{#1}}} % random matrix
+
+\usepackage{stackengine}
+\usepackage[british]{isodate}
+\newcommand{\makeheading}[2]%
+{%
+    \begin{center}%
+        \makebox[\linewidth]{\raisebox{-.5ex}[0cm][0cm]{\stackanchor{\textcolor{Gray}{\textsc{#1}}}{\emph{\scriptsize\printyearoff#2}}\;}\color{Crimson!50}\hrulefill}%
+    \end{center}%
+}%
+
+\title{%
+    \LARGE Multivariate Analysis\\%
+    \large STATS 6M03\\%
+    \normalsize Fall 2022}%
+\author{Cameron Roopnarine\thanks{\LaTeX{}er}\and Paul McNicholas\thanks{Instructor}}%
+\date{\today}%
+
+% Discrete Distributions
+\DeclarePairedDelimiterXPP{\BERN}[1]{\text{BERN}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\BIN}[1]{\text{BIN}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\NB}[1]{\text{NB}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\GEO}[1]{\text{GEO}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\DU}[1]{\text{DU}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\HG}[1]{\text{HG}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\POI}[1]{\text{POI}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\MN}[1]{\text{MN}}(){}{#1}%
+
+% Continuous Distributions
+\let\U\relax%
+\DeclarePairedDelimiterXPP{\U}[1]{\text{U}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\N}[1]{\mathcal{N}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\BetaDist}[1]{\text{Beta}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\Erlang}[1]{\text{Erlang}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\EXP}[1]{\text{EXP}}(){}{#1}%
+\DeclarePairedDelimiterXPP{\GAM}[1]{\text{GAM}}(){}{#1}%

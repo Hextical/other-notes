@@ -1,0 +1,424 @@
+\makeheading{Lecture 2}{\printdate{2022-01-10}}%chktex 8
+
+\textbf{Survey samples}:
+A survey sample, denoted as $S$, is a subset of the population
+$ U=\Set{1,2,\ldots,N} $.
+
+Sample size $ n=\abs{S} $ is the number
+of units in the sample:
+\[ S=\Set{i_1,i_2,\ldots,i_n}\text{a set of $n$ ``unordered'' units}. \]
+We could simply use $ S=\Set{1,2,\ldots,n} $.
+
+$ N=10 $, $ n=3 $:
+\begin{align*}
+      U & =\Set{1,2,3,4,5,6,7,8,9,10} \\
+      S & =\Set{7,4,9}                \\
+        & =\Set{i_1,i_2,i_3}.         \\
+      S & =\Set{1,2,3}.
+\end{align*}
+
+\textbf{Non-probability samples versus probability samples}:\\
+\textbf{Non-probability samples} are selected by subjective or any
+convenient methods. Examples include
+\begin{itemize}
+      \item \emph{Quota sampling}: The sample is obtained by a number of
+            interviewers, each of whom is required to sample certain
+            numbers of units with certain types or characteristics. How to
+            select the units is completely left in the hands of the interviewers.
+      \item \emph{Judgement or purposive sampling}: The sample is selected based
+            on what the sampler believes to be ``typical'' or ``most
+            representative'' of the population.
+      \item \emph{Restricted sampling}: The sample is restricted to certain parts of
+            the population which are readily accessible.
+      \item \emph{Sample of convenience}: The sample is taken from those who are
+            easy to reach.
+      \item \emph{Sample of volunteers}: The sample consists of those who
+            volunteer to participate.
+      \item \emph{Web panels}: The sample is selected from a panel of people who
+            signed up to do surveys in order to receive cash or other
+            incentives.
+\end{itemize}
+
+The most serious issue with non-probability survey samples:\\
+Biased sample with unknown inclusion probabilities.
+
+Non-probability survey samples are not the focus of this course. But
+the topic is becoming important in recent years, since data from
+non-probability survey samples become useful sources.
+
+Yilin Chen's PhD thesis research is on statistical analysis with
+non-probability survey samples, to be introduced in the last lecture.
+
+\textbf{Probability samples}, theoretically speaking, are selected through a
+probability measure over a pool of candidate samples.
+Let
+\[ \Omega=\Set{S\given S\subseteq U} \]
+be the set of all possible subsets of the survey population $U$. Let $ \mathcal{P} $ be
+a probability measure over $ \Omega $ such that
+\[ \mathcal{P}(S)\ge 0\text{ for any $ S\in \Omega $ and} \sum_{S:S\in\Omega}\mathcal{P}(S)=1. \]
+A probability sample $ S $ is selected based on the \textbf{probability sampling
+      design}, $ \mathcal{P} $.
+
+$ \mathcal{P}(\:\cdot\:) $ is a discrete probability measure.
+
+\textbf{Example 1.4}. $ N=3 $; $ U=\Set{1,2,3} $, $ n=1 $ or $ 2 $.
+\begin{itemize}
+      \item $ n=1 $: $ S_1=\Set{1} $, $ S_2=\Set{2} $, $ S_3=\Set{3} $.
+      \item $ n=2 $: $ S_4=\Set{1,2} $, $ S_5=\Set{1,3} $, $ S_6=\Set{2,3} $.
+      \item $ n=3 $: $ S_7=\Set{1,2,3} $ (census).
+\end{itemize}
+\[ \begin{NiceArray}{c|ccccccc}
+            S              & S_1 & S_2 & S_3 & S_4 & S_5 & S_6 & S_7 \\
+            \midrule
+            \mathcal{P}(S) & 1/6 & 1/6 & 1/6 & 1/6 & 1/6 & 1/6 & 0   \\
+            \midrule
+            \mathcal{P}(S) & 0   & 0   & 0   & 1/3 & 1/3 & 1/3 & 0   \\
+            \midrule
+            \mathcal{P}(S) & 0   & 0   & 0   & 1/2 & 1/4 & 1/4 & 0
+      \end{NiceArray} \]
+Note that we have $ \mathcal{P}(S)\ge 0 $ for any $ S\in \Omega $ and
+$ \sum_{\Set{S\given S\in\Omega}}\mathcal{P}(S)=1 $.
+
+\textbf{Sampling design $ \mathcal{P} $ with fixed sample size}: $ \mathcal{P}(S)=0 $
+if $ \abs{S}\ne n $. The probability measure is defined over
+\[ \Omega_n=\Set{S\given S\subseteq U\text{ and }\abs{S}=n}. \]
+
+\textbf{The cumulative sum method for generating a discrete random
+      variable}:
+\[ X \sim f(x):\quad p_i=f(x_i)=\Prob{X=x_i},\; i=1,2,\ldots. \]
+\begin{itemize}
+      \item \emph{Step 1}. Probability cumulation.
+            \begin{align*}
+                  b_0 & =0                 \\
+                  b_1 & =p_1               \\
+                  b_2 & =p_1+p_2           \\
+                  b_3 & =p_1+p_2+p_3       \\
+                      & \vdotswithin{=}    \\
+                  b_j & =\sum_{i=1}^{j}p_i \\
+                      & \vdotswithin{=}
+            \end{align*}
+      \item \emph{Step 2}. Generate $ r\sim U(0,1) $.
+      \item \emph{Step 3}. Let $ X^\star=x_j $ if $ b_{j-1}<r\le b_j $.
+\end{itemize}
+Can show $ X \sim f(x) $.
+
+\textbf{Survey variables and population parameters}:
+\begin{itemize}
+      \item $ y $: the response variable; $ \Vector{x} $
+            the vector of auxiliary variables.
+      \item $ (y_i;\Vector{x}_i) $: the values of $ (y,\Vector{x}) $
+            associated with unit $ i $, $ i=1,2,\ldots,N $.
+      \item A common assumption in survey sampling: the values $ (y_i,\Vector{x}_i) $
+            can be measured without error if $ i $ is selected in the sample.
+      \item Population totals:
+            \[ T_y=\sum_{i=1}^{N}y_i\text{ and }T_{\Vector{x}}=\sum_{i=1}^{N}\Vector{x}_i. \]
+      \item Population means:
+            \[ \mu_y=\frac{1}{N}\sum_{i=1}^{N}y_i\text{ and }\mu_{\Vector{x}}=\frac{1}{N}\sum_{i=1}^{N}\Vector{x}_i. \]
+      \item Population variance of $ y $:
+            \[ \sigma_y^2=\frac{1}{N-1}\sum_{i=1}^{N}(y_i-\mu_y)^2=\frac{1}{N-1}\biggl(\sum_{i=1}^{N}y_i^2-N\mu_y^2\biggr). \]
+\end{itemize}
+
+\textbf{An important special case: $y$ is a binary variable}:
+\[ y_i=\begin{cases}
+            1, & \text{if unit $ i $ has attribute ``$A$''}, \\
+            0, & \text{otherwise}.
+      \end{cases} \]
+$ N $: the total number of units in the population (population size).
+$ M $: the total number of units in the population having attribute ``$A$.''
+\begin{itemize}
+      \item Population total:
+            \[ T_y=\sum_{i=1}^{N}y_i=M. \]
+      \item Population mean:
+            \[ \mu_y=\frac{T_y}{N}=\frac{M}{N}=P, \]
+            where $ P $ is the population proportion of units with attribute ``A.''
+      \item Population variance:
+            \begin{align*}
+                  \sigma_y^2
+                   & =\frac{1}{N-1}\biggl(\sum_{i=1}^{N}y_i^2-N\mu_y^2\biggr)                                 \\
+                   & =\frac{1}{N-1}(M-NP^2)                                                                   \\
+                   & =\frac{N}{N-1}P(1-P)                                                                     \\
+                   & \approx P(1-P)                                           &  & \text{ if $ N $ is large}.
+            \end{align*}
+\end{itemize}
+
+\textbf{Probability sampling and design-based inference}:
+\begin{itemize}
+      \item The survey population $ U=\Set{1,2,\ldots,N} $ is viewed as fixed.
+      \item The values $ y_i $ and $ \Vector{x}_i $ attached to unit $ i $
+            and the population parameters such as $ T_y $ and $ \mu_y $
+            are also viewed as fixed.
+      \item The values of the population parameters can be determined without error by conducting
+            a census.
+      \item The sample $ S $ is selected according to a probability sampling design $ \mathcal{P} $.
+      \item The sample $ S $ is a random set under $ \mathcal{P} $.
+      \item Each unit in the population has a probability to be included in the
+            sample.
+      \item Randomization is induced by the probability sampling design for
+            the selection of the survey sample.
+\end{itemize}
+
+\textbf{Basic sampling techniques and advanced topics}:
+\begin{itemize}
+      \item Basic sampling techniques and theory are developed for the
+            estimation of the population total $T_y$ and the population mean $ \mu_y $.\\
+            (Chapters 1--5 in the textbook)
+      \item The basic methods and theory can be extended to handle more
+            advanced topics, such as design-based regression analysis using
+            survey data.\\
+            (Chapters 6--11 in the textbook)
+\end{itemize}
+
+\chapter{Review of Simple Random Sampling}
+\section{Simple Random Sampling Without Replacement (SRSWOR)}
+The task: Select a sample of size $n$ from a population of size $N$ with
+equal probability among all candidate samples.
+
+The total number of candidate samples: $ \binom{N}{n}=\frac{N(N-1)\cdots(N-n+1)}{n!} $.
+
+The probability measure for the sampling design:
+\[ \mathcal{P}(S)
+      =\begin{cases}
+            \frac{1}{\binom{N}{n}}, & \text{if $\abs{S}=n$}     \\
+            0,                      & \text{if $\abs{S}\ne n$}.
+      \end{cases} \]
+$ \mathcal{P}(S) $ cannot be used to select a sample in practice. $ N=1000 $, $ n=3 $:
+\[ \binom{N}{n}=\frac{1000\times 999\times 998}{3}. \]
+$ \mathcal{P}(S) $ is a theoretical tool.
+
+\textbf{Sampling scheme or sampling procedure}:
+Select the survey sample through a sequential draw-by-draw method;
+select units from the sampling frame, one-at-a-time, until the final
+sample is chosen.
+
+\textbf{SRSWOR} is a sampling procedure to select a sample of size $n$ with
+equal probability among all candidate samples.
+
+\textbf{The sampling frame for SRSWOR}:
+A complete list of $N$ units in the population.
+
+\textbf{The SRSWOR sampling procedure}:
+\begin{enumerate}
+      \item Select the first unit from the $N$ units on the sampling frame with
+            equal probabilities $1/N$; denote the selected unit as $i_1$;
+      \item Select the second unit from the remaining $ N-1 $ units on the
+            sampling frame with equal probabilities $ 1/(N-1) $; denote the
+            selected unit as $i_2$;
+      \item Continue the process and select the $n\textsuperscript{th}$ unit from the remaining
+            $ N-n+1 $ units on the sampling frame with equal probabilities
+            $ 1/(N-n+1) $; denote the selected unit as $ i_n $.
+\end{enumerate}
+
+\textbf{Theorem 2.1}. Under simple random sampling without replacement,
+the selected sample satisfies the probability measure $ \mathcal{P} $ specified as
+\[ \mathcal{P}(S)=\begin{cases}
+            1/\binom{N}{n}, & \text{if $ \abs{S}=n $}, \\
+            0,              & \text{otherwise}.
+      \end{cases} \]
+
+Let $ S=\Set{i_1,i_2,\ldots,i_n} $ be the final sample.
+\[ \mathcal{P}(S)=\frac{n(n-1)\cdots(2)(1)}{N(N-1)\cdots(N-n+1)}=\frac{1}{\binom{N}{n}}. \]
+\begin{itemize}
+      \item Survey sample selection always focuses on units, that is, the labels.
+      \item Survey sample data: $ \Set[\big]{(y_i,x_i),i\in S} $.
+\end{itemize}
+
+\makeheading{Lecture 3}{\printdate{2022-10-12}}%chktex 8
+\textbf{Sample mean and sample variance}:
+\[ \bar{y}=\frac{1}{n}\sum_{i\in S}y_i. \]
+\[ s_y^2=\frac{1}{n-1}\sum_{i\in S}(y_i-\bar{y})^2=\frac{1}{n-1}\biggl(\sum_{i\in S}y_i^2-n\bar{y}^2\biggr). \]
+\textbf{Remarks}:
+\begin{itemize}
+      \item The sample mean $ \bar{y} $ and $ s_y^2 $ are useful
+            statistics under simple random sampling, but not necessarily under
+            other sampling methods.
+      \item The notation $ \sum_{i\in S} $ is preferred over
+            $ \sum_{i=1}^{n} $.
+      \item The form of estimators for population parameters depends on the
+            sampling methods.
+      \item The combination of ``sampling design'' and ``estimation method''
+            is called a ``sampling strategy'' (Thompson, 1997; Rao, 2005).
+\end{itemize}
+
+\textbf{Expectation and variance under design-based inferences}:
+
+In classic statistics: $ X_1,X_2,\ldots,X_n $ are iid with $ \E{X_i}=\mu $,
+$ \V{X_i}=\sigma^2 $. Let $ \bar{X}=\frac{1}{n}\sum_{i=1}^{n}X_i $.
+\begin{itemize}
+      \item \textbf{Sample mean}:
+            \[ \E{\bar{X}}=\frac{1}{n}\sum_{i=1}^{n}\E{X_i}=\frac{1}{n}\sum_{i=1}^{n}\mu=\mu. \]
+      \item \textbf{Sample variance}:
+            \[ \V{\bar{X}}=\frac{1}{n^2}\sum_{i=1}^{n}\V{X_i}=\frac{1}{n^2}\sum_{i=1}^{n}\sigma^2=\frac{\sigma^2}{n}. \]
+\end{itemize}
+Under SRSWOR\@:
+\[ \E{\bar{y}}=\E*{\frac{1}{n}\sum_{i\in S}y_i}\ne \frac{1}{n}\sum_{i\in S}\E{y_i}. \]
+\begin{itemize}
+      \item $ S $: a random set.
+      \item $ \sum_{i\in S} $: a random ``sum.''
+      \item $ y_i $: a fixed quantity for the given $ i $.
+\end{itemize}
+
+\textbf{Three fundamental results in survey sampling under SRSWOR}:
+
+\textbf{(a)} The sample mean $ \bar{y}=n^{-1}\sum_{i\in S}y_i $
+is a design-unbiased estimator for the population
+mean $ \mu_y=N^{-1}\sum_{i=1}^{N}y_i $: $ \boxed{\E{\bar{y}}=\mu_y} $.
+
+There are three possible ways to prove (a), depending on how
+the randomization under SRSWOR is handled.
+
+Method 1. Use the probability measure $ \mathcal{P}(S) $
+for the survey design, that is, $ \mathcal{P}(S)=\frac{1}{\binom{N}{n}} $
+for $ \abs{S}=n $.
+
+Also, $ \bar{y} $ depends only on $ S $.
+\[ \bar{y}=\frac{1}{n}\sum_{i\in S}y_i=\bar{y}(S), \]
+that is, $ \bar{y} $ is a function of $ S $.
+\begin{align*}
+      \E{\bar{y}}
+       & =\sum(\text{value})(\text{prob})                                                  \\
+       & =\sum_S \bar{y}(S)\mathcal{P}(S)                                                  \\
+       & =\sum_{S:\abs{S}=n}\frac{1}{n}\sum_{i\in S}y_i \frac{1}{\binom{N}{n}}             \\
+       & =\frac{1}{n}\frac{1}{\binom{N}{n}}\sum_{\Set{S\given \abs{S}=n}} \sum_{i\in S}y_i \\
+       & =\frac{1}{n}\frac{1}{\binom{N}{n}}\sum_{i=1}^{N}t_i y_i                           \\
+       & =\frac{1}{N}\sum_{i=1}^{N}y_i                                                     \\
+       & =\mu_y,
+\end{align*}
+where $ t_i = $ number of $S$ which includes the unit $ i $:
+\[ t_i=\binom{N-1}{n-1}. \]
+$ N=3 $, $ n=2 $: $ S_1=\Set{1,2} $, $ S_2=\Set{1,3} $, $ S_3=\Set{2,3} $.
+\begin{align*}
+      \sum_{\Set{S\given\abs{S}=2}} \sum_{i\in S}y_i
+       & =(y_1+y_2)+(y_1+y_3)+(y_2+y_3) \\
+       & =2 y_1+2y_2+2y_3.
+\end{align*}
+
+Method 2. Use the sampling scheme, the sequential
+draw-by-draw procedure. Let $ Z_k $ be the $ y $-value from the
+$ k\textsuperscript{th} $ draw:
+\begin{itemize}
+      \item $ S=\Set{i_1,i_2,\ldots,i_n} $.
+      \item $ Z_k=y_{ik} $ for $k=1,2,\ldots,n$.
+      \item $ \bar{y}=\frac{1}{n}\sum_{i\in S}y_i=\frac{1}{n}\sum_{k=1}^{n}Z_k $.
+\end{itemize}
+Hence,
+\[ \E{\bar{y}}=\E*{\frac{1}{n}\sum_{k=1}^n Z_k}
+      =\frac{1}{n}\sum_{k=1}^{n}\E{Z_k}. \]
+What's the probability function of $ Z_k $?
+\[ \begin{NiceArray}{c|cccc}
+            Z_k          & y_1 & y_2 & \cdots & y_N \\
+            \midrule
+            f(\:\cdot\:) & 1/N & 1/N & \cdots & 1/N
+      \end{NiceArray} \]
+Therefore,
+\[ \E{Z_k}=\sum_{i=1}^{N}y_i \frac{1}{N}=\mu_y. \]
+
+Method 3. Use the sample inclusion indicator variables.
+\[ A_i=\begin{cases}
+            1, & \text{if $ i\in S $},    \\
+            0, & \text{if $ i\notin S $}.
+      \end{cases}\qquad i=1,2,\ldots,N. \]
+The $ A_i $'s are random variables.
+\begin{align*}
+      \Prob{A_i=1} & =p=\Prob{i\in S}=\frac{1\times \binom{N-1}{n-1}}{\binom{N}{n}}=\frac{n}{N}. \\
+      \Prob{A_i=0} & =1-p.                                                                       \\
+      \E{A_i}      & =p=\frac{n}{N}.                                                             \\
+      \V{A_i}      & =p(1-p)=\frac{n}{N}\biggl(1-\frac{n}{N}\biggr).                             \\
+      \E{\bar{y}}  & =\E*{\frac{1}{n}\sum_{i\in S}y_i}                                           \\
+                   & =\E*{\frac{1}{n}\sum_{i=1}^{N}A_i y_i}                                      \\
+                   & =\frac{1}{n}\sum_{i=1}^{n}y_i\E{A_i}                                        \\
+                   & =\frac{1}{N}\sum_{i=1}^{N}y_i                                               \\
+                   & =\mu_y.
+\end{align*}
+
+\textbf{(b)} The design-based variance of $ \bar{y} $
+under SRSWOR is given by
+\[ \V{\bar{y}}=\biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}, \]
+where $ \sigma_y^2 $ is the population variance. The term
+$ (1-n/N) $ is called the \emph{finite population correction} (fpc)
+factor; The ratio $ n/N $ is called the \emph{sampling fraction}.
+
+This result can be proved using different methods. Use the indicator variables:
+\begin{align*}
+      \V{\bar{y}}
+       & =\V*{\frac{1}{n}\sum_{i=1}^N A_i y_i}                                                                   \\
+       & =\frac{1}{n^2}\biggl(\sum_{i=1}^{N}y_i^2\V{A_i}+ \mathop{\sum\sum}_{i\ne j}y_i y_j\Cov{A_i,A_j}\biggr).
+\end{align*}
+\[ \V{A_i}=\frac{n}{N}\biggl(1-\frac{n}{N}\biggr). \]
+\[ \Cov{A_i,A_j} =\E{A_i A_j}-\underbrace{\E{A_i}}_{n/N}\underbrace{\E{A_j}}_{n/N}. \]
+\begin{align*}
+      \E{A_i A_j} & =\sum_i\sum_j a_i a_j \Prob{A_i=a_i}\Prob{A_j=a_j}     \\
+                  & =\Prob{A_i=1,A_j=1}                                    \\
+                  & =\Prob{i\in S,j\in S}                                  \\
+                  & =\frac{1\times 1\times \binom{N-2}{n-2}}{\binom{N}{n}} \\
+                  & =\frac{n(n-1)}{N(N-1)}.
+\end{align*}
+\begin{align*}
+      \mu_y^2
+       & =\frac{1}{N^2}\biggl(\sum_{i=1}^{N}y_i\biggr)^{\!2}                                \\
+       & =\frac{1}{N^2}\sum_{i=1}^N \sum_{j=1}^{N}y_i y_j                                   \\
+       & =\frac{1}{N^2}\biggl(\sum_{i=1}^{N}y_i^2+\mathop{\sum\sum}_{i\ne j}y_i y_j\biggr).
+\end{align*}
+
+\textbf{(c)} The sample variance $ s_y^2 $ is an unbiased estimator for the
+population variance $ \sigma_y^2 $ under SRSWOR, i.e.,
+$ \boxed{\E{s_y^2}=\sigma_y^2} $.
+
+\textbf{(c)$^*$} An unbiased variance estimator for $ \bar{y} $ is given by
+\[ \v{\bar{y}}=\biggl(1-\frac{n}{N}\biggr)\frac{s_y^2}{n}, \]
+which satisfies
+\[ \E{\v{\bar{y}}}=\V{\bar{y}}, \]
+where
+\[ \V{\bar{y}}=\biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}. \]
+
+\begin{align*}
+      s_y^2 & =\frac{1}{n-1}\biggl(\sum_{i\in S}y_i^2-n\bar{y}^2\biggr)                         \\
+            & =\frac{n}{n-1}\biggl(\frac{1}{n}\sum_{i\in S}y_i^2\biggr)-\frac{n}{n-1}\bar{y}^2.
+\end{align*}
+$ \E{\bar{y}}=\mu_y $ implies
+\[ \E*{\frac{1}{n}\sum_{i\in S}y_i^2}=\frac{1}{N}\sum_{i=1}^N y_i^2. \]
+\begin{align*}
+      \E{\bar{y}^2}
+       & =\V{\bar{y}}+\bigl(\E{\bar{y}}\bigr)^2                    \\
+       & =\biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n}+\mu_y^2.
+\end{align*}
+Homework: Show that
+\[ \E{s_y^2}=\sigma_y^2. \]
+
+\textbf{Summary of the main theoretical results under SRSWOR}:
+\begin{itemize}
+      \item The population mean $ \mu_y $ and the population variance
+            $ \sigma_y^2 $ are fixed (but unknown) population parameters.
+      \item The sample mean $ \bar{y} $ and the sample variance $ s_y^2 $
+            are random variables under the survey design.
+      \item The $ \bar{y} $ is an unbiased estimator $ \mu_y $: $ \E{\bar{y}}=\mu_y $.
+      \item $ \V{\bar{y}}=\bigl(1-\frac{n}{N}\bigr)\frac{\sigma_y^2}{n} $
+            is the theoretical variance of $ \bar{y} $ and is a fixed, but unknown
+            quantity depending on the population variance $ \sigma_y^2 $.
+      \item $ \v{\bar{y}}=\bigl(1-\frac{n}{N}\bigr)\frac{s_y^2}{n} $
+            is unbiased estimator for $ \bar{y} $ (computable with the given sample data).
+      \item The population size $ N $ is known under SRSWOR\@. (As part of the sampling
+            frame information).
+\end{itemize}
+
+The R function for SRSWOR and SRSWR (next section) with
+specified $N$ and $n$: \texttt{sample(N,n)}
+%\begin{noindent}
+\begin{minted}{R}
+N=10
+n=4
+sam=sample(N,n)
+> sam
+[1] 7 1 4 2
+sam=sample(N,n,replace=T)
+> sam
+[1] 6 6 6 1
+N=100
+n=4
+sam=sample(N,n)
+> sam
+[1] 57 67 62 91
+sam=sample(N,n,replace=T)
+> sam
+[1] 88 73 9 63
+\end{minted}
+%\end{noindent}

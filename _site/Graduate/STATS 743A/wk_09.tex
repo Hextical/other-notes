@@ -1,0 +1,248 @@
+\makeheading{Lecture 16}{\printdate{2022-11-16}}%chktex 8
+\begin{Definition}{Order Statistic}{}
+    Given a sample $ X_1,X_2,\ldots,X_n $,
+    let $ X_{(1)} $ denote the lowest value in the sample,
+    \[ X_{(j)}=\min{x\in\mathbf{R}:\abs[\big]{\Set{i\in[n]:X_i\le x}}\ge j},\; 1\le j\le n. \]
+    So $ X_{(1)}\le X_{(2)}\le \cdots\le X_{(n)} $
+    is a decreasing re-ordering of our sample. We call $ X_{(j)} $
+    the $ j\textsuperscript{th} $ \textbf{order statistic} of the sample.
+\end{Definition}
+\begin{Example}{}{}
+    If our sample is
+    \[ \begin{array}{c|c|c|c|c|c|c}
+            X_1 & X_2 & X_3 & X_4 & X_5 & X_6 & X_7 \\
+            \hline
+            5   & 3   & 6   & 2   & 9   & 1   & 2
+        \end{array} \]
+    Then,
+    \[ \begin{array}{c|c|c|c|c|c|c}
+            X_{(1)} & X_{(2)} & X_{(3)} & X_{(4)} & X_{(5)} & X_{(6)} & X_{(7)} \\
+            \hline
+            1       & 2       & 2       & 3       & 5       & 6       & 9
+        \end{array} \]
+\end{Example}
+\begin{Definition}{Median}{}
+    The \textbf{median} of a sample of size $ n $ is
+    \[ \begin{dcases}
+            X_{((n+1)/2)},                     & n\text{ odd},  \\
+            \frac{X_{(n/2)}+X_{((n/2)+1)}}{2}, & n\text{ even}.
+        \end{dcases} \]
+\end{Definition}
+\begin{Definition}{Percentile}{}
+    For $ \frac{1}{2n}<p<1-\frac{1}{2n} $, we can define the
+    $ p\textsuperscript{th} $ \textbf{percentile} as
+    $ X_{([np])} $, where $ [x] $ denotes rounding to the nearest integer.
+
+    If we wanted to be more precise, we could define the $ p\textsuperscript{th} $
+    \textbf{percentile} as
+    \[ (\floor{np}+1-np)X_{(\floor{np})}+
+        (np-\floor{np})X_{(\floor{np}+1)}, \]
+    where $ \floor{x} $ is the floor of $ x $.
+\end{Definition}
+\begin{Theorem}{}{}
+    Suppose $ X_1,\ldots,X_n $ is a sample from a discrete
+    distribution with possible values $ a_1<a_2<a_3<\cdots $.
+    Define $ p_i=\ProbB{X=a_i} $ and
+    $ P_i=\sum_{j=1}^{i}p_i=\ProbB{X\le a_i} $. Then,
+    \[ \ProbB{X_{(j)}\le a_i}=
+        \sum_{m=j}^{n}\binom{n}{m}P_i^m(1-P_i)^{n-m}. \]
+    \[ \ProbB{X_{(j)}=a_i}=
+        \sum_{m=j}^{n}\binom{n}{m}
+        \bigl[P_i^m(1-P_i)^{n-m}-P_{i-1}^m(1-P_{i-1})^{n-m}\bigr]. \]
+    \tcblower{}
+    \textbf{Proof}: For $ 1\le k\le n $, let
+    \[ I_k=\begin{cases}
+            1, & X_k\le a_i,       \\
+            0, & \text{otherwise}.
+        \end{cases} \]
+    Since the $ X_k $ are independent, the $ (I_k,\; k=1,2,\ldots,n) $
+    are independent. Thus,
+    \[ S=\sum_{k=1}^{n}I_k \sim \BIN{n,q}, \]
+    where $ q=\ProbB{X_1\le a_i}=P_i $. Hence,
+    \begin{align*}
+        \ProbB{X_{(j)}\le a_i}
+         & =\ProbB{S\ge j}                                \\
+         & =\sum_{m=j}^{n}\ProbB{S=m}                     \\
+         & =\sum_{m=j}^{n}\binom{n}{m}P_i^m(1-P_i)^{n-m}.
+    \end{align*}
+    The second formula is
+    \[ \ProbB{X_{(j)}=a_i}=\ProbB{X_{(j)}\le a_i}-\ProbB{X_{(j)}\le a_{i-1}}. \]
+\end{Theorem}
+\begin{Example}{}{}
+    Suppose $ G_1,\ldots,G_{9}\iid \GEO{1/6} $.
+    \begin{align*}
+        p_i & =\biggl(\frac{5}{6}\biggr)^{\!i-1}\frac{1}{6}=\ProbB{G=1},       \\
+        P_i & =\ProbB{G\le i}=1-\ProbB{G>i}=1-\biggl(\frac{5}{6}\biggr)^{\!i}.
+    \end{align*}
+    Median:
+    \begin{align*}
+        \ProbB{G_{(5)}=k}
+         & =\sum_{m=5}^{9}\binom{9}{m}\Set*{P_k^m(1-P_k)^{9-m}-P_{i-1}^m(1-P_k)^{9-m}} \\
+         & =\sum_{m=5}^{9}\binom{9}{m}
+        \Set*{\biggl[1-\biggl(\frac{5}{6}\biggr)^{\!k}\biggr]^{m}\biggl(\frac{5}{6}\biggr)^{\!k(9-m)}
+            -\biggl[1-\biggl(\frac{5}{6}\biggr)^{\!k-1}\biggr]^{m}\biggl(\frac{5}{6}\biggr)^{\!(k-1)(9-m)}}
+    \end{align*}
+\end{Example}
+\begin{Theorem}{}{}
+    For any sample of size $ n $, from any discrete distribution,
+    for any possible value of $ a $ of the variables,
+    \[ \ProbB{X_{(j)}=a}=
+        \sum_{m=j}^{n}\binom{n}{m}
+        \Set*{\ProbB{X\le a}^m\ProbB{X>a}^{n-m}-
+            \ProbB{X<a}^m\ProbB{X\ge a}^{n-m}}. \]
+\end{Theorem}
+\begin{Theorem}{}{}
+    Suppose $ X_1,\ldots,X_n $ is a sample from a continuous
+    distribution on $ \mathbf{R} $ with pdf $ f $
+    and cdf of $ F $. Then,
+    \[ \ProbB{X_{(j)}\le t}=
+        \sum_{m=j}^{n}\binom{n}{m}F(t)^m(1-F(t))^{n-m} \]
+    is the cdf of $ X_{(j)} $. The pdf of $ X_{(j)} $
+    is
+    \begin{align*}
+        \Prob{X_{(j)}\in\odif{t}}
+         & =f_{X_{(j)}}(t)\odif{t}                                    \\
+         & =\binom{n}{j-1,1,n-j}F(t)^{j-1}(1-F(t))^{n-j}f(t)\odif{t},
+    \end{align*}
+    noting that
+    \[ \binom{n}{j-1,1,n-j}=j\binom{n}{j}. \]
+    \tcblower{}
+    \textbf{Proof}: The argument for the first formula is the same as in the discrete case.
+    To get the second, we will differentiate. Define $ g_m(x)=x^m(1-x)^{n-m} $, so
+    \begin{align*}
+        g_m'(x)
+         & =mx^{m-1}(1-x)^{n-m}+x^m(n-m)(1-x)^{n-m-1}(-1) \\
+         & =\bigl(m(1-x)-(n-m)x\bigr)x^{m-1}(1-x)^{n-m-1} \\
+         & =(m-nx)x^{m-1}(1-x)^{n-m-1}.
+    \end{align*}
+    Also,
+    \begin{align*}
+        f_{X_{(j)}}(t)
+         & =\odv*{F_X(t)}{t}                               \\
+         & =\sum_{m=j}^{n}\odv*{\binom{n}{m}g_m (F(t))}{t} \\
+         & =\sum_{m=j}^{n}\binom{n}{m}(m-n F(t))F(t)^{m-1}
+        (1-F(t))^{n-m-1}f(t),
+    \end{align*}
+    RIP\@.
+\end{Theorem}
+\begin{Example}{}{}
+    Suppose $ U_1,\ldots,U_n\iid \mathcal{U}[0,1] $.
+    \begin{align*}
+        f_{U_{(j)}}(t)
+         & =j\binom{n}{j}t^{j-1}(1-t)^{n-j}\cdot 1     \\
+         & =\frac{n!}{(j-1)!(n-j)!}t^{j-1}(1-t)^{n-j}.
+    \end{align*}
+    That is, $ U_{(j)}\sim \BetaDist{j,n+1-j} $. Also,
+    \[ \E{U_{(j)}}=\frac{j}{j+n+1-j}=\frac{j}{n+1}. \]
+\end{Example}
+\makeheading{Lecture 17}{\printdate{2022-11-18}}%chktex 8
+\begin{Definition}{Convergence in Probability}{}
+    Given a sequence of random variables $ X_1,X_2\ldots $,
+    and a random variable $ Y $, we say the sequence
+    \textbf{converges in probability} to $ Y $, denoted
+    \[ X_n\inp Y \]
+    if
+    \[ \forall \varepsilon>0,\;
+        \lim\limits_{{n} \to {\infty}}\ProbB[\big]{\abs{Y-X_n}\ge \varepsilon}=0. \]
+\end{Definition}
+\begin{Theorem}{Weak Law of Large Numbers (WLLN)}{}
+    If $ X_1,X_2,\ldots $ is a sequence of independent random variables
+    with
+    \[ \Var{X_n}\le \sigma^2<\infty,\; \forall n, \]
+    which implies all $ X_n $ have finite expectation, then
+    \[ \frac{S_n-\E{S_n}}{n}\inp 0,\; \forall n, \]
+    where $ S_n=\sum_{j=1}^{n}X_j $.
+    \tcblower{}
+    \textbf{Proof}: Let $ \varepsilon>0 $.
+    \begin{align*}
+        \Prob*{\abs*{\frac{S_n-\E{S_n}}{n}}\ge \varepsilon}
+         & =\Prob*{\abs*{\frac{S_n}{n}-\E*{\frac{S_n}{n}}}\ge \varepsilon} \\
+         & \le \frac{\Var*{\frac{S_n}{n}}}{\varepsilon^2}                  \\
+         & \le \frac{\frac{1}{n^2}\Var{S_n}}{\varepsilon^2}                \\
+         & \le \frac{(n\sigma^2)/n^2}{\varepsilon^2}                       \\
+         & =\frac{\sigma^2}{n\varepsilon^2}                                \\
+         & \xrightarrow{n\to\infty}0.
+    \end{align*}
+\end{Theorem}
+\begin{Corollary}{Weak Law of Large Numbers}{}
+    If the $ \Set{X_n}_{n\ge 1} $ are iid, then
+    \[ \frac{S_n}{n}\inp \E{X_1}. \]
+\end{Corollary}
+\begin{Theorem}{}{}
+    Fix $ 0<q<p<\infty $. For a random variable $ X $, if
+    $ \E[\big]{\abs{X}^p}<\infty $, then $ \E[\big]{\abs{X}^q}<\infty $.
+    \tcblower{}
+    \textbf{Proof}: Suppose $ \E[\big]{\abs{X}^p}<\infty $.
+    \begin{align*}
+        \E[\big]{\abs{X}^q}
+         & =\E[\Big]{\abs{X}^q\Ind[\big]{\abs{X}<1}}+\E[\Big]{\abs{X}^q\Ind[\big]{\abs{X}\ge 1}} \\
+         & \le \ProbB[\big]{\abs{X}<1}+\E[\Big]{\abs{X}^p\Ind[\big]{\abs{X}\ge 1}}               \\
+         & <\infty.
+    \end{align*}
+\end{Theorem}
+\begin{Theorem}{}{distofsn}
+    Suppose $ X_1,X_2,\ldots,X_n \iid\N{\mu,\sigma^2} $ and
+    \[ S_n=\sqrt{\frac{1}{n-1}\sum_{j=1}^{n}(X_j-\bar{X})^2}. \]
+    Then,
+    \[ (n-1)\frac{S_n^2}{\sigma^2}\sim \chi^2(n-1)=\GAM*{\frac{n-1}{2},\frac{1}{2}}. \]
+    \tcblower{}
+    \textbf{Proof}: Casella Section 5.3.
+\end{Theorem}
+\begin{Example}{}{}
+    By~\Cref{thm:distofsn},
+    \[ \Var*{(n-1)\frac{S_n^2}{\sigma^2}}=2n-2, \]
+    hence
+    \[ \Var{S_n^2}=\frac{\sigma^4(2n-2)}{(n-1)^2}=\frac{2\sigma^4}{n-1}. \]
+    Using Chebyshev's inequality,
+    \[ \ProbB*{\abs{S_n^2-\sigma^2}\ge \varepsilon}\le \frac{2\sigma^4/(n-1)}{\varepsilon^2}\xrightarrow{n\to\infty} 0. \]
+    Hence,
+    \[ S_n^2\inp \sigma^2. \]
+\end{Example}
+\begin{Theorem}{}{}
+    For any continuous function $ g\colon\mathbf{R}\to\mathbf{R} $, if
+    \[ X_n\inp Y, \]
+    then
+    \[ g(X_n)\inp g(Y). \]
+\end{Theorem}
+\begin{Corollary}{}{}
+    $ S_n\inp \sigma^2 $ for sample standard deviation of $ \N{\mu,\sigma^2} $
+    samples.
+    \tcblower{}
+    \textbf{Proof}: Take square roots.
+\end{Corollary}
+\begin{Definition}{Almost Sure Convergence}{}
+    Given a sequence of random variables $ X_1,X_2,\ldots $,
+    and a random variable $ Y $, we say the sequence
+    \textbf{converges almost surely} (a.s.) to $ Y $, denoted
+    \[ X_n\as Y \]
+    if
+    \[ \forall \varepsilon>0,\; \ProbB*{\lim\limits_{{n} \to {\infty}}\abs{Y-X_n}\ge \varepsilon}=0. \]
+    Equivalently,
+    \[ \ProbB*{\lim\limits_{{n} \to {\infty}}\abs{Y-X_n}=0}=1. \]
+\end{Definition}
+\begin{Theorem}{Almost Sure Convergence $ \implies $ Convergence in Probability}{}
+    If $ X_n\as Y $, then $ X_n\inp Y $.
+    \tcblower{}
+    \textbf{Proof}: Assume $ X_n\as Y $. Fix $ \varepsilon>0 $.
+    \[ N=\max[\big]{\Set{n\in\mathbf{N}\given \forall m>n,\; \abs{Y-X_n}\le \varepsilon}\cup\Set{1}} \]
+    (the last time that $ Y-X_n>\varepsilon $). Since
+    $ X_n\as Y $, $ N $ is a.s.\ finite so $ \ProbB{N>n}\xrightarrow{n\to\infty}0 $.
+    \[ \Prob[\big]{\abs{Y-X_n}\ge \varepsilon}
+        \le \ProbB{n\le N}
+        \xrightarrow{n\to\infty}0. \]
+\end{Theorem}
+\begin{Lemma}{Borel-Cantelli Lemma}{}
+    For a sequence of events $ A_1,A_2,\ldots $, if
+    \[ \sum_{n=1}^{\infty}\Prob{A_n}<\infty, \]
+    then
+    \[ \Prob{\text{infinitely many of the $A_n$ happen}}
+        =\Prob*{\bigcap_{n=1}^\infty\bigcup_{j=n}^\infty A_j}=0. \]
+    If the $ (A_n,\; n\ge 1) $ are independent, then the converse of this is true.
+\end{Lemma}
+\begin{Example}{Convergence in Probability $\not\implies$ Almost Sure Convergence}{}
+    Suppose for all $ n\ge 1 $, $ X_n\iid \BERN{1/n} $.
+    Note that $ X_n\inp 0 $, but
+    \[ \sum_{n=1}^{\infty}\ProbB{X_n=1}=\sum_{n=1}^{\infty}\frac{1}{n}=\infty. \]
+    By the Borel-Cantelli lemma, there are a.s.\ finitely many $ n $
+    for which $ X_n=1 $.
+\end{Example}

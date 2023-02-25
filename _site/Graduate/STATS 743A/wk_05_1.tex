@@ -1,0 +1,124 @@
+\makeheading{Lecture 9}{\printdate{2022-10-17}}%chktex 8
+\begin{Theorem}{Dominated Convergence Theorem}{}
+    Suppose $ f_1,f_2,\ldots $ is a sequence of functions
+    mapping some measure space $ S $ to $ \mathbf{R} $ $
+        (S,\mathcal{A},\mu) $ is a measure space, and suppose $
+        \forall x\in S $ $ \lim\limits_{{n} \to {\infty}}f_n(x)
+    $ converges. Let $ f(x) $ denote this limit (pointwise
+    convergence). Additionally, suppose there is a function
+    $ g\colon S\to\mathbf{R} $ such that
+    \begin{enumerate}[(1)]
+        \item For all $ n\ge 1 $, for all $ x\in S $ $
+                  \abs{f_n(x)}\le g(x) $.
+        \item $ \int_{S}^{}g(x)\odif{\mu(x)}<\infty $.
+    \end{enumerate}
+    Then,
+    \[ \lim\limits_{{n} \to
+            {\infty}}\int_{S}^{}\abs{f_n(x)-f(x)}\odif{\mu(x)} =0.
+    \]
+\end{Theorem}
+\begin{Proposition}{}{}
+    $ \displaystyle \odv*{\E{e^{tX}}}{t}=\E{Xe^{tX}} $ for $
+        t $ near $ 0 $.
+    \tcblower{}
+    For $ x $ and $ t $ fixed,
+    \begin{align*}
+        \odv*{e^{tx}}{t}
+         & =\lim\limits_{{\delta} \to {0}}\frac{e^{(t+\delta)x}-e^{tx}}{\delta} \\
+         & =\lim\limits_{{\delta} \to {0}}e^{tx}
+        \biggl(\frac{e^{\delta x}-1}{\delta}\biggr).
+    \end{align*}
+    We want to find $ g(x) $
+    \[ \lim\limits_{{\delta} \to {0}}\frac{e^{\delta
+                    x}-1}{\delta}
+        \stackrel{\text{LHR}}{=}\lim\limits_{{\delta} \to
+            {0}}\frac{xe^{\delta x}}{1}=x. \] Therefore,
+    \[ g(t,x)=e^{tx}(\abs{x}+1)\implies
+        \abs*{e^{tx}\frac{e^{\delta x}-1}{\delta}}\le g(t,x),\;
+        \text{sufficiently small $ \delta $}. \] Need $
+        \E{g(t,X)}<\infty $: If
+    \[ \E*{e^{tX}(\abs{X}+1)}< \infty, \] then by the DCT,
+    \[ \E*{\lim(\:\cdot\:)}=\lim\E{\:\cdot\:} \iff \E*{X
+            e^{tX}}=M_X'(t). \]
+\end{Proposition}
+\begin{Definition}{Hypergeometric Distribution}{}
+    Suppose we have a bag with $ N $ blue balls and $ M $
+    red. We sample $ k $ times \underline{without
+        replacement} and count the number of blue balls picked.
+    Then,
+    \[ H\sim\HG{k;M,N}. \] For $ 0\le j\le k $ and $ k-M\le
+        j\le N $,
+    \[
+        p_H(j)=\frac{\binom{N}{j}\binom{M}{k-j}}{\binom{N+M}{k}}.
+    \]
+    \tcblower{}
+    \textbf{Expectation}: Let
+    \[ I_m=\begin{cases} 1, & \text{if $
+              m\textsuperscript{th} $ pick blue}, \\
+              0, & \text{otherwise}.\end{cases} \] Then, $
+        H=I_1+\cdots+I_k $ so
+    \[ \E{I_m}=1\Prob{\Set{I_m=1}}=\frac{N}{N+M},\; 1\le
+        m\le n. \] Therefore,
+    \[ \E{H}=k \frac{N}{N+M}. \] \textbf{Variance}:
+    \begin{align*}
+        \E{H^2}
+         & =\E*{\biggl(\sum_{j=1}^{k}I_j\biggr)^2}                         \\
+         & =\E*{\sum_{j=1}^{k}I_j^2}+2\E*{\sum_{1\le j<i\le n}I_j I_i}     \\
+         & =k\E{I_1^2}+2\binom{k}{2}\E{I_1 I_2}                            \\
+         & =k\biggl(\frac{N}{N+M}\biggr)+k(k-1)(0+1\Prob{\Set{I_1=I_2=1}}) \\
+         & =\frac{kN}{N+M}+k(k-1)\frac{N}{N+M}\frac{N-1}{N+M-1}.
+    \end{align*}
+    Therefore,
+    \[ \Var{H}=\cdots. \]
+\end{Definition}
+\begin{Definition}{Negative Binomial Distribution}{}
+    Suppose we have a coin with probability $ p $ of
+    flipping heads. We flip repeatedly until we have $ r $
+    heads ($ r\ge 1 $). If $ Y $ is the number of tosses,
+    then
+    \[ Y\sim\NB{r,p}. \] For $ j\ge r $,
+    \[ p_Y(j)=\binom{j-1}{r-1}(1-p)^{j-r}p^r. \]
+\end{Definition}
+\begin{Example}{}{}
+    If $ G_1,\ldots,G_r\iid \GEO{p} $, then $
+        G_1+\cdots+G_r\sim\NB{r,p} $.
+    \[ M_{G_1}(t)=\frac{p}{e^{-t}+p-1}\implies
+        M_Y(t)=\biggl(\frac{p}{e^{-t}+p-1}\biggr)^{\! r}. \]
+\end{Example}
+\begin{Definition}{Gamma Function}{}
+    \[
+        \Gamma(\alpha)=\int_{0}^{\infty}x^{\alpha-1}e^{-x}\odif{x},\;
+        \Re(\alpha)>0. \]
+\end{Definition}
+\begin{Proposition}{}{}
+    \begin{enumerate}
+        \item $ \Gamma(1)=1 $.
+        \item $ \Gamma(\alpha+1)=\alpha \Gamma(\alpha) $ for
+              $ \alpha>0 $.
+        \item $ \Gamma(1/2)=\sqrt{\pi} $.
+    \end{enumerate}
+    \tcblower{}
+    \begin{enumerate}
+        \item Simply,
+              \[ \Gamma(1)=\int_{0}^{\infty}1 e^{-x}\odif{x}
+                  =\bigl[-e^{-x}\bigr]_{0}^\infty=0-(-1)=1. \]
+        \item Integration by parts: let $ u=x^{\alpha} $, $
+                  dv=e^{-x}dx $, $ du=\alpha x^{\alpha-1}dx $, $
+                  v=-e^{-x} $,
+              \begin{align*}
+                  \Gamma(\alpha+1)
+                   & =\int_{0}^{\infty}x^{\alpha}e^{-x}\odif{x}      \\
+                   & =\biggl[-x^{\alpha}e^{-x}\biggr]_{0}^\infty+
+                  \int_{0}^{\infty}e^{-x}\alpha x^{\alpha-1}\odif{x} \\
+                   & =0+\alpha\Gamma(\alpha).
+              \end{align*}
+    \end{enumerate}
+\end{Proposition}
+\begin{Definition}{}{}
+    We say $ G\sim\GAM{\alpha,\lambda} $ with shape
+    parameter $ \alpha>0 $ and rate parameter $ \lambda>0 $
+    if it has pdf
+    \[
+        f_G(t)=\frac{\lambda^{\alpha}}{\Gamma(\alpha)}t^{\alpha-1}e^{-\lambda
+        t},\; t>0. \]
+\end{Definition}

@@ -1,0 +1,337 @@
+\makeheading{Lecture 4}{\printdate{2022-01-17}}%chktex 8
+\textbf{Summary of theoretical results under SRSWOR}:
+\begin{enumerate}[1]
+      \item $ \E{\bar{y}}=\mu_y $.
+      \item $ \V{\bar{y}}=(1-\frac{n}{N})\frac{\sigma_y^2}{n}=(\frac{1}{n}-\frac{1}{N})\sigma_y^2 $.
+      \item $ \E{s_y^2}=\sigma_y^2 $.
+      \item $ \E{\v{\bar{y}}}=\V{\bar{y}} $, where $ \v{\bar{y}}=(1-\frac{n}{N})\frac{s_y^2}{n} $.
+\end{enumerate}
+\textbf{Special cases where the response variable $y$ is binary}:
+\begin{itemize}
+      \item $ \mu_y=\frac{M}{N}=P $; $ \sigma_y^2=\frac{N}{N-1}P(1-P)\approx P(1-P) $ if $ N $ is large.
+      \item $ \bar{y}=\frac{1}{n}\sum_{i\in S}y_i=\frac{m}{n}=p $.
+            \begin{itemize}
+                  \item $ m= $ \# units in $ S $ with attribute $ A $.
+                  \item $ p=\frac{m}{n}= $ sample proportion.
+            \end{itemize}
+      \item $ s_y^2=\frac{n}{n-1}p(1-p)\approx p(1-p) $ if $ n $ is large.
+      \item $ \E{p}=P $; $ \v{p}=(1-\frac{n}{N})\frac{1}{n}\frac{n}{n-1}p(1-p)=(1-\frac{n}{N})\frac{1}{n-1}p(1-p) $.
+\end{itemize}
+
+\section{Simple Random Sampling With Replacement (SRSWR)}
+\textbf{The required sampling frame}:
+
+A complete list of all $ N $ units in the population.
+
+\textbf{The sampling procedure}:
+\begin{enumerate}
+      \item Select the first unit from the $N$ units on the sampling frame with
+            equal probabilities $1/N$; denote the selected unit as $ i_1 $;
+      \item Select the second unit from the $N$ units on the sampling frame
+            with equal probabilities $1/N$; denote the selected unit as $ i_2 $;
+      \item Continue the process and select the $n$th unit from the $N$ units on
+            the sampling frame with equal probabilities $1/N$; denote the
+            selected unit as $ i_n $.
+\end{enumerate}
+\textbf{Note}: SRSWR is not very useful in survey practice but has theoretical
+values due to its connection to iid samples.
+
+\textbf{Two possible treatments for SRSWR}:
+
+\textbf{(1) Keep duplicated units}
+
+Let $ S^*=\Set{i_1,i_2,\ldots,i_n} $. Under SRSWR, certain units might be included in
+$ S^* $ more than once ($ S^* $ may include duplicated units).
+
+Let $ Z_k=y_{ik} $ be the $ y $ value from the $ k $th selection, $ k=1,2,\ldots,n $. Let
+the sample mean be computed as
+\[ \bar{Z}=\frac{1}{n}\sum_{k=1}^{n}Z_k. \]
+We have
+\[ \E{\bar{Z}}=\mu_y\quad\text{ and }\quad \V{\bar{Z}}=\biggl(1-\frac{1}{N}\biggr)\frac{\sigma_y^2}{n}. \]
+\begin{enumerate}[(i)]
+      \item The $ Z_1,Z_2,\ldots,Z_n $ are iid random variables.
+      \item The common probability function for $ Z_1,Z_2,\ldots,Z_n $:
+            \[ \begin{NiceArray}{c|cccc}
+                        Z_k          & y_1 & y_2 & \cdots & y_N \\
+                        \midrule
+                        f(\:\cdot\:) & 1/N & 1/N & \cdots & 1/N
+                  \end{NiceArray}\iid \text{Discrete Uniform} \]
+      \item The mean and variance of $ Z_k $:
+            \begin{align*}
+                  \E{Z_k}
+                   & =\sum_{i=1}^{N}y_i\times \frac{1}{N}=\mu_y. \\
+                  \V{Z_k}
+                   & =\E*{(Z_k-\E{Z_k})^2}                       \\
+                   & =\frac{1}{N}\sum_{i=1}^{N}(y_i-\mu_y)^2     \\
+                   & =\frac{N-1}{N}\sigma_y^2                    \\
+                   & =\biggl(1-\frac{1}{N}\biggr)\sigma_y^2.
+            \end{align*}
+            \[ \E{\bar{Z}}=\mu_y,\qquad \V{\bar{Z}}=\frac{1}{n}\V{Z_1}=\biggl(1-\frac{1}{N}\biggr)\frac{\sigma_y^2}{n}. \]
+\end{enumerate}
+\textbf{(2) Remove duplicated units}
+
+Let $ S $ be the set of distinct units from SRSWR\@; let $ m=\abs{S} $ be the number of distinct units.
+
+\textbf{Note}: $ m $ is a random number under SRSWR\@.
+
+The sample mean based on the $ m $ distinct units is computed as
+\[ \bar{y}_m=\frac{1}{m}\sum_{i\in S}y_i. \]
+It can be shown that (Problem 2.2 of Chapter 2)
+\[ \E{\bar{y}_m}=\mu_y\quad\text{ and }\quad \V{\bar{y}_m}=\biggl[\E*{\frac{1}{m}}-\frac{1}{N}\biggr]\sigma_y^2. \]
+(Proof is required for Stat 854).
+
+\textbf{Efficiency comparisons between SRSWOR and SRSWR}:
+
+Three estimators of the population mean $ \mu_y $ (assume $ n\ge 2 $):
+\begin{enumerate}
+      \item $ \bar{y} $ under SRSWOR\@.
+      \item $ \bar{Z} $ under SRSWR\@.
+      \item $ \bar{y}_m $ under SRSWR\@.
+\end{enumerate}
+\begin{itemize}
+      \item All three estimators are unbiased (first-order equivalence).
+      \item $ \bar{y} $ is more efficient than the other two in terms of variance:
+            \begin{align*}
+                  \V{\bar{y}}=\biggl(1-\frac{n}{N}\biggr)\frac{\sigma_y^2}{n} & <\biggl(1-\frac{1}{N}\biggr)\frac{\sigma_y^2}{n}=\V{\bar{Z}}.        \\
+                  \V{\bar{y}}=\biggl(\frac{1}{n}-\frac{1}{N}\biggr)\sigma_y^2 & <\biggl[\E*{\frac{1}{m}}-\frac{1}{N}\biggr]\sigma_y^2=\V{\bar{y}_m}.
+            \end{align*}
+\end{itemize}
+
+\textbf{Efficiency comparisons through Monte Carlo simulation studies}:
+\begin{enumerate}
+      \item Generate a finite population of size $ N $, $ \Set{y_1,y_2,\ldots,y_N} $ (from any distribution),
+            and compute $ \mu_y $: This is the ``unknown'' population mean.
+      \item Take a sample $ S $ of size $ n $, and obtain the sample data $ \Set{y_i,i\in S} $;
+            compute the estimate $ \hat{\mu}_1 $ for the estimator $ \hat{\mu}_y $.
+      \item Repeat (2) a large number $ K $ ($ \ge 1000 $) times, independently, to obtain $ \hat{\mu}_1,\hat{\mu}_2,\ldots,\hat{\mu}_K $.
+      \item Evaluate the performance of the estimator $ \hat{\mu}_y $ using the relative bias (RB, in \%) and the mean squared
+            error (MSE) from the simulation:
+            \begin{itemize}
+                  \item RB (in \%):
+                        \[ RB=\frac{1}{K}\sum_{k=1}^{K}\frac{\hat{\mu}_k-\mu_y}{\mu_y}\times 100, \]
+                        if $ \mu_y=0 $ then we use the regular bias.
+                  \item MSE\@:
+                        \[ MSE=\frac{1}{K}\sum_{k=1}^{K}(\hat{\mu}_k-\mu_y)^2=\text{Var}+\text{Bias}^2. \]
+            \end{itemize}
+            (The MSE $ \approx $ the variance if the RB is very small (i.e., $ <1\% $)).
+\end{enumerate}
+
+\textbf{A simulation example in R comparing $ \bar{y} $ and $ \bar{Z} $}:
+
+\begin{minted}{R}
+set.seed(1234567,kind=NULL) #Results duplicable!
+N=1000
+n=200
+Y=rexp(N)
+muy=mean(Y)
+RB=c(0,0)
+MSE=c(0,0)
+K=1000
+for(k in 1:K){
+sam1=sample(N,n)
+ysam1=Y[sam1]
+sam2=sample(N,n,replace=T)
+ysam2=Y[sam2]
+mu1=mean(ysam1)
+mu2=mean(ysam2)
+RB[1]=RB[1]+mu1-muy
+RB[2]=RB[2]+mu2-muy
+MSE[1]=MSE[1]+(mu1-muy)^2
+MSE[2]=MSE[2]+(mu2-muy)^2
+}
+RB=(RB/(K*muy))*100
+MSE=MSE/K
+> RB
+[1] 0.09909944 -0.45677068
+> MSE
+[1] 0.003621282 0.004583952
+    \end{minted}
+\textbf{Re-do the simulation with $N = 20000$ and $n = 200$}:
+\begin{minted}{R}
+> RB
+[1] 0.2398581 0.1099942
+> MSE
+[1] 0.005152047 0.005227150
+\end{minted}
+
+\textbf{Note}: The rule of thumb on how many decimal points to be reported
+\begin{itemize}
+      \item For RB in percentages, two decimal points, i.e., $0.10\%$ and
+            $-0.46\%$ from the 1st example.
+      \item For MSE, use two or three nearest decimal points to reflect the
+            difference, i.e., $0.0036$ and $0.0046$ from the 1st example.
+\end{itemize}
+\textbf{Homework}:
+\begin{itemize}
+      \item Install the R package on your laptop \href{https://www.r-project.org}{https://www.r-project.org}.
+      \item Re-run the simulation study with a different seed for the random
+            number generator and compare the results.
+      \item Re-run the simulation study with fixed $n = 200$ and different
+            sampling fractions $n/N = 1\%, 2\%, 5\%, 10\%$ and compare the
+            results.
+      \item \textbf{Challenge part}: Include $ \bar{y}_m $ in the simulation and compare the
+            results.
+\end{itemize}
+
+\makeheading{Lecture 5}{\printdate{2022-01-19}}%chktex 8
+\section{Central Limit Theorem and Confidence Intervals}
+\textbf{Asymptotic framework for finite populations}\\
+(A frame to allow $ n\to\infty $):
+
+We assume there is a sequence of finite populations (indexed by $ \nu $)
+and an associated sequence of survey samples. Both the population size $ N_\nu $ and the sample
+size $ n_\nu $ go to infinite as $ \nu\to\infty $. The particular finite population and the survey
+sample are part of the sequence.
+
+We use $ n\to\infty $ or $ N\to\infty $, but the limiting process is under $ \nu\to\infty $.
+
+For stratified populations, there are two versions of the asymptotic framework:
+\begin{itemize}
+      \item The total number of strata is bounded, but the stratum population sizes grow to infinity
+            for the sequence of populations.
+      \item The stratum population sizes are bounded, but the total number of
+            strata goes to infinity for the sequence of populations.
+\end{itemize}
+
+\textbf{The Hájek Theorem (1960)}
+
+Suppose that the sampling fraction $ n/N\to f\in(0,1) $ as $ n\to\infty $.
+
+Suppose also that the population values of the response variable $ y $ satisfy
+\[ \lim\limits_{{N} \to {\infty}}\frac{\max_{1\le i\le N}{(y_i-\mu_y)^2}}{\sum_{i=1}^{N}(y_i-\mu_y)^2}=0. \]
+Then under SRSWOR, the Wald-type statistic
+\[ \frac{\bar{y}-\mu_y}{\sqrt{\v{\bar{y}}}}\tod \N{0,1}, \]
+as $ n\to\infty $, where $ \v{\bar{y}}=\bigl(1-\frac{n}{N}\bigr)\frac{s_y^2}{n} $ is the estimated variance of $ \bar{y} $.
+
+We also have
+\[ \frac{\bar{y}-\mu_y}{\sqrt{\V{\bar{y}}}}\tod \N{0,1}, \]
+as $ n\to\infty $, where $ \V{\bar{y}}=\bigl(1-\frac{n}{N}\bigr)\frac{\sigma_y^2}{n} $ is the theoretical variance of $ \bar{y} $.
+
+Note that
+\[ \frac{\bar{y}-\mu_y}{\sqrt{\V{\bar{y}}}}=\frac{\bar{y}-\mu_y}{\sqrt{\v{\bar{y}}}}\cdot \frac{\sqrt{\v{\bar{y}}}}{\sqrt{\V{\bar{y}}}}\quad\text{and}\quad \frac{\sqrt{\v{\bar{y}}}}{\sqrt{\V{\bar{y}}}}\inp 1. \]
+
+\section{Sample Size Calculation}
+
+One of the major questions for survey design and planning: How large
+should the sample size $n$ be? The answer depends on three factors:
+\begin{itemize}
+      \item The total budget for the survey.
+      \item The cost for surveying one unit and taking all required
+            measurements.
+      \item The accuracy required for the main statistical inference problem
+            from the survey data.
+\end{itemize}
+The answer also depends on the sampling methods: More efficient
+sampling methods require a smaller sample size to achieve the same
+goal. We discuss sample size calculation under the simple scenario
+where
+\begin{itemize}
+      \item The sampling method is SRSWOR\@.
+      \item The accuracy requirements are for estimating the population
+            mean.
+\end{itemize}
+
+
+\textbf{(1) Accuracy specified by the absolute tolerable error}
+
+We want the estimator $ \bar{y} $ for estimating the parameter $ \mu_y $ to satisfy
+\[ \Prob[\big]{\abs{\bar{y}-\mu_y}\ge e}\le \alpha, \]
+or equivalently,
+\[ \Prob[\big]{\abs{\bar{y}-\mu_y}< e}\le 1-\alpha, \]
+for a given $ \alpha\in(0,1) $ and a pre-specified error margin $ e $. What is the required $ n $?
+
+We assume that
+\[ \frac{\bar{y}-\mu_y}{\sqrt{\V{\bar{y}}}}\tod \N{0,1} \]
+can be used as an approximation to derive the required sample size.
+
+We compare
+\[ \Prob*{\frac{\abs{\bar{y}-\mu_y}}{\sqrt{\V{\bar{y}}}}<\frac{e}{\V{\bar{y}}}}\ge 1-\alpha \]
+with
+\[ \Prob[\big]{\abs{Z}<Z_{\alpha/2}}=1-\alpha, \]
+where $ Z \sim \N{0,1} $ and $ Z_{\alpha/2} $ is the upper $ \alpha/2 $ quantile of $ \N{0,1} $.
+
+\begin{align*}
+      \frac{e}{\sqrt{\V{\bar{y}}}}=Z_{\alpha/2}\implies\V{\bar{y}} & =\frac{e^2}{Z_{\alpha/2}^2}  \\
+      \biggl(\frac{1}{n}-\frac{1}{N}\biggr)\sigma_y^2              & =\frac{e^2}{Z_{\alpha/2}^2}.
+\end{align*}
+Doing some algebra,
+\begin{align*}
+      n   & =\frac{Z_{\alpha/2}^2\sigma_y^2/e^2}{1+(Z_{\alpha/2}^2\sigma_y^2/e^2)/N}=\frac{n_0}{1+n_0/N}<n_0 \\
+      n_0 & =Z_{\alpha/2}^2\sigma_y^2/e^2,
+\end{align*}
+where $n\approx n_0 $ for large $ N $ ($ N=+\infty $).
+
+\textbf{(2) Accuracy specified by the relative tolerable error}
+
+Suppose that $ \mu_y\ne 0 $. We want the estimator $ \bar{y} $ satisfies
+\[ \Prob*{\frac{\abs{\bar{y}-\mu_y}}{\abs{\mu_y}}\ge e}\le \alpha. \]
+What is the required $ n $?
+
+Why is sometimes relative tolerable error preferred?
+
+The absolute tolerable error $ e $ specified in $ \abs{\bar{y}-\mu_y}<e $ is scale-dependent.
+The choice of $ e $ in the relative tolerable error is scale-free, and can easily be decided as, for instance,
+0.01--0.03 (that is, 1\%--3\%).
+
+The accuracy requirement can be re-written as
+\[ \Prob[\big]{\abs{\bar{y}-\mu_y}\ge e^*}\le \alpha, \]
+where $ e^*=e\abs{\mu_y} $. The required sample size $ n $ is given by
+\[ n=\frac{n_0}{1+n_0/N}. \]
+\begin{align*}
+      n_0
+       & =Z_{\alpha/2}^2\sigma_y^2/(e^*)^2                           \\
+       & =Z_{\alpha/2}^2\biggl(\frac{\sigma_y^2}{\mu_y^2}\biggr)/e^2 \\
+       & =Z_{\alpha/2}^2\bigl[\CV{y}\bigr]^2/e^2,
+\end{align*}
+where $ \CV{y}=\frac{\sigma_y}{\mu_y} $.
+
+A useful result: if $ y_i=a x_i $ for all $ i $, then $ \CV{y}=\CV{x} $.
+
+\textbf{Notes on sample size calculations}:
+\begin{itemize}
+      \item The question of sample size calculation or sample size
+            determination is part of the survey planning; the actual survey
+            sample data are not available at this stage.
+      \item Formulas for sample size calculations typically involve unknown
+            population quantities such as $ \mu_y $ and $ \sigma_y^2 $.
+      \item How to obtain the required population information to calculate
+            $n$?
+            \begin{itemize}
+                  \item Existing data sources:
+                        \begin{itemize}
+                              \item Other similar surveys.
+                              \item Census data.
+                        \end{itemize}
+                  \item Pilot surveys
+                        \begin{itemize}
+                              \item Do a small survey first ($ n=50 $?)
+                        \end{itemize}
+            \end{itemize}
+      \item The population information for sample size calculations does not
+            need to be very accurate, because the calculated n is used for
+            survey planning, which needs to be further adjusted by cost and
+            other factors.
+\end{itemize}
+
+\textbf{Example 2.1. Sample size calculation for estimating a population proportion}
+
+Suppose that the goal is to estimate the population proportion $ P=M/N $
+using a survey sample to be selected by SRSWOR\@. Using the sample proportion $ p=m/n $
+to estimate $ P $, a common absolute tolerable error is 3\% and the $ \alpha $ is set to $0.05$. In other words,
+the estimation accuracy is specified as
+\[ \Prob[\big]{\abs{p-P}\le 0.03}\ge 0.95. \]
+Noting that $ 0.95=19/20 $, the probability statement is often quoted in media reports as
+``\emph{The result is accurate within three percentage points, 19 times out of 20}.''
+
+What is the required sample size $ n $?
+
+\[ n=\frac{n_0}{1+n_0/N}<n_0. \]
+$ n_0 $ is a conservative choice for any $ N $.
+\[ \sigma_y^2\approx P(1-P)\le \frac{1}{4}. \]
+\begin{align*}
+      n_0
+       & =Z_{\alpha/2}^2\sigma_y^2/e^2       \\
+       & =1.96^2\sigma_y^2/0.03^2            \\
+       & \le 1.96^2\times \frac{1}{4}/0.03^2 \\
+       & \approx 1067.
+\end{align*}
