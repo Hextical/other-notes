@@ -1,0 +1,153 @@
+\makeheading{Lecture 9}{\printdate{2023-02-06}}%chktex 8
+\section{Lecture 9: Lack of Fit}
+Consider the case of studying blood pressure and its relationship to height and weight. Clearly, people of the same height and weight can have different blood pressures. In other words, the same predictor values may correspond to different response values.
+This type of variation is called pure error. To detect poor model fit, we would need to distinguish between variation caused by the model and pure error.
+\subsection*{General Framework}
+Let $ m\ge 1 $ and $ n_1,\ldots,n_m\ge 1 $ such that
+$ \sum_{i=1}^{m}n_i=n $. For $ i=1,\ldots,n $, we have
+\[ Y_{ir}=\beta_0+\beta_1x_{1i}+\cdots+\beta_k x_{ik}+\varepsilon_{ir},\; r=1,\ldots,n_i. \]
+In matrix notation, we write $ \Matrix{Y}=\Matrix{X}\Vector{\beta} $, where
+$ \Vector{\beta}=\begin{pmatrix}
+        \beta_0 \\
+        \vdots  \\
+        \beta_k
+    \end{pmatrix} $ in the usual way, and
+\begin{align*}
+    \Vector{Y}'
+     & =\begin{pmatrix}
+            Y_{11} & \cdots & Y_{1n_1}
+            \cdots & Y_{m1} & \cdots   & Y_{mn_m}
+        \end{pmatrix},                                        \\
+    \Matrix{X}
+     & =\begin{pmatrix}
+            n_1\; \begin{Bmatrix}
+                  1      & x_{11} & \cdots & x_{1k} \\
+                  \vdots & \ddots & \ddots & \vdots \\
+                  1      & x_{11} & \cdots & x_{1k} \\
+              \end{Bmatrix} \\
+            \vdots                                  \\
+            n_m\; \begin{Bmatrix}
+                  1      & x_{m1} & \cdots & x_{mk} \\
+                  \vdots & \ddots & \ddots & \vdots \\
+                  1      & x_{m1} & \cdots & x_{mk}
+              \end{Bmatrix}
+        \end{pmatrix},                                      \\
+    \Vector{\varepsilon}'
+     & =\begin{pmatrix}
+            \varepsilon_{11} & \cdots & \varepsilon_{1n_1}
+                             & \cdots & \varepsilon_{m1}   & \cdots & \varepsilon_{mn_m}
+        \end{pmatrix}.
+\end{align*}
+We write $ Y_{ij} $ for $ i=1,\ldots,m $ ($ m $ groups) and $ j=1,\ldots,n_i $
+(number of observations in group $ i $). The sample average of group $ i $ is defined by
+\[ \bar{Y}_i=\frac{1}{n_i}\sum_{j=1}^{n_i}Y_{ij},\; i=1,\ldots m. \]
+The fitted values are $ \hat{\Vector{Y}}=\Matrix{X}\hat{\Vector{\beta}} $,
+so $ \hat{Y}_{ij} $ is the same for all $ j=1,\ldots,n_i $, hence we may write
+$ \hat{Y}_{ij} $ as $ \hat{Y}_i $.
+\begin{align*}
+    \SSE
+     & =\sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\hat{Y}_{ij})^2                                                       \\
+     & =\sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_i+\bar{Y}_i-\hat{Y}_{ij})^2                                   \\
+     & =\sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_i)^2+\sum_{i=1}^{m}\sum_{j=1}^{n_i}(\hat{Y}_{ij}-\bar{Y}_i)^2
+    -2 \sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_i)(\bar{Y}_i-\hat{Y}_{ij})                                     \\
+     & =\sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_i)^2+\sum_{i=1}^{m}\sum_{j=1}^{n_i}(\hat{Y}_{ij}-\bar{Y}_i)^2 \\
+     & =\sum_{i=1}^{m}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_i)^2+\sum_{i=1}^{m}n_i(\hat{Y}_i-\bar{Y}_i)^2                 \\
+     & =\SSPE+\SSLF
+\end{align*}
+since $ \hat{Y}_{ij} $ is independent of $ j $. Therefore,
+\[ \SST=\SSR+\SSE=\SSR+\SSPE+\SSLF. \]
+\begin{itemize}
+    \item Degrees of freedom of $ \SSLF $: $ m-(k+1) $.
+    \item Degrees of freedom of $ \SSPE $: $ (n_1-1)+\cdots+(n_m-1)=n-m $.
+\end{itemize}
+The first test is a test of linear relationship, but if we wanted to determine
+how good that relationship is, we will need the following hypothesis test.
+If the linear model fits well, then $ \SSLF $ should be small.
+\begin{itemize}
+    \item $ \HN $: The model is adequate.
+    \item $ \HA $: The model is not adequate.
+\end{itemize}
+Test statistic:
+\[ F=\frac{\SSLF/(m-k-1)}{\SSPE/(n-m)} \sim F(m-k-1,n-m). \]
+If we reject $ \HN $, that means there's too much variation within the group.
+Reject $ \HN $ when $ F>F_{\alpha}(m-k-1,n-m) $.
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}     & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F                             \\
+        \midrule
+        \text{Due to }\Vector{\beta}_1 & k                         & \SSR                  & \MSR               & \MSR/\MSE                     \\
+        \text{Error}                   & n-(k+1)                   & \SSE                  & \MSE                                               \\
+        \quad\text{Lack of Fit}        & \quad m-k-1               & \quad \SSLF           & \quad\text{MSLF}   & \quad \text{MSLF}/\text{MSPE} \\
+        \quad\text{Pure Error}         & \quad n-m                 & \quad \SSPE           & \quad\text{MSPE}                                   \\
+        \text{Total}                   & n-1                       & \SST                                                                       \\
+        \bottomrule
+    \end{array} \]
+\subsection*{Selection of Predictors}
+We observe that the number of predictors always improves the estimates,
+but becomes less efficient. To find a reasonable number of
+predictors, one needs to compare models by adding or dropping predictors.
+
+\begin{itemize}
+    \item Partition $ \Vector{\beta} $ as
+          $ \Vector{\beta}=\begin{pmatrix}
+                  \beta_0 \\
+                  \vdots  \\
+                  \beta_k
+              \end{pmatrix}=\begin{pmatrix}
+                  \Vector{\beta}_I \\
+                  \Vector{\beta}_{II}
+              \end{pmatrix} $,
+          where
+          $ \Vector{\beta}_I=\begin{pmatrix}
+                  \beta_0 \\
+                  \vdots  \\
+                  \beta_\ell
+              \end{pmatrix} $ and $ \Vector{\beta}_{II}=\begin{pmatrix}
+                  \beta_{\ell+1} \\
+                  \vdots         \\
+                  \beta_{k}
+              \end{pmatrix}$ for $ 1\le \ell<k $.
+    \item Partition $ \Matrix{X} $ as $ \Matrix{X}=\begin{pmatrix}
+                  \Matrix{X}_I & \Matrix{X}_{II}
+              \end{pmatrix} $, where $ \Matrix{X}_I\in\R^{n\times (\ell+1)} $
+          and $ \Matrix{X}_{II}\in\R^{n\times(k-\ell)} $ for $ 1\le \ell<k $.
+\end{itemize}
+The \textbf{full model} is
+\[ \Vector{Y}=\Matrix{X}\Vector{\beta}+\Vector{\varepsilon}=
+    \begin{pmatrix}
+        \Matrix{X}_{I} & \Matrix{X}_{II}
+    \end{pmatrix}\begin{pmatrix}
+        \Vector{\beta}_I \\
+        \Vector{\beta}_{II}
+    \end{pmatrix}=\Matrix{X}_I \Vector{\beta}_I+\Matrix{X}_{II}\Vector{\beta}_{II}. \]
+The \textbf{reduced model} is
+\[ \Vector{Y}=\Matrix{X}_I \Vector{\beta}_I+\Vector{\varepsilon}^*. \]
+Let
+\begin{itemize}
+    \item $ \Matrix{H}=\Matrix{X}(\Matrix{X}'\Matrix{X})^{-1}\Matrix{X}' $.
+    \item $ \Matrix{H}_1=\Matrix{X}_I(\Matrix{X}_I'\Matrix{X}_I)^{-1}\Matrix{X}_I' $.
+\end{itemize}
+Define
+\begin{itemize}
+    \item $ \text{SS}(\Vector{\beta})=\SSR(\text{full})=\Vector{Y}'(\Matrix{H}-\tfrac{1}{n}\Matrix{J})\Vector{Y} $.
+    \item $ \text{SS}(\Vector{\beta}_I)=\SSR(\text{reduced})=\Vector{Y}'(\Matrix{H}_I-\tfrac{1}{n}\Matrix{J})\Vector{Y} $.
+    \item $ \text{SS}(\Vector{\beta}_{II}\mid \Vector{\beta}_{I})
+              =\text{SS}(\Vector{\beta})-\text{SS}(\Vector{\beta}_I)
+              =\Vector{Y}'(\Matrix{H}-\Matrix{H}_I)\Vector{Y}. $
+\end{itemize}
+Comparing the full model and the reduced model, we test
+$ \HN $: $ \Vector{\beta}_{II}=\Vector{0} $ versus $ \HA $: $ \Vector{\beta}_{II}\ne \Vector{0} $.
+Under $ \HN $, $ x_{\ell+1},\ldots,x_k $ do not add predictive value to
+the model that includes $ x_1,\ldots,x_{\ell} $ already.
+\begin{Theorem}{}{}
+    $ \Matrix{H}-\Matrix{H}_1 $ is idempotent.
+    \tcblower{}
+    \textbf{Proof}: Assignment 2.
+\end{Theorem}
+Model misspecification:
+\begin{itemize}
+    \item Leaving out $ \Vector{\beta}_{II} $ when it should be included,
+          results in underfitting.
+    \item Including $ \Vector{\beta}_{II} $ when it should be dropped,
+          results in overfitting.
+\end{itemize}

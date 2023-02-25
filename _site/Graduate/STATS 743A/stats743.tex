@@ -1,0 +1,24 @@
+\input{preamble.tex}
+\usepackage{multirow}
+\newcommand{\R}{\textcolor{red}{\mathcal{R}}}
+\newcommand{\B}{\textcolor{blue}{\mathcal{B}}}
+\DeclarePairedDelimiterXPP\ProbB[1]{\operatorname{\mathbb{P}}}\{\}{}{%
+    \renewcommand\given{\SetSymbol[\delimsize]}%
+    #1}%
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+\begin{document}
+\maketitle
+\input{wk_01.tex}
+\input{wk_02.tex}
+\input{wk_03.tex}
+\input{wk_04.tex}
+\input{wk_05_1.tex}
+\input{wk_05_2.tex}
+\input{wk_06.tex}
+\input{wk_07.tex}
+\input{wk_08.tex}
+\input{wk_09.tex}
+\input{wk_10.tex}
+\input{wk_11.tex}
+\end{document}

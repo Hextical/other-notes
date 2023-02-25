@@ -1,0 +1,201 @@
+\makeheading{Lecture 22}{\printdate{2022-06-27}}%chktex 8
+\begin{Corollary}{}{}
+    If $ p $ is an odd prime, then
+    \[ \legendre{-1}{p}=\begin{cases}
+            1,  & p\equiv 1\Mod{4}, \\
+            -1, & p\equiv 3\Mod{4}.
+        \end{cases} \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Corollary}
+\begin{Proposition}{}{}
+    There are infinitely many primes congruent to $ 1 $ modulo $ 4 $.
+\end{Proposition}
+\begin{Proposition}{}{}
+    If $ p $ is an odd prime, then
+    \[ \legendre{2}{p}=\begin{cases}
+            1,  & p\equiv 1,7\Mod{8}, \\
+            -1, & p\equiv 3,5\Mod{8}.
+        \end{cases} \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Exercise}{}{}
+    Using the technique in the proof of Proposition 2, show that $2$ does not have a
+    quadratic residue modulo $19$.
+    \tcblower{}
+    \textbf{Solution}: Note that $ 19\equiv 3\Mod{8} $, so
+    $ \legendre{2}{19}=-1 $
+    by Proposition 2.
+\end{Exercise}
+
+\section{The Law of Quadratic Reciprocity}
+We have solved the problem of finding $ \legendre{a}{p} $ for $ a=-1 $ and $ a=2 $.
+Unfortunately, our method does for doing that does not exist for large values of $ a $.
+We need a fast algorithm for calculating $ \legendre{a}{p} $ for any integer $ a $
+and odd prime $ p $ with $ p\nmid a $.
+
+The Law of Quadratic Reciprocity was conjectured by Euler and Legendre in
+1744. Gauss, in 1796, was the first to prove the Law of Quadratic Reciprocity, at
+the age of 19 and subsequently found at least five other proofs. He referred it as
+``The Golden Theorem.'' There are now over 240 published proofs (people are still
+publishing new proofs).
+
+\begin{Theorem}{Law of Quadratic Reciprocity}{}
+    If $ p $ and $ q $ are distinct odd prime numbers, then
+    \[ \legendre{p}{q}=\begin{cases}
+            \legendre{q}{p},  & p\equiv 1\Mod{4}\lor q\equiv 1\Mod{4},  \\
+            -\legendre{q}{p}, & p\equiv 3\Mod{4}\land q\equiv 3\Mod{4}.
+        \end{cases} \]
+\end{Theorem}
+The Law of Quadratic Reciprocity can be stated as:
+\[ \legendre{p}{q}\legendre{q}{p}=(-1)^{\frac{p-1}{2}\frac{q-1}{2}}. \]
+The proof is quite non-trivial and due to limitations of time we will not present
+it in class or in lecture notes as well. For the proof you can see Section 6.4 of ``A taste
+of Number Theory'' by Frank Zorzitto.
+\begin{Example}{}{}
+    Calculate $ \legendre{7}{109} $.
+    \tcblower{}
+    \textbf{Solution}:
+    \begin{align*}
+        \legendre{7}{109} & =\legendre{109}{7}              &  & 109\equiv 1\Mod{4}                       \\
+                          & =\legendre{4}{7}                &  & 109\equiv 4\Mod{7}                       \\
+                          & =\legendre{2}{7}\legendre{2}{7} &  & \text{Legendre symbol is multiplicative} \\
+                          & =\legendre{2}{7}^{\!2}                                                        \\
+                          & =1.
+    \end{align*}
+    Thus, $ 7 $ is a quadratic residue modulo $ 109 $.
+\end{Example}
+\begin{Example}{}{}
+    Calculate $ \legendre{191}{839} $.
+    \tcblower{}
+    \textbf{Solution}:
+    \begin{align*}
+        \legendre{191}{839}
+         & =-\legendre{839}{191}                      &  & 191\equiv 3\Mod{4}\land 839\equiv 3\Mod{4} \\
+         & =-\legendre{75}{191}                       &  & 839\equiv 75\Mod{191}                      \\
+         & =-\legendre{5}{191}^2 \legendre{3}{191}                                                    \\
+         & =-\legendre{5}{191}^{\!2}\legendre{3}{191}                                                 \\
+         & =-(1)\legendre{3}{191}                                                                     \\
+         & =\legendre{191}{3}                         &  & 191\equiv 3\Mod{4}\land 3 \equiv 3\Mod{4}  \\
+         & =\legendre{2}{3}                           &  & 191\equiv 2\Mod{4}                         \\
+         & =-1.
+    \end{align*}
+    Thus, $191$ is quadratic non-residue modulo $839$.
+\end{Example}
+\begin{Exercise}{}{}
+    Calculate $ \legendre{37603}{48611} $ given that $ 37603=31\cdot 1213 $.
+    \tcblower{}
+    \textbf{Solution}:
+    \begin{align*}
+        \legendre{37603}{48611}
+         & =\legendre{31}{48611}\legendre{1213}{48611}            &  & \text{Legendre symbol is $ \times $}                               \\
+         & =-\legendre{48611}{31}\legendre{48611}{1213}           &  & 31\equiv 3\Mod{4}\land 48611\equiv 3\Mod{4},\;1213\equiv 1\Mod{4}  \\
+         & =-\legendre{3}{31}\legendre{91}{1213}                  &  & 48611\equiv 3\Mod{31},\; 48611\equiv 91\Mod{1213}                  \\
+         & =\legendre{31}{3}\legendre{7}{1213}\legendre{13}{1213} &  & 3\equiv 3\Mod{4}\land 31\equiv 3\Mod{4}                            \\
+         & =\legendre{1}{3}\legendre{1213}{7}\legendre{1213}{13}  &  & 1213\equiv 1\Mod{4}                                                \\
+         & =\legendre{2}{7}\legendre{4}{13}                       &  & 1213\equiv 2\Mod{7},\; 1213\equiv 4\Mod{13}                        \\
+         & =\legendre{2}{13}^{\!2}                                &  & 2^{\frac{7-1}{2}}\equiv 8\equiv 1\Mod{7}\text{ using Euler's Test} \\
+         & =(-1)^2                                                &  & 13\equiv 5\Mod{8}\text{ using Proposition 25.15}                   \\
+         & =1.
+    \end{align*}
+\end{Exercise}
+\begin{Example}{}{}
+    Let $ p $ and $ q $ be distinct primes such that $ p\equiv 3\Mod{4} $ and $ q\equiv 3\Mod{4} $.
+    Prove that the equation $ x^2-qy^2=p $ has no integer solution.
+\end{Example}
+
+\makeheading{Lecture 23}{\printdate{2022-06-29}}%chktex 8
+\section{Sum of Squares}
+Recall that way back in Exercise 5 (Lecture 8) you were asked to make a conjecture
+to which primes in $ \mathbf{Z} $ are also primes in $ \mathbf{Z}[i] $.
+The conjecture is that a prime $ p\in\mathbf{Z} $ is a prime in $ \mathbf{Z}[i] $
+if and only if $ p $ cannot be written as a sum of two squares.
+We are now finally in a position to figure out which primes can be written as a sum
+of two squares.
+
+Look at a few numbers:
+\begin{align*}
+    1 & =1^2+0^2  \\
+    2 & =1^2+1^2  \\
+    4 & =2^2+0^2  \\
+    5 & =2^2+1^2  \\
+    8 & =2^2+2^2.
+\end{align*}
+Note that $ 3 $, $ 6 $, and $ 7 $ are not expressible in this way.
+
+\begin{Proposition}{}{}
+    If $ p $ is a Gaussian prime and $ p\mid zw $ for some $ z,w\in\mathbf{Z}[i] $, then
+    $ p\mid z $ or $ p\mid w $.
+\end{Proposition}
+\begin{Theorem}{}{}
+    If $ n\equiv 3\Mod{4} $, then $ n $ is \underline{not} a sum of two squares.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+Albert Girard was the first to make the observation, describing all positive
+integer numbers (not necessarily primes) expressible as the sum of two squares of
+positive integers; this was published in 1625. The statement that every prime $p$ of
+the form $4n+1$ is the sum of two squares is sometimes called Girard's theorem. For
+his part, Fermat wrote an elaborate version of the statement (in which he also gave
+the number of possible expressions of the powers of $p$ as a sum of two squares) in a
+letter to Marin Mersenne dated December 25, 1640: for this reason this version of
+the theorem is sometimes called Fermat's Christmas theorem:
+\begin{Theorem}{Fermat's Christmas Theorem}{}
+    If $ p $ is a prime such that $ p\equiv 1\Mod{4} $, then there exists $ a,b\in\mathbf{Z} $ such that
+    \[ p=a^2+b^2. \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+Now, we know that when $ p $ is an odd prime, the $ p=x^2+y^2 $ has a solution in the positive integers $ x $ and $ y $ if
+and only if $ p\equiv 1\Mod{4} $. Notice this also has a solution when $ p=2 $
+since $ 2=1^2+1^2 $. We would like to generalize this result to all $ n\in\mathbf{Z}^+ $.
+\begin{Proposition}{}{}
+    If $ m,n\in\mathbf{Z} $ are expressible as a sum of two squares, then so is $ mn $.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Theorem}{}{}
+    $ n\in\mathbf{Z}^+ $ is expressible as sum of two squares
+    if and only if every prime factor which is congruent to $ 3\Mod{4} $
+    appears with an even power.
+\end{Theorem}
+Due to time limitations we will not present the proof in class or in these lectures
+notes. If you would like to see the proof, see Section 7 in ``A Taste of Number
+Theory'' by Frank Zorzitto.
+
+\begin{Example}{}{}
+    Can we express $ 490 $ as a sum of two squares? If yes, then find $ x,y\in\mathbf{Z} $ such that
+    $ 490=x^2+y^2 $.
+    \tcblower{}
+    \textbf{Solution}:
+    Note that $ 490=2\cdot 5\cdot 7^2 $. Since $ 5\equiv 1\Mod{4} $ and $ 7\equiv 3\Mod{4} $ (appears with an even power), by Fermat's Christmas Theorem
+    and Theorem 3, $ 490 $ is expressible as a sum of squares. Further,
+    \begin{align*}
+        490 & =7^2\cdot 5\cdot 2                 \\
+            & =7^2\cdot (2^2+1^2)\cdot (1^2+1^2) \\
+            & =(7^2+0^2)\cdot (3^2+1^2)          \\
+            & =21^2+7^2.
+    \end{align*}
+\end{Example}
+\begin{Exercise}{}{}
+    Can we express $ 584820=2^2\cdot 3^4\cdot 5\cdot 19^2 $ as sum of two squares?
+    \tcblower{}
+    \textbf{Solution}: Since $ 2^2=4=2^2+0^2 $, $ 3\equiv 3\Mod{4} $ (appears with an even power; Fermat's Christmas Theorem),
+    $ 5\equiv 1\Mod{4} $ (Theorem 3), and $ 19\equiv 3\Mod{4} $ (appears with an even power; Fermat's Christmas Theorem),
+    then $ 584820 $ is expressible as a sum of squares. Hence,
+    \begin{align*}
+        584820
+         & =2^2\cdot 3^4\cdot 5\cdot 19^2                                                    \\
+         & =(2^2+0^2)\cdot (9^2+0^2)\cdot (2^2+1^2)\cdot (19^2+0^2)                          \\
+         & =2^2\cdot 9^2\cdot 19^2\cdot (2^2+1^2)                                            \\
+         & =2^2\cdot 9^2\cdot 19^2\cdot 2^2+2^2\cdot 9^2\cdot 19^2\cdot 1^2                  \\
+         & =4^2\cdot 9^2\cdot 19^2+2^2\cdot 9^2\cdot 19^2                                    \\
+         & =(\underbrace{4\cdot 9\cdot 19}_{684})^2+(\underbrace{2\cdot 9\cdot 19}_{342})^2.
+    \end{align*}
+    $ x^2=342\land y^2=684 \iff 584820=x^2+y^2 $ for $ x,y\in\mathbf{Z}^+ $.
+\end{Exercise}
+
+
+\makeheading{Week 9 | Friday}{\printdate{2022-07-01}}%chktex 8
+Holiday (Canada Day).

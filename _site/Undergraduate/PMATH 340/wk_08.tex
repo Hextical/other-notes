@@ -1,0 +1,174 @@
+\makeheading{Lecture 19}{\printdate{2022-06-20}}%chktex 8
+
+
+\makeheading{Lecture 20}{\printdate{2022-06-22}}%chktex 8
+\section{Quadratic Congruences}
+Let $ n\ge 3 $ be a modulus and $ a,b,c\in\mathbf{Z} $. We will now turn our attention
+to the quadratic congruence
+\[ ax^2+bx+c\equiv 0\Mod{n}, \]
+where $ a,b,c\in\mathbf{Z} $, $ n\nmid a $, and $ x $ is unknown modulo $ n $.
+
+In terms of equations in $ \mathbf{Z}_n $,
+\[ [a]x^2+[b]x+[c]=[0], \]
+where $ [a],[b],[c]\in\mathbf{Z} $, and $ x $ is an unknown residue class in $ \mathbf{Z}_n $.
+
+Note:
+\begin{enumerate}[(1)]
+    \item For a quadratic congruence $ ax^2+bx+c\equiv 0\Mod{n} $, we require $ n\nmid a $. Otherwise,
+          the quadratic congruence collapse to the linear congruence $ bx+c\equiv 0\Mod{n} $.
+    \item For $ n=2 $, the quadratic congruence $ ax^2+bx+c\equiv 0\Mod{n} $ collapses into a linear
+          congruence. Indeed, by Fermat's Invariant (Corollary 1 Lecture 14), $ x^2\equiv x\Mod{2} $
+          regardless of $ x $ and so
+          \[ ax^2+bx+c\equiv (a+b)x+c\Mod{2}. \]
+    \item For simplicity of interpretation, we will assume the $ n $ to be prime and
+          denote it by $ p $. If $ p $ is an odd prime (i.e., $ p\ne 2 $), then $ \frac{p-1}{2}\in\mathbf{Z} $.
+\end{enumerate}
+\begin{Proposition}{}{}
+    Let $ p $ be an odd prime, and $ a,b,c,\in\mathbf{Z} $ with $ p\nmid a $. The quadratic congruence
+    \[ ax^2+bx+c\equiv 0\Mod{p} \]
+    has a solution if and only if the congruence
+    \[ y^2\equiv b^2-4ac\Mod{p} \]
+    has a solution. In that case $ y\equiv 2ax+b\Mod{p} $.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+Proposition 1 tells us that solving the quadratic congruence
+\[ ax^2+bx+c\equiv 0\Mod{p} \]
+is equivalent to solving a simplifier quadratic congruence
+\[ y^2\equiv d\Mod{p}, \]
+where $ d=b^2-4ac $. The integer $ d $ is called the discriminant of the polynomial
+$ ax^2+bx+c $.
+\begin{Example}{}{}
+    Solve $ 2x^2+18x+3\equiv 0\Mod{23} $.
+    \tcblower{}
+    \textbf{Solution}: The discriminant of this quadratic polynomial modulo $ 23 $ is
+    \[ 18^2-4(2)(3)\equiv 300\equiv 1\Mod{23}. \]
+    According to Proposition 1, we should first solve
+    \[ y^2\equiv 1\Mod{23}. \]
+    By inspection, we see that $ y=1 $ and $ y=22 $ are the solutions. According to Proposition 1, we need to solve
+    \[ 4x+18\equiv 1\Mod{23},\text{ and }4x+18\equiv 22\Mod{23}. \]
+    Solving them gives
+    \[ x\equiv 1\Mod{23},\text{ and }x\equiv 13\Mod{23}, \]
+    which are the solutions of the given congruence.
+\end{Example}
+In order to find solutions of $ y^2\equiv d\Mod{p} $, we need to understand which residue classes
+of $ \mathbf{Z}_p $ are squares.
+\begin{Definition}{}{}
+    Let $ p $ be an odd prime. A residue $ [a] $ in $ \mathbf{Z}_p $ is called a quadratic residue when
+    \[ [a]\in\mathbf{Z}_p^*\text{ and $ [a]=[b]^2 $ for some other residue $ [b]\in\mathbf{Z}_p^* $.} \]
+    If no such $ [b] $ exists, then $ [a] $ is called a quadratic non-residue.
+
+    In terms of congruences, an integer $ a $ is a quadratic residue modulo $ p $ if
+    \[ (p,a)=1\land \exists b\in\mathbf{Z}\; a\equiv b^2\Mod{p}\land (b,p)=1. \]
+\end{Definition}
+\begin{Example}{}{}
+    Find quadratic residues in $ \mathbf{Z}_7^* $.
+    \tcblower{}
+    \textbf{Solution}: Note that
+    \begin{align*}
+        1^2 & \equiv 1\Mod{7} \\
+        2^2 & \equiv 4\Mod{7} \\
+        3^2 & \equiv 2\Mod{7} \\
+        4^2 & \equiv 2\Mod{7} \\
+        5^2 & \equiv 4\Mod{7} \\
+        6^2 & \equiv 1\Mod{7}
+    \end{align*}
+    Thus, we can say that integers having quadratic residues modulo $ 11 $ are those that
+    are congruent to $ 1,2,4 $.
+\end{Example}
+\begin{Exercise}{}{}
+    Determine all quadratic non-residues modulo $ 17 $.
+\end{Exercise}
+\begin{Proposition}{}{}
+    Let $ p $ be an odd prime. Then, there are exactly $ \frac{p-1}{2} $ quadratic residues
+    modulo $ p $ and exactly $ \frac{p-1}{2} $ quadratic non-residues modulo $ p $.
+\end{Proposition}
+\begin{Exercise}{}{}
+    Prove Proposition 1.
+\end{Exercise}
+\textbf{Detecting Quadratic Residues with Primitive Roots}:
+Since $ p $ is an odd prime, by the Primitive Root Theorem (Theorem 2 Lecture 17),
+there exists a primitive root modulo $ p $, say $ a $, and by Proposition 2 (Lecture 17),
+the number of such primitive roots is $ \varphi(p-1) $. Also, the powers
+\[ a,a^2,\ldots,a^{p-1} \]
+are all distinct modulo $ p $ and exhausts $ \mathbf{Z}_p^* $. By looking at $ k $, we can
+decide whether $ a^k $ is a quadratic residue or not.
+\begin{Proposition}{}{}
+    If $ a $ is a primitive root modulo $ p $ with $ (a,p)=1 $ and $ a^i\equiv a^j\Mod{p} $,
+    then these exponents will be both even or both odd.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\makeheading{Lecture 21}{\printdate{2022-06-24}}%chktex 8
+For a simpler notation, let's write $\QR$ for a quadratic residue modulo $p$ and $\NR$
+for a quadratic non residue modulo $p$: From the Example 1 (Lecture 20), we see that we have
+\begin{align*}
+    \QR\cdot \QR & =\QR  \\
+    \QR\cdot \NR & =\NR  \\
+    \NR\cdot \NR & =\QR.
+\end{align*}
+Note that quadratic residues are the perfect squares of $ \mathbf{Z}_p^* $ and you can easily
+get quadratic residues by squaring all the elements of $ \mathbf{Z}_p^* $.
+\begin{Proposition}{}{}
+    If $ p $ is an odd prime, then
+    \begin{enumerate}[(1)]
+        \item The product of two quadratic residues modulo $p$ is a quadratic residue
+              modulo $p$.
+        \item The product of a quadratic residue modulo $p$ and a quadratic non-residue
+              modulo $p$ is quadratic non-residue modulo $p$.
+        \item The product of two quadratic non-residues modulo $p$ is a quadratic residue.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+What does the multiplication rule of quadratic residues and quadratic non
+residues remind of you?
+\begin{align*}
+    1\cdot 1       & =1  \\
+    1\cdot (-1)    & =-1 \\
+    (-1)\cdot (-1) & =1.
+\end{align*}
+In 1798, the French Mathematician Adrien-Marie Legendre introduced a handy
+symbol to mark this distinction.
+
+For an odd prime $ p $, and $ a\in\mathbf{Z} $ with $ p\nmid a $, the \textbf{Legendre symbol},
+$ \legendre{a}{p} $ is defined by
+\[ \legendre{a}{p}=\begin{cases}
+        +1, & \text{$a$ is a $\QR$ modulo $ p $}, \\
+        -1, & \text{$a$ is a $\NR$ modulo $ p $}.
+    \end{cases} \]
+Note:
+\begin{enumerate}[(1)]
+    \item Keep in mind that the Legendre symbol is not a fraction, even though it
+          sort of look like one.
+    \item $ 1 $ is a quadratic residue modulo $ p $ for any odd prime $ p $; that is, $ \legendre{1}{p}=1 $.
+    \item $ -1 $ might or might not be a quadratic residue, depending on the $ p $. For example,
+          $ \legendre{-1}{19}=-1 $ and $ \legendre{-1}{5}=1 $.
+    \item We can rewrite Proposition 1 using the Legendre symbol as
+          \[ \legendre{a}{p}\legendre{b}{p}=\legendre{ab}{p}. \]
+    \item If $ a\equiv b\Mod{p} $, then $ \legendre{a}{p} $ because the quadratic residue is the same for all congruent integers.
+\end{enumerate}
+\begin{Exercise}{}{}
+    Calculate $ \legendre{3}{13} $, $\legendre{11}{13}$, and $ \legendre{6}{17} $.
+\end{Exercise}
+The Proposition 1 suggest an Algorithm for calculating the Legendre polynomial $ \legendre{a}{p} $.
+First, we need to find the primitive root $b$ modulo $p$ and then determine
+the parity of $x$ in $ b^x\equiv a\Mod{p} $. Euler came up with a much simpler procedure.
+\begin{Proposition}{Euler's Test}{}
+    If $ p $ is an odd prime and $ a\in\mathbf{Z} $ with $ p\nmid a $, then
+    \[ a^{\frac{p-1}{2}}=\legendre{a}{p}\Mod{p}. \]
+    \tcblower{}
+    \textbf{Proof}:
+\end{Proposition}
+\begin{Example}{}{}
+    Does $ 79 $ have a quadratic residue modulo $ 31 $?
+    \tcblower{}
+    \textbf{Solution}: Note that $ \frac{31-1}{2}=15 $ and by Euler's Test we reduce $ 79^{15}\Mod{31} $ (using the double-and-add algorithm).
+    Note that $ 15=1+2+4+8 $, and so $ 17^{15}=17^1\cdot 17^2\cdot 17^4+17^8 $. We have
+    \[ 17\equiv 17,\; 17^2\equiv 10,\; 17^4\equiv 7,\; 17^8\equiv 18\Mod{31}. \]
+    Thus,
+    \[ 17^{15}=17\cdot 10\cdot 7\cdot 18\equiv 30\equiv -1\Mod{31}. \]
+    According to Euler's test, $79$ does not have a quadratic residue modulo $31$. In the
+    Language of the Legendre symbol we have found that
+    \[ \legendre{79}{31}=-1. \]
+\end{Example}

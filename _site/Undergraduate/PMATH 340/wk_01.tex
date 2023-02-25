@@ -1,0 +1,374 @@
+\makeheading{Lecture 1}{\printdate{2022-05-02}}%chktex 8
+\section{Integers}
+\begin{itemize}
+    \item Natural numbers: $ \mathbf{N}=\Set{0,1,2,\ldots} $.
+    \item Ring of integers: $ \mathbf{Z}=\Set{0,\pm 1,\pm 2,\ldots} $.
+    \item Field of fractions $ \mathbf{Q}=\Set*{a/b\given a,b\in\mathbf{Z}\land b\ne 0} $.
+    \item Field of real numbers: $ \mathbf{R} $.
+    \item Field of complex numbers: $ \mathbf{C}=\Set{a+bi\given a,b\in\mathbf{R}\land i=\sqrt{-1}} $.
+\end{itemize}
+\begin{Definition}{Axioms}{}
+    Set of integers as integral domains:
+    \begin{enumerate}[label=V\arabic*]
+        \item $ \mathbf{Z} $ has operations $ + $ (addition) and $ \cdot $ (multiplication). It is closed
+              under these operations, in that if $ a,b\in\mathbf{Z} $, then $ a+b\in\mathbf{Z} $ and $ a\cdot b\in\mathbf{Z} $.
+        \item Addition is associative: If $ a,b,c\in\mathbf{Z} $, then
+              \[ a+(b+c)=(a+b)+c. \]
+        \item There is an additive identity $ 0\in\mathbf{Z} $: For all $ a\in\mathbf{Z} $,
+              \[ a+0=0+a=a. \]
+        \item Every element has an additive inverse: If $ a\in\mathbf{Z} $, there is an element $ -a\in\mathbf{Z} $ such that
+              \[ a+(-a)=0\text{ and }(-a)+a=0. \]
+        \item Addition is commutative: If $ a,b\in\mathbf{Z} $, then
+              \[ a+b=b+a. \]
+        \item Multiplication is associative: If $ a,b,c\in\mathbf{Z} $, then
+              \[ a\cdot(b\cdot c)=(a\cdot b)\cdot c. \]
+        \item There is a multiplicative identity $ 1\in\mathbf{Z} $: For all $ a\in\mathbf{Z} $,
+              \[ a\cdot 1=a=1\cdot a. \]
+        \item Multiplication is commutative: If $ a,b\in\mathbf{Z} $, then
+              \[ a\cdot b=b\cdot a. \]
+        \item The Distributive Laws hold: If $ a,b,c\in\mathbf{Z} $, then
+              \[ a\cdot (b+c)=a\cdot b+a\cdot c, \]
+              \[ (a+b)\cdot c=a\cdot c+b\cdot c. \]
+        \item There are no zero divisors: If $ a,b\in\mathbf{Z} $ and $ a\cdot b=0 $, then either
+              $ a=0 $ or $ b=0 $.
+    \end{enumerate}
+\end{Definition}
+\begin{Remark}{}{}
+    \begin{enumerate}[(i)]
+        \item As usual, we will often abbreviate $ m\cdot n $ to $ mn $.
+        \item The last axiom is equivalent to the \textbf{cancellation law}.
+              If $ a,b,c\in\mathbf{Z} $, $ a\ne 0 $, and $ab=ac$, then
+              $ b=c $.
+              \begin{align*}
+                  ab     & =ac \\
+                  ab-ac  & =0  \\
+                  a(b-c) & =0.
+              \end{align*}
+              Since there are no zero divisors, either $a = 0$ or $b - c = 0$. Since $ a\ne 0 $ by assumption, we must have
+              $b - c = 0$, so $b = c$.
+
+              Notice that we did not divide both sides of the equation by $ a $; we cancelled $a$ from both sides. This shows
+              that division and cancellation are not the ``the same thing.''
+    \end{enumerate}
+\end{Remark}
+\begin{Exercise}{}{}
+    If $ n\in\mathbf{Z} $, then prove that $ 0\cdot n=0 $.
+    \tcblower{}
+    \textbf{Solution}:
+    \begin{align*}
+        0\cdot n
+         & =0\cdot n+0                    &  & \text{V3} \\
+         & =0\cdot n+0\cdot n+(-0\cdot n) &  & \text{V4} \\
+         & =(0+0)\cdot n+(-0\cdot n)      &  & \text{V9} \\
+         & =0\cdot n+(-0\cdot n)          &  & \text{V3} \\
+         & =0.                            &  & \text{V4}
+    \end{align*}
+\end{Exercise}
+\begin{Exercise}{}{}
+    If $ n\in\mathbf{Z} $, then prove that $ -n=(-1)\cdot n $.
+    \tcblower{}
+    \textbf{Solution}:
+    \begin{align*}
+        0\cdot n             & =0                  \\
+        (-1+1)\cdot n        & =0   &  & \text{V4} \\
+        (-1)\cdot n+1\cdot n & =0   &  & \text{V9} \\
+        (-1)\cdot n+n        & =0   &  & \text{V7} \\
+        (-1)\cdot n          & =-n.
+    \end{align*}
+\end{Exercise}
+\begin{Theorem}{Well-Ordering Axiom (WOA)}{}
+    Any non-empty subset of the positive integers ($ \mathbf{N} $) has a smallest element.
+    \tcblower{}
+    There are three main ways of using (WOA) in proofs.
+    \begin{enumerate}[(1)]
+        \item Pick the smallest element in a non-empty subset of $ \mathbf{N} $ and show that there
+              is a smallest element.
+        \item If a subset of natural numbers contains no smallest element, then the set
+              is empty.
+        \item Any statement that implies there is an infinite strictly decreasing sequence
+              of natural numbers must be false. This is called the \emph{Principal of infinite
+                  descent}.
+    \end{enumerate}
+\end{Theorem}
+\begin{Theorem}{Principal of Mathematical Induction (POMI)}{}
+    Let $ P(n) $ be a statement that depends on $ n\in\mathbf{N} $. If $ P(0) $ is true
+    and for all $ k\in\mathbf{N} $, $ P(k) $ implies $ P(k+1) $, then $ P(n) $ is true for
+    all $ n\in\mathbf{N} $.
+\end{Theorem}
+\begin{Exercise}{}{}
+    State the Principal of Strong Induction (POSI).
+    \tcblower{}
+    Let $ P(n) $ be a statement that depends on $ n\in\mathbf{N} $. If $ P(0) $ is true
+    and for all $ k\in\mathbf{N} $, $ P(0),\ldots,P(k) $ implies $ P(k+1) $, then $ P(n) $ is true for
+    all $ n\in\mathbf{N} $.
+\end{Exercise}
+\makeheading{Lecture 2}{\printdate{2022-05-04}}%chktex 8
+\section{Divisibility}
+\begin{Definition}{Divides in $ \mathbf{Z} $}{}
+    If $ a,b\in\mathbf{Z} $, we say $ a $ \textbf{divides} $ b $, or that $ a $
+    is a factor of $ b $, when $ b=ak $ for some $ k\in\mathbf{Z} $. We also say at times
+    that $ a $ is a divisor of $ b $. When this happens, we write $ a\mid b $, and
+    when this does not happen, we write $ a\nmid b $.
+\end{Definition}
+\begin{Example}{}{}
+    For example, $ -3\mid 12 $, but $ 6\nmid 9 $. Every $ a\mid 0 $ since $ 0=a\cdot 0 $,
+    but $ 0\nmid a $ when $ a\ne 0 $. For otherwise, we would have some $ k $ such that
+    \[ 0\ne a=0\cdot k=0. \]
+    The integers $ \pm 1 $ divide every integer $ b $. Indeed, $ b=1\cdot b $ and $ b=(-1)(-b) $.
+\end{Example}
+\begin{Proposition}{}{LEC2_PROP1}
+    Let $ a,b,c,x,y\in\mathbf{Z} $,
+    \begin{enumerate}[(1)]
+        \item $ a\mid b \land b\mid c \implies a\mid c $.
+        \item $ c\mid a\land c\mid b\implies c\mid(ax+by) $.
+        \item $ a\mid b \land b\ne 0 \implies \abs{a}\le\abs{b} $.
+        \item $ a\mid b \land b\mid a \implies a=\pm b $.
+        \item $ a\mid b \implies \pm a\mid \pm b $.
+        \item $ a\mid b \land c\mid d \implies ac\mid bd $.
+        \item $ \pm 1\mid a,\;\forall a\in\mathbf{Z} $.
+        \item $ a\mid 0,\;\forall a\in\mathbf{Z} $.
+        \item $ a\mid a,\;\forall a\in\mathbf{Z} $.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{enumerate}[(1)]
+        \item We have $ b=ak $ and $ c=b\ell $ for some $ k,\ell\in\mathbf{Z} $. Then, $ c=(ak)\ell=a(k\ell) $,
+              and so $ a\mid c $ since $ k\ell\in\mathbf{Z} $.
+        \item We have $ a=ck $ and $ b=c\ell $ for some $ k,\ell\in\mathbf{Z} $. Then,
+              \[ ax+by=ckx+c\ell y=c(kx+\ell y). \]
+              And so $ c\mid (ax+by) $ since $ kx+\ell y\in\mathbf{Z} $.
+        \item We have $ b=ak $ for some $ k\in\mathbf{Z} $. Take absolute values to get $ \abs{b}=\abs{a}\abs{k} $.
+              Since $ b\ne 0 $, we get $ \abs{k}>0 $, but $ k\in\mathbf{Z} $ so $ \abs{k}\ge 1 $. Hence, $ \abs{a}\le \abs{b} $.
+        \item We have $ b=ak $ and $ a=b\ell $ for some $ k,\ell\in\mathbf{Z} $. So, $ b=(b\ell)k=b(\ell k) $.
+              If $ b=0 $, then $ a=0 $ too, whereby $ a=\pm b $. If $ b\ne 0 $, cancel $ b $ to get $ 1=\ell k $. Thus,
+              $ \ell=\pm 1 $, and so $ a=\pm b $.
+        \item We have $ b=ak $ for some $ k\in\mathbf{Z} $. Then, $ -b=a(-k) $ and so $ a\mid(-b) $. Also,
+              $ b=(-a)(-k) $ and so $ -a\mid b $. Continuing for the other two cases, we get that $ a\mid \pm b $.
+    \end{enumerate}
+\end{Proposition}
+\begin{Corollary}{}{}
+    Suppose $ a\mid b $ and $ a\mid c $, then
+    \begin{enumerate}[(1)]
+        \item $ a\mid b\pm c $.
+        \item $ a\mid mb $ for all $ m\in\mathbf{Z} $.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}: Exercise.
+
+    In words, (1) says that if a number divides two other numbers, then it also
+    divides their sum and difference as well. And (2) says that if a number divides
+    another number, then it divides the multiple of the other number.
+\end{Corollary}
+\begin{Example}{}{}
+    Prove that if $ x $ is an even number, then $ x^2+2x+4 $ is divisible by $ 4 $.
+    \tcblower{}
+    If $ x $ is an even number, then $ x=2m $, where $ m\in\mathbf{Z} $.
+    $ x^2+2x+4 $ is divisible by $ 4 $ implies $ \exists c\in\mathbf{Z} $ such that
+    \[ (2m)^2+2(2m)+4=4c. \]
+    Hence,
+    \begin{align*}
+        (2m)^2+2(2m)+4
+         & =4m^2+4m+4  \\
+         & =4(m^2+m+1) \\
+         & =4c
+        \implies c=m^2+m+1.
+    \end{align*}
+\end{Example}
+\section{Quotients and Remainders}
+When divisibility fails, we do look for remainders. Here is an important result about division of integers.
+It will have a lot of uses; for example, it's the key
+step in the Euclidean Algorithm, which is used to compute greatest common
+divisors.
+\begin{Theorem}{The Division Algorithm}{}
+    Let $ a $ and $ b $ be integers with $ a>0 $, then there exists unique integers $ q,r $ such that
+    \[ b=aq+r\text{ and }0\le r<a. \]
+    \tcblower{}
+    \textbf{Proof}: The idea is to find the remainder $r$ using Well-Ordering. What is
+    division? Division is successive subtraction. You ought to be able to find $r$ by
+    subtracting $a$'s from $b$ till you can't subtract without going negative. That idea
+    motivates the construction which follows.
+
+    Look at the set of integers
+    \[ S=\Set{b-an\given n\in\mathbf{Z}\text{ and }b-an\ge 0}. \]
+    In other words, we take $ b $ and subtract all possible multiples of $ a $. If we choose
+    $ n<\frac{b}{a} $ (there always an integer less than any number), then $ an<b $, so $ b-an>0 $.
+    This choice of $ n $ produces a positive integer $ a-bn $ in $ S $. Therefore, $ S $ is a non-empty
+    set of non-negative integers and by WOA there is a smallest element $ r\in S $. Thus, $ r\ge 0 $ and $ r=b-aq $
+    for $ q\in\mathbf{Z} $. Therefore,
+    \[ b=aq+r. \]
+    Moreover, if $ r\ge a $, then $ r-a\ge 0 $, so
+    \[ b-aq-a\ge 0\text{ or }b-a(q+1)\ge 0, \]
+    which implies $ b-a(q+1)\in S $, but $ r=b-aq>b-a(q+1) $. This contradicts
+    our assumption that $r$ is the smallest element of $S$. Therefore,
+    \[ b=aq+r\text{ and }0\le r<a. \]
+    To show $ r $ and $ q $ are unique, suppose $ r^\prime $ and $ q^\prime $ also satisfy these conditions:
+    \[ b=aq^\prime+r^\prime\text{ and }0\le r<a. \]
+    Also, assume without loss of generality that $ r\le r^\prime $. Then,
+    \begin{align*}
+        aq+r          & =aq^\prime+r^\prime, \\
+        a(q-q^\prime) & =r^\prime-r.
+    \end{align*}
+    Thus, $ r^\prime-r $ is a multiple of $ a $. Thus, $ \frac{r^\prime - r}{a} $ is an integer and hence $ r-r^\prime=0 $
+    implies $ r=r^\prime$. Further, $ b(q-q^\prime)=0 $ showing that $ q=q^\prime $.
+\end{Theorem}
+\begin{Definition}{}{}
+    Let $ a,b $ be integers and $ a>0 $. We write $ b=aq+r $, where $ 0\le r<a $. Then $ a $ is called modulus, $ b $ is
+    called dividend, $ q $ is called quotient, and $ r $ is called remainder.
+    \tcblower{}
+    Note that for $ a>0 $, the expression $ a\mid b $ simply means that in $ b=aq+r $ with $ r=0 $.
+\end{Definition}
+\begin{Example}{}{}
+    \begin{enumerate}[(a)]
+        \item Apply the Division Algorithm to divide $59$ by $7$.
+        \item Apply the Division Algorithm to divide $-59$ by $7$.
+    \end{enumerate}
+    \tcblower{}
+    \begin{enumerate}
+        \item $ 59=7(8)+3 $.
+        \item $ -59=7(-8)+(-3) $.
+    \end{enumerate}
+\end{Example}
+\makeheading{Lecture 3}{\printdate{2022-05-06}}%chktex 8
+\begin{Example}{}{}
+    Prove that if $ n\in\mathbf{Z} $, then $ n^2 $ does not leave a remainder of $ 2 $
+    or $ 3 $ when it's divided by $ 5 $.
+    \tcblower{}
+    \textbf{Solution}: We will do this using the Division Algorithm as an illustration. If $ n $ is divided by $ 5 $,
+    the remainder $ r $ satisfies $ 0\le r<5 $. Thus, $ r=0,1,2,3,4 $. Hence, $ n $ can have one of the following forms:
+    \[ 5q+0,\, 5q+1,\, 5q+2,\, 5q+3,\, 5q+4. \]
+    Check each case:
+    \begin{align*}
+        n^2 & =(5q)^2=25q^2=5(5q^2)+0                \\
+        n^2 & =(5q+1)^2=25q^2+10q+1=5(5q^2+2q)+1     \\
+        n^2 & =(5q+2)^2=25q^2+20q+4=5(5q^2+4q)+4     \\
+        n^2 & =(5q+3)^2=25q^2+30q+9=5(5q^2+6q+1)+4   \\
+        n^2 & =(5q+4)^2=25q^2+40q+16+5(5q^2+8q+3)+1.
+    \end{align*}
+    In all cases, dividing $ n^2 $ by $ 5 $ gave a remainder of $ 0 $, $ 1 $, or $ 4 $.
+\end{Example}
+As an illustration, $191273$ can't be perfect square because it leaves a remainder
+of $3$ when it's divided by $5$.
+\section{Greatest Common Divisor}
+\begin{Definition}{}{}
+    Let $ a,b\in\mathbf{Z} $ (not both zero). A number $ d\in\mathbf{Z}^+ $ is called the greatest common divisor (GCD) of $ a $ and $ b $ if
+    \begin{enumerate}[(1)]
+        \item $ d\mid a $ and $ d\mid b $,
+        \item If $ c\mid a $ and $ c\mid b $, then $ c\mid d $.
+    \end{enumerate}
+    In other words, the greatest common divisor of two integers (not both zero) is
+    the largest integer which divides both of them. If $a$ and $b$ are integers (not both
+    $0$), the greatest common divisor of $a$ and $b$ is denoted $(a,b)$. The greatest common
+    divisor is sometimes called the greatest common factor or highest common factor.
+\end{Definition}
+Here are some easy examples:
+\begin{itemize}
+    \item $ (8,6)=2 $;
+    \item $ (15,15)=15 $;
+    \item $ (60,0)=60 $;
+    \item $ (18,-15)=3 $.
+\end{itemize}
+You were probably able to do the last examples by factoring the numbers in
+your head. For instance, to find $(8,6)$, you see that $2$ is the only integer bigger
+than $1$ which divides both $8$ and $6$.
+
+In case $a = b = 0$, it might make sense to say there is no greatest common
+divisor. Some say that $(0,0) = 0$, but in any case the issue for us will not arise.
+
+When $a$ and $b$ are small integers, we can find $(a, b)$ by inspection. The problem
+with this approach is that it requires that you factor the numbers. However, once
+the numbers get too large --- currently, ``too large'' means ``on the order of several
+hundred digits long'' --- this approach to finding the greatest common divisor won't
+work. Fortunately, the Euclidean algorithm computes the greatest common divisor
+of two numbers without factoring the numbers. We will discuss it after discussing
+some elementary properties.
+\begin{Proposition}{}{l3_prop1}
+    Let $ a,b\in\mathbf{Z} $ (not both zero). Then,
+    \begin{enumerate}[(1)]
+        \item $ (a,b)\ge 1 $.
+        \item $ (a,b)=(\abs{a},\abs{b}) $.
+        \item $ (a,b)=(a+kb,b) $, for any integer $ k $.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{enumerate}[(1)]
+        \item Since $ 1\mid a $ and $ 1\mid b $, $ (a,b) $ must be at least as big as $ 1 $.
+        \item $ x\mid a $ if and only if $ x\mid -a $; that is, $ a $ and $ -a $ have the same factors,
+              but $ \abs{a} $ is either $ a $ or $ -a $, so $ a $ and $ \abs{a} $ have the same factors. Likewise,
+              $ b $ and $ \abs{b} $ have the same factors. Therefore, $ x $ is a common factor of $ a $ and $ b $ if and only if it's
+              a common factor of $ \abs{a} $ and $ \abs{b} $. Hence, $ (a,b)=(\abs{a},\abs{b}) $.
+        \item First, if $ x $ is a common factor of $ a $ and $ b $, then $ x\mid a $ and $ x\mid b $. Then, $ x\mid kb $,
+              so $ x\mid a+kb $. Thus, $ x $ is a common factor of $ a+kb $ and $ b $. Likewise, if $ x $ is a common factor of $ a+kb $
+              and $ b $, then $ x\mid a+kb $ and $ x\mid b $ which implies
+              \[ x\mid (a+kb)-kb=a. \]
+              Thus, $ x $ is a common factor of $ a $ and $ b $. Therefore,
+              \[ \Set{\text{common factors of $a$ and $b$}}=\Set{\text{common factors of $a+kb$ and $b$}}. \]
+              So their largest element are same. The largest element of the first
+              set is $(a, b)$, while the largest element of the second set is $(a + kb,b)$. Therefore,
+              $(a, b) = (a + kb, b)$.
+    \end{enumerate}
+\end{Proposition}
+\begin{Example}{}{}
+    Use the property that $ (a,b)=(a+kb,b) $ to compute $ (998,996) $.
+    \tcblower{}
+    \textbf{Solution}: $ (998,996)=(2+996,996)=(2,996)=2 $.
+\end{Example}
+\begin{Example}{}{}
+    Prove that if $ n\in\mathbf{Z} $, then $ (3n+4,n+1)=1 $.
+    \tcblower{}
+    $ (3n+4,n+1)=(3(n+1)+1,n+1)=(1,n+1) $. Now, $ (1,n+1)\mid 1 $, but the only positive integer that divides $ 1 $
+    is $ 1 $. Hence, $ (1,n+1)=1 $, and so $ (3n+4,n+1)=1 $.
+\end{Example}
+\begin{Remark}{}{}
+    In this course, we often use the special case where $ (a,b)=1 $.
+\end{Remark}
+\begin{Definition}{}{}
+    Let $ a,b\in\mathbf{Z} $ (not both zero). If $ (a,b)=1 $, then we say that $ a $ and $ b $ are relatively prime or coprime.
+    \tcblower{}
+    For example, $ 49 $ and $ 54 $ are relatively prime, but $ 25 $ and $ 105 $ are not.
+\end{Definition}
+\begin{Proposition}{}{l3_prop2}
+    If $ d=(m,n) $, then $ (\frac{m}{d},\frac{n}{d})=1 $.
+    \tcblower{}
+    \textbf{Proof}: Suppose $ m=da $ and $ n=db $. Then
+    \[ \biggl(\frac{m}{d},\frac{n}{d}\biggr)=(a,b). \]
+    Suppose that $ \ell\in\mathbf{Z}^+ $ be a common divisor of $ m $ and $ n $. Since $ d $ is the greatest common divisor,
+    $ d\ge d\ell $. Therefore, $ 1\ge \ell $, so $ \ell=1 $ (since $ \ell $ is a positive integer). $ 1 $ is the only positive common divisor
+    of $ a $ and $ b $. Therefore, $ 1 $ is the greatest common divisor of $ a $ and $ b $, that is,
+    \[ \biggl(\frac{m}{d},\frac{n}{d}\biggr)=(a,b)=1. \]
+\end{Proposition}
+\section{The Euclidean Algorithm}
+The main method for calculating the GCD of two integers is the Euclidean
+Algorithm which is based on the Division Algorithm and~\Cref{prop:l3_prop1} (3).
+
+\Cref{prop:l3_prop1} (2) shows that there's no harm in assuming
+the integers are non-negative.
+\begin{Theorem}{}{}
+    Let $ a,b\in\mathbf{Z} $ with $ b>a>0 $. Use the Division Algorithm repeatedly as follows:
+    \begin{align*}
+        r_1     & =b\text{ and }r_2=a.                      \\
+        r_1     & =b=r_2q_1+r_3,        &  & 0\le r_3<a=r_2 \\
+        r_2     & =r_3q_2+r_4,          &  & 0\le r_4<r_3   \\
+        r_3     & =r_4q_3+r_5,          &  & 0\le r_5<r_4   \\
+                & \vdotswithin{=}                           \\
+        r_{n-1} & =r_n q_{n-1}+r_{n+1},
+    \end{align*}
+    with $ r_{n+1}=0 $. Then $ (a,b)=(r_2,r_1)=(r_3,r_2)=\cdots=(r_n,0)=r_n $. We will show that this smallest
+    positive integer $ r_n $ is $ (a,b) $.
+    \tcblower{}
+    \textbf{Proof}: From~\Cref{prop:l3_prop1} (3), we obtain
+    \begin{align*}
+        (a,b) & =(b,a)=(r_1,r_2)  \\
+              & =(r_2q_1+r_3,r_2) \\
+              & =(r_3,r_2)        \\
+              & =(r_2,r_3)        \\
+              & =(r_3q_2+r_4,r_3) \\
+              & =(r_4,r_3)        \\
+              & \vdotswithin{=}   \\
+              & =(r_{n+1},r_n).
+    \end{align*}
+    One last step we see that $ (a,b)=(r_{n+1},r_n)=(0,r_n)=r_n $.
+\end{Theorem}
+\textbf{Note}: The Euclidean Algorithm always terminates as we have the decreasing
+remainders $ r_1>r_2>r_3>\cdots\ge r_{n}>r_{n+1} $: By WOA sooner or later some remainder
+becomes $0$ because the sequence is bounded below by $0$. After $n$ steps, this
+sequence eventually reaches some smallest positive number $ r_n $.

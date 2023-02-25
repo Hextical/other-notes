@@ -1,0 +1,166 @@
+\makeheading{Lecture 4}{\printdate{2023-01-19}}%chktex 8
+\section{Lecture 4: Quadratic Forms with Idempotency}
+\begin{Lemma}{}{}
+      Let $ \Matrix{A}\in\R^{n\times n} $ be symmetric
+      and $ \Matrix{B}\in\R^{n\times n} $ be positive
+      definite. If the eigenvalues of $ \Matrix{AB} $
+      are $ 0 $'s or $ 1 $'s, then $ \Matrix{AB} $ is idempotent.
+      \tcblower{}
+      \textbf{Proof}: By Cholesky decomposition, there exists an
+      invertible lower triangular matrix $ \Matrix{L} $
+      such that
+      \[ \Matrix{B}=\Matrix{LL}'. \]
+      If the eigenvalues of $ \Matrix{AB} $
+      are $ 0 $'s or $ 1 $'s, then the equation
+      $ \abs{\Matrix{AB}-\lambda \Matrix{I}}=0 $
+      has roots $ 0 $ or $ 1 $.
+      \begin{align*}
+            \abs{\Matrix{AB}-\lambda \Matrix{I}}
+             & =\abs[\big]{\Matrix{L}'(\Matrix{AB}-\lambda \Matrix{I})(\Matrix{L}')^{-1}} \\
+             & =\abs[\big]{\Matrix{L}'\Matrix{AB}(\Matrix{L}')^{-1}-\lambda \Matrix{I}}   \\
+             & =\abs[\big]{\Matrix{L}'\Matrix{ALL}'(\Matrix{L}')^{-1}-\lambda \Matrix{I}} \\
+             & =\abs{\Matrix{L}'\Matrix{AL}-\lambda \Matrix{I}}                           \\
+             & =0
+      \end{align*}
+      has roots $ 0 $ or $ 1 $. Since $ \Matrix{L}'\Matrix{AL} $ is symmetric, and
+      thus diagonalizable, it follows that
+      \[ \Matrix{L}'\Matrix{AL} \]
+      is idempotent since
+      \begin{align*}
+            (\Matrix{L}'\Matrix{AL})(\Matrix{L}'\Matrix{AL})
+             & =\Matrix{Q}'\diag{\lambda_1,\ldots,\lambda_n}\underbrace{\Matrix{Q}\Matrix{Q}'}_{\Matrix{I}}\diag{\lambda_1,\ldots,\lambda_n}\Matrix{Q} \\
+             & =\Matrix{Q}'\diag{\lambda_1^2,\ldots,\lambda_n^2}\Matrix{Q}                                                                             \\
+             & =\Matrix{Q}'\diag{\lambda_1,\ldots,\lambda_n}\Matrix{Q}                                                                                 \\
+             & =\Matrix{L}'\Matrix{AL}.
+      \end{align*}
+      Therefore,
+      \begin{align*}
+             & \phantom{{}\implies{}}\Matrix{L}'\Matrix{AL}  =\Matrix{L}'\Matrix{ALL}'\Matrix{AL} \\
+             & \implies \Matrix{AL}    =\Matrix{ALL}'\Matrix{AL}                                  \\
+             & \implies \Matrix{ALL}'  =\Matrix{AB}=\Matrix{ALL}'\Matrix{ALL}'=\Matrix{ABAB}      \\
+             & \implies \Matrix{AB}    \text{ is idempotent}.
+      \end{align*}
+\end{Lemma}
+\begin{Theorem}{}{}
+      Let $ \Vector{X}\sim \MN{\Vector{\mu},\Matrix{\Sigma}} $
+      and $ \Matrix{A} $ be a symmetric matrix with rank $ r $.
+      Then,
+      \[ \Vector{X}'\Matrix{A}\Vector{X} \sim \chi^2(r,\lambda),\; \forall \Vector{\mu} \]
+      with $ \lambda=\frac{1}{2}\Vector{\mu}'\Matrix{A}\Vector{\mu} $ if and only if
+      $ \Matrix{A\Sigma} $ is idempotent.
+      \tcblower{}
+      \textbf{Proof}:
+
+      $ (\impliedby) $ Assume that $ \Matrix{A\Sigma} $ is idempotent, then
+      all eigenvalues of $ \Matrix{A\Sigma} $ are $ 1 $ or $ 0 $ (which we denote as $ \lambda_i $).
+      Since $ \Matrix{\Sigma} $ has full rank,
+      \[ \rank{\Matrix{A\Sigma}}=\rank{\Matrix{A}}=r. \]
+      Therefore,
+      $ r $ eigenvalues are $ 1 $ and $ n-r $ are $ 0 $. By Theorem 3.1,
+      we have
+      \begin{align*}
+            M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+             & =\prod_{i=1}^n (1-2t\lambda_i)^{-1/2}\exp*{\frac{1}{2}\Vector{\mu}'\sum_{j=1}^{\infty}(2t)^j(\Matrix{A\Sigma})^j \Matrix{\Sigma}^{-1}\Vector{\mu}} \\
+             & =(1-2t)^{-r/2}\exp*{\frac{1}{2}\Vector{\mu}'\sum_{j=1}^{\infty}(2t)^j \Matrix{A\Sigma\Sigma}^{-1}\Vector{\mu}}                                     \\
+             & =(1-2t)^{-r/2}\exp*{\frac{1}{2}\Vector{\mu}'\Matrix{A}\Vector{\mu}\sum_{j=1}^{\infty}(2t)^j}                                                       \\
+             & =(1-2t)^{-r/2}\exp*{\frac{\Vector{\mu}'\Matrix{A}\Vector{\mu}}{2}\frac{2t}{1-2t}}                                                                  \\
+             & =(1-2t)^{-r/2}\exp*{\lambda \frac{2t}{1-2t}}.
+      \end{align*}
+      Let $ \eta \sim \chi^2(r,\lambda) $. By definition,
+      \[ \eta=X_1^2+\cdots+X_r^2, \]
+      where $ X_i \sim \N{\mu_i,1} $ and $ X_1,\ldots,X_r $ are independent.
+      \begin{align*}
+            M_\eta(t)
+             & =\E{e^{t\eta}}                 \\
+             & =\E{e^{t(X_1^2+\cdots+X_r^2)}} \\
+             & =\prod_{i=1}^r\E{e^{tX_i^2}}.
+      \end{align*}
+      Now,
+      \begin{align*}
+            \E{e^{tX_i^2}}
+             & =\int_{-\infty}^{\infty}(2\pi)^{-1/2}\exp{tx^2}\exp*{-\frac{(x-\mu_i)^2}{2}}\odif{x}                                                                                               \\
+             & =\int_{-\infty}^{\infty}(2\pi)^{-1/2}\exp*{-\frac{1}{2}(x^2-2tx^2-2\mu_i x+\mu_i^2)}\odif{x}                                                                                       \\
+             & =(1-2t)^{-1/2}\exp*{-\frac{1-2t}{2}\biggl(\frac{\mu_i^2}{1-2t}-\biggl(\frac{\mu_i}{1-2t}\biggr)^2\biggr)}                                                                          \\
+             & \quad\int_{-\infty}^{\infty}\underbrace{\frac{1}{\sqrt{2\pi}(1-2t)^{-1/2}}\exp*{-\frac{(x-\frac{\mu_i^2}{1-2t})^2}{2(1-2t)^{-1}}}}_{\N*{\frac{\mu_i^2}{1-2t},(1-2t)^{-1}}}\odif{x} \\
+             & =(1-2t)^{-1/2}\exp*{\mu_i^2\frac{t}{1-2t}}                                                                                                                                         \\
+             & =(1-2t)^{-1/2}\exp*{\frac{\mu_i^2}{2}\frac{2t}{1-2t}}.
+      \end{align*}
+      Hence,
+      \begin{align*}
+            M_\eta(t)
+             & =\prod_{i=1}^{r}(1-2t)^{-1/2}\exp*{\frac{\mu_i^2}{2}\frac{2t}{1-2t}}                              \\
+             & =(1-2t)^{-r/2}\exp[\bigg]{\underbrace{\frac{1}{2}\sum_{i=1}^{n}\mu_i^2}_{\lambda}\frac{2t}{1-2t}} \\
+             & =(1-2t)^{-r/2}\exp*{\frac{\lambda 2t}{1-2t}},
+      \end{align*}
+      which is the mgf of $ \chi^2(r,\lambda) $. By uniqueness of moment generating functions,
+      \[ \Vector{X}'\Matrix{A}\Vector{X}\sim \chi^2(r,\lambda). \]
+      $ (\implies) $ Assume $ \Vector{X}' \Matrix{A}\Vector{X}\sim \chi^2(r,\lambda) $
+      for all $ \Vector{\mu} $. Choose $ \Vector{\mu}=\Vector{0} $, then $ \lambda=0 $.
+      \begin{align*}
+            M_{\Vector{X}'\Matrix{A}\Vector{X}}(t)
+             & =\prod_{i=1}^n(1-2t\lambda_i)^{-1/2} \\
+             & =(1-2t)^{-r/2}.
+      \end{align*}
+      Therefore,
+      \begin{align*}
+            \implies \prod_{i=1}^n(1-2t\lambda_i)                                                      & =(1-2t)^r                                       &  & \text{cancel exponents}   \\
+            \implies \sum_{i=1}^{n}\log{1-2t\lambda_i}                                                 & =r\log{1-2t}                                    &  & \text{take logarithm}     \\
+            \implies \sum_{i=1}^{n}\biggl[\sum_{\ell=1}^{\infty}\frac{(2t\lambda_i)^\ell}{\ell}\biggr] & =r \sum_{\ell=1}^{\infty}\frac{(2t)^\ell}{\ell} &  & \text{Taylor expansion}   \\
+            \implies \sum_{\ell=1}^{\infty}\frac{(\sum_{i=1}^{n}\lambda_i^\ell-r)(2t)^\ell}{\ell}      & =0                                              &  & \text{re-order summation}
+      \end{align*}
+      Therefore,
+      \[ \sum_{i=1}^{n}\lambda_i^\ell=r,\; \forall \ell\ge 1. \]
+      \underline{Case 1}: If $ \abs{\lambda_i}\ge 1 $ for some $ i $, then choose $ \ell=2k $ and let $ 2k\to\infty $,
+      then
+      \[ \lambda_1^{2k}+\cdots+\lambda_i^{2k}+\cdots+\lambda_n^{2k}=r, \]
+      but the left-hand side is $ \infty\ne r $, contradiction. Thus, $ \abs{\lambda_i}\le 1 $ for all $ i $.
+
+      \underline{Case 2}: If $ \abs{\lambda_i}<1 $ for some $ i $, then
+      choose $ \ell=2k $ and let $ k\to\infty $, $ \abs{\lambda_i}^{2k}\to 0 $.
+      Hence, the total terms with $ \abs{\lambda_i}<1 $ will be $ n-r $. The equality
+      \[ \lambda_1+\cdots+\lambda_n=r \]
+      implies that all the terms with $ \abs{\lambda_i}=1 $ are actually $ \lambda_i $. Why?
+      Let $ d $ be the number of $ i $ such that $ \abs{\lambda_i}<1 $, there will be $ n-d $ of $ \abs{\lambda_i}=1 $ (fill in details).
+
+      Hence, the eigenvalues of $ \Matrix{A\Sigma} $ are $ 1 $ or $ 0 $. Since
+      $ \Matrix{\Sigma} $ is positive definite, it follows from Lemma 4.1 that $ \Matrix{A\Sigma} $ is idempotent.
+\end{Theorem}
+\begin{Example}{}{}
+      Let $ X_1,\ldots,X_n \iid \N{\mu,\sigma^2} $. Then,
+      \[ \frac{(n-1)S^2}{\sigma^2} \sim \chi^2(n-1). \]
+      \tcblower{}
+      \textbf{Solution}:
+      Let
+      \[ \Vector{X}=\begin{pmatrix}
+                  X_1    \\
+                  \vdots \\
+                  X_n
+            \end{pmatrix}. \]
+      Then,
+      \[ \Vector{X} \sim \MN{\mu \Vector{j},\sigma^2 \Matrix{I}}. \]
+      \begin{align*}
+            \frac{(n-1)S^2}{\sigma^2}
+             & =\frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i-\bar{X})^2                            \\
+             & =\frac{1}{\sigma^2}\Vector{X}'(\Matrix{I}-\tfrac{1}{n}\Matrix{J})\Vector{X} \\
+             & =\Vector{Y}'\Matrix{A}\Vector{Y},
+      \end{align*}
+      where $ \Vector{Y}=\frac{1}{\sigma}\Vector{X} $ and $ \Matrix{A}=\Matrix{I}-\tfrac{1}{n}\Matrix{J} $, so
+      \[ \Vector{Y}\sim \MN*{\frac{\mu}{\sigma}\Vector{j},\Matrix{I}}. \]
+      \[ \Matrix{A\Sigma}=(\Matrix{I}-\tfrac{1}{n}\Matrix{J})\Matrix{I}=\Matrix{I}-\tfrac{1}{n}\Matrix{J}=\Matrix{A}. \]
+      Also,
+      \[ \Matrix{A}^2=\Matrix{I}-\tfrac{2}{n}\Matrix{J}+\tfrac{1}{n^2}\Matrix{J}\Matrix{J}=\Matrix{I}-\tfrac{1}{n}\Matrix{J}=\Matrix{A}. \]
+      Therefore, $ \Matrix{A\Sigma} $ is idempotent. By Theorem 5.1,
+      \[ \Vector{Y}'\Matrix{A}\Vector{Y}=\frac{(n-1)S^2}{\sigma^2}\sim \chi^2(r,\lambda), \]
+      with
+      \[ r=\rank{A}=\rank{\Matrix{I}-\tfrac{1}{n}\Matrix{J}}=n-1 \]
+      and
+      \begin{align*}
+            \lambda
+             & =\frac{1}{2}\Vector{\mu}'\Matrix{A}\Vector{\mu}                                                          \\
+             & =\frac{1}{2}\frac{\mu}{\sigma}\Vector{j}'(\Matrix{I}-\tfrac{1}{n}\Matrix{J})\frac{\mu}{\sigma}\Vector{j} \\
+             & =\frac{\mu^2}{2\sigma^2}(\Vector{j}'\Vector{j}-\tfrac{1}{n}\Vector{j}'\Matrix{J}\Vector{j})              \\
+             & =\frac{\mu^2}{2\sigma^2}(n-\tfrac{1}{n}n^2)                                                              \\
+             & =0.
+      \end{align*}
+      Therefore, $ \Vector{Y}'\Matrix{A}\Vector{Y} \sim \chi^2(r,0)=\chi^2(r) $.
+\end{Example}
