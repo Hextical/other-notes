@@ -4,8 +4,7 @@ plugins:
 title: other-notes
 description: Miscellaneous notes
 social-network-links:
-  - email: roopnc1@mcmaster.ca
-  - rss: true
-  - github: Hextical
-  - linkedin: cameron-roopnarine
-  
+  email: roopnc1@mcmaster.ca
+  rss: true
+  github: Hextical
+  linkedin: cameron-roopnarine
