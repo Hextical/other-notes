@@ -1,9 +1,3 @@
-# other-notes
-
-Miscellaneous notes.
-
-# [View Notes Here!](https://hextical.github.io/other-notes/)
-
 # Graduate
 
 |                      Course                       | Completion |
