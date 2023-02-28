@@ -1,0 +1,157 @@
+\makeheading{Lecture 13}{\printdate{2023-02-27}}%chktex 8
+\section{Lecture 13: Regression Without Full Rank (Continued)}
+\begin{Theorem}{}{}
+    Assume that $ \rank{\Matrix{X}}=r $. Then,
+    \[ \hat{\sigma}^2=s^2=\frac{\SSE}{n-r} \]
+    is an unbiased estimator of $\sigma^2$.
+    \tcblower{}
+    \textbf{Proof}:
+\end{Theorem}
+\begin{Theorem}{}{}
+    Assume that $ \rank{\Matrix{X}}=r $
+    and $ \Vector{Y}\sim \MN{\Matrix{X}\Vector{\beta},\sigma^2 \Matrix{I}} $.
+    \begin{enumerate}[(1)]
+        \item $ \Vector{\beta}_0=\Matrix{F}\Matrix{X}\Vector{Y}\sim \MN{\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta},\sigma^2 \Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}'} $.
+        \item $ \Vector{\beta}_0 $ and $ \hat{\sigma}^2 $ are independent.
+        \item $ \SSE/\sigma^2 \sim \chi^2(n-r) $.
+        \item $ \SSR/\sigma^2 \sim \chi^2(r-1,\lambda) $, where
+              \[ \lambda = \frac{1}{2\sigma^2}(\Matrix{X}\Vector{\beta})'(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})\Matrix{X}\Vector{\beta}. \]
+        \item $ \SSE $ and $ \SSR $ are independent.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{enumerate}[(1)]
+        \item Trivial.
+        \item $ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y} $
+              and
+              \[ \hat{\sigma}^2=\frac{\SSE}{n-r}=\frac{1}{n-r}\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y}. \]
+              By direct calculation,
+              \begin{align*}
+                  \Matrix{F}\Matrix{X}'\sigma^2 \Matrix{I}(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')                                          \\
+                   & =\frac{\sigma^2}{n-r}\Matrix{F}\Matrix{X}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')                                     \\
+                   & =\frac{\sigma^2}{n-r}[\Matrix{F}\Matrix{X}'-\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}']                          \\
+                   & =\frac{\sigma^2}{n-r}[\Matrix{F}\Matrix{X}'-\Matrix{F}\Matrix{X}']                                &  & \text{Theorem 11.1} \\
+                   & =\Matrix{O}.
+              \end{align*}
+              Therefore, $ \Vector{\beta}_0 $ and  $ \hat{\sigma}^2 $ are independent by Theorem 5.1.
+        \item Note that
+              \[ \frac{\SSE}{\sigma^2}=\frac{\Vector{Y}'}{\sigma}(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\frac{\Vector{Y}}{\sigma} \]
+              and
+              \[ \frac{\Vector{Y}}{\sigma}\sim \MN*{\frac{\Matrix{X}\Vector{\beta}}{\sigma},\Matrix{I}}. \]
+              Note that $ \Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}' $ is idempotent (see properties of $ \Vector{\beta}_0 $).
+              Now,
+              \begin{align*}
+                  \lambda
+                   & =\frac{1}{2}\biggl(\frac{\Matrix{X}\Vector{\beta}}{\sigma}\biggr)'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\frac{\Matrix{X}\Vector{\beta}}{\sigma} \\
+                   & =\frac{1}{2\sigma^2}\Vector{\beta}'[\Matrix{X}'\Matrix{X}-\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}]\Vector{\beta}                         \\
+                   & =\frac{1}{2\sigma^2}\Vector{\beta}'[\Matrix{X}'\Matrix{X}-\Matrix{X}'\Matrix{X}]\Vector{\beta}                                                        \\
+                   & =0.
+              \end{align*}
+              The result follows by Theorem 4.2.
+        \item Note that
+              \[ \frac{\SSR}{\sigma^2}=\frac{\Vector{Y}'}{\sigma}(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})\frac{\Vector{Y}}{\sigma}. \]
+              We need to show that $ \Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J} $ is idempotent.
+              \begin{align*}
+                  (\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})^2
+                   & =(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})                                                                                              \\
+                   & =\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J}\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{J}+\tfrac{1}{n^2}\Matrix{J}\Matrix{J} \\
+                   & =\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{J}-\tfrac{1}{n}\Matrix{J}\Matrix{X}\Matrix{F}\Matrix{X}'+\tfrac{1}{n}\Matrix{J}.
+              \end{align*}
+              We know that $ \Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{X} $, so
+              partitioning we see
+              \begin{align*}
+                  \Matrix{X}\Matrix{F}\Matrix{X}'\begin{pmatrix}
+                                                     \Vector{j} & \Matrix{X}_1
+                                                 \end{pmatrix} & =\Matrix{X},
+              \end{align*}
+              which implies that $ \Matrix{X}\Matrix{F}\Matrix{X}'\Vector{j}=\Vector{j} $.
+              Therefore, $ \Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{J}=\Matrix{J} $.
+        \item $ \SSE=\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y} $
+              and $ \SSR=\Vector{Y}'(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})\Vector{Y} $.
+              \begin{align*}
+                  (\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})
+                   & =\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J}-\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}+\tfrac{1}{n}\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{J} \\
+                   & =\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J}-\Matrix{X}\Matrix{F}\Matrix{X}'+\tfrac{1}{n}\Matrix{J}                                                              \\
+                   & =\Matrix{O}.
+              \end{align*}
+              The result follows by Theorem 5.2.
+    \end{enumerate}
+\end{Theorem}
+\subsection*{ANOVA Table}
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}     & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F                             \\
+        \midrule
+        \text{Due to }\Vector{\beta}_1 & r                         & \SSR                  & \MSR               & \frac{\SSR/(r-1)}{\SSE/(n-r)} \\
+        \text{Error}                   & n-r                       & \SSE                  & \MSE                                               \\
+        \text{Total}                   & n-1                       & \SST                                                                       \\
+        \bottomrule
+    \end{array} \]
+\begin{Theorem}{}{}
+    Let $ \Vector{\beta}=\begin{pmatrix}
+            \beta_0 \\
+            \vdots  \\
+            \beta_k
+        \end{pmatrix}\in\R^{k+1} $ and $ \Matrix{F} $ is a $ g $-inverse
+    of $ \Matrix{X}'\Matrix{X} $. Then,
+    $ \Vector{b}'\Vector{\beta} $ is estimable if and only if one of the following hold:
+    \begin{enumerate}[(1)]
+        \item $ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $.
+        \item There exists $ \Vector{a}\in\R^{n} $ such that $ \Vector{b}'=\Vector{a}'\Matrix{X} $.
+        \item There exists $ \Vector{c}\in\R^{k+1} $ such that
+              \[ \Vector{b}'=\Vector{c}'\Matrix{X}'\Matrix{X}. \]
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{enumerate}[(1)]
+        \item Earlier proof.
+        \item To show (1) $\implies$ (2), choose $ \Vector{a}'=\Vector{b}'\Matrix{F}\Matrix{X}' $,
+              which implies that $ \Vector{a}'\Matrix{X}=\Vector{b}' $.
+              To show (2) $ \implies (1) $, note that $ \Vector{b}'=\Vector{a}'\Matrix{X} $,
+              and multiply to get $ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{a}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{a}'\Matrix{X} $.
+        \item To show (1) $ \implies $ (3), choose $ \Vector{c}=\Vector{b}'\Matrix{F} $.
+              To show (3) $ \implies $ (1),
+              \begin{align*}
+                  \Vector{b}'                                & =\Vector{c}'\Matrix{X}'\Matrix{X}                                \\
+                  \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X} & =\Vector{c}'\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X} \\
+                                                             & =\Vector{c}'\Matrix{X}'\Matrix{X}                                \\
+                                                             & =\Vector{b}'.
+              \end{align*}
+    \end{enumerate}
+\end{Theorem}
+\begin{Remark}{}{}
+    Assume that $ \Vector{b}'\Vector{\beta} $ is estimable. Let
+    $ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y} $.
+    $ \Vector{b}'\Vector{\beta}_0 $ is a good estimator of $ \Vector{b}'\Vector{\beta} $.
+    \tcblower{}
+    The expectation of $ \Vector{b}'\Vector{\beta}_0 $ is
+    \begin{align*}
+        \E{\Vector{b}'\Vector{\beta}_0}
+         & =\Vector{b}'\Matrix{F}\Matrix{X}'\E{\Vector{\beta}_0}     \\
+         & =\Vector{b}'\Matrix{F}\Vector{X}'\Matrix{X}\Vector{\beta} \\
+         & =\Vector{\beta}'\Vector{\beta}.
+    \end{align*}
+    Hence, $ \Vector{b}'\Vector{\beta}_0 $ is an unbiased estimator of $ \Vector{b}'\Vector{\beta} $.
+    The variance of $ \Vector{b}'\Vector{\beta}_0 $ is
+    \begin{align*}
+        \Var{\Vector{b}'\Vector{\beta}_0}
+         & =\Vector{b}'\Var{\Vector{\beta}_0}\Vector{b}                               \\
+         & =\Vector{b}'\sigma^2 \Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}'\Vector{b}  \\
+         & =\sigma^2 \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}'\Matrix{F}'\Vector{b} \\
+         & =\sigma^2 \Vector{b}'\Matrix{F}'\Vector{b}                                 \\
+         & =\sigma^2 \Vector{b}'\Matrix{F}\Vector{b}
+    \end{align*}
+    by Theorem 11.2 (3).
+
+    Hence, $ \Vector{b}'\Vector{\beta}_0 $ is an estimator for $ \Vector{b}'\Vector{\beta} $.
+\end{Remark}
+\begin{Theorem}{}{}
+    If $ \Vector{Y} \sim \MN{\Matrix{X}\Vector{\beta},\sigma^2\Matrix{I}} $,
+    then
+    \[ \Vector{b}'\Vector{\beta}_0 \sim \MN{\Vector{b}'\Vector{\beta},
+            \sigma^2\Vector{b}'\Matrix{F}\Vector{b}}, \]
+    and
+    \[ \frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{\sqrt{\sigma^2\Vector{b}'\Matrix{F}\Vector{b}}}
+        \sim \N{0,1}. \]
+    However, since $ \sigma^2 $ is unknown, this quantity is a $ t $-distribution.
+\end{Theorem}

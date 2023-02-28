@@ -134,17 +134,6 @@
 			"-n21",
 			"-n36",
 			"-n17"
-		],
-		"latex-workshop.view.pdf.external.viewer.command": "okular",
-		"latex-workshop.view.pdf.external.viewer.args": [
-			"--unique",
-			"%PDF%"
-		],
-		"latex-workshop.view.pdf.viewer": "external",
-		"latex-workshop.view.pdf.external.synctex.command": "okular",
-		"latex-workshop.view.pdf.external.synctex.args": [
-			"--unique",
-			"%PDF%#src:%LINE%%TEX%"
 		]
 	}
 }
