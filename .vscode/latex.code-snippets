@@ -1,0 +1,204 @@
+{
+  "Begin": {
+    "prefix": [
+      "beg"
+    ],
+    "body": [
+      "\\begin{$1}",
+      "\t$0",
+      "\\end{$1}"
+    ]
+  },
+  "Fraction": {
+    "prefix": [
+      "fr"
+    ],
+    "body": [
+      "\\frac{$1}{$2}$0"
+    ]
+  },
+  "Display Math": {
+    "prefix": [
+      "dm"
+    ],
+    "body": [
+      "\\[ $1 \\]\n$0"
+    ]
+  },
+  "Inline Math": {
+    "prefix": [
+      "im"
+    ],
+    "body": [
+      "$ $1 $$0"
+    ]
+  },
+  "Lemma": {
+    "prefix": [
+      "lem"
+    ],
+    "body": [
+      "\\begin{Lemma}{$1}",
+      "\t$0",
+      "\\end{Lemma}",
+    ]
+  },
+  "Definition": {
+    "prefix": [
+      "def"
+    ],
+    "body": [
+      "\\begin{Definition}{$1}{$2}",
+      "\t$3",
+      "\\end{Definition}",
+    ]
+  },
+  "Example": {
+    "prefix": [
+      "ex"
+    ],
+    "body": [
+      "\\begin{Example}{$1}{$2}",
+      "\t$3",
+      "\\end{Example}",
+    ]
+  },
+  "Exercise": {
+    "prefix": [
+      "exerc"
+    ],
+    "body": [
+      "\\begin{Exercise}{$1}{$2}",
+      "\t$3",
+      "\\end{Exercise}",
+    ]
+  },
+  "Theorem": {
+    "prefix": [
+      "thm"
+    ],
+    "body": [
+      "\\begin{Theorem}{$1}{$2}",
+      "\t$3",
+      "\\end{Theorem}",
+    ]
+  },
+  "Corollary": {
+    "prefix": [
+      "cor"
+    ],
+    "body": [
+      "\\begin{Corollary}{$1}{$2}",
+      "\t$3",
+      "\\end{Corollary}",
+    ]
+  },
+  "Proposition": {
+    "prefix": [
+      "prop"
+    ],
+    "body": [
+      "\\begin{Proposition}{$1}{$2}",
+      "\t$3",
+      "\\end{Proposition}",
+    ]
+  },
+  "Remark": {
+    "prefix": [
+      "rem"
+    ],
+    "body": [
+      "\\begin{Remark}{$1}{$2}",
+      "\t$3",
+      "\\end{Remark}",
+    ]
+  },
+  "Bold Text": {
+    "prefix": [
+      "tbf"
+    ],
+    "body": [
+      "\\textbf{$1}$0"
+    ]
+  },
+  "Underlined Text": {
+    "prefix": [
+      "ul"
+    ],
+    "body": [
+      "\\underline{$1}$0"
+    ]
+  },
+  "Emphasized Text": {
+    "prefix": [
+      "em"
+    ],
+    "body": [
+      "\\emph{$1}$0"
+    ]
+  },
+  "Sum": {
+    "prefix": [
+      "sum"
+    ],
+    "body": [
+      "\\sum_{$1}^{$2}$0"
+    ]
+  },
+  "Limit": {
+    "prefix": [
+      "lim"
+    ],
+    "body": [
+      "\\lim\\limits_{$1 \\to $2}$0"
+    ]
+  },
+  "Integral": {
+    "prefix": [
+      "dintlim"
+    ],
+    "body": [
+      "\\int_{$1}^{$2}$3\\odif{$4}$0"
+    ]
+  },
+  "Integral no limit": {
+    "prefix": [
+      "dint"
+    ],
+    "body": [
+      "\\int $3\\odif{$4}$0"
+    ]
+  },
+  "Vector": {
+    "prefix": [
+      "vec"
+    ],
+    "body": [
+      "\\Vector{$1}$0"
+    ]
+  },
+  "Matrix": {
+    "prefix": [
+      "mat"
+    ],
+    "body": [
+      "\\Matrix{$1}$0"
+    ]
+  },
+  "Distributed": {
+    "prefix": [
+      "follows"
+    ],
+    "body": [
+      "\\sim $0"
+    ]
+  },
+  "Display Style": {
+    "prefix": [
+      "ds"
+    ],
+    "body": [
+      "\\displaystyle $0"
+    ]
+  }
+}
