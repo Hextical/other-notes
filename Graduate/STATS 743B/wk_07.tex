@@ -1,0 +1,402 @@
+\makeheading{Lecture 7}{\printdate{2022-03-01}}%chktex 8
+\begin{Example}{Uniform Distribution}{}
+    Let $ X_1,\ldots,X_n $ be a random sample from $ \text{Uniform}(0,\theta) $
+    distribution. Then, we have seen before that $ X_{n:n} $ is a sufficient statistic for $ \theta $.
+
+    Further, the PDF of $ T=X_{n:n} $ is
+    \[ f_T(t\mid \theta)=n\bigl(F(t)\bigr)^{n-1}f(t)=\frac{nt^{n-1}}{\theta^n},\; 0<t<\theta. \]
+    Now, let $ g(\:\cdot\:) $ be a measurable function of $ t $ such that $ \Esp{g(T)}{\theta}=0 $
+    for all $ \theta>0 $. Then,
+    \[ \Esp{g(T)}{\theta}=\frac{n}{\theta^n}G(\theta),\; \text{where }G(\theta)=\int_{0}^\theta g(t)t^{n-1}\odif{t}. \]
+    Note $ G(\theta) $ is differentiable almost everywhere, and further
+    \[ G'(\theta)=g(\theta)\theta^{n-1}. \]
+    If $ G(\theta)=0 $ for all $ \theta>0 $, then $ G'(\theta)=0 $
+    for all $ \theta>0 $ and so $ g(\theta)=0 $ for all $ \theta>0 $.
+
+    This shows that $ T=X_{n:n} $ is a complete sufficient statistic for
+    $ \theta $. Since $ \E{T}=\E{X_{n:n}}=\frac{n}{n+1}\theta $,
+    we find readily $ \frac{n+1}{n}T=\frac{n+1}{n}X_{n:n} $
+    is an unbiased estimator of $ \theta $. Hence,
+    it is an Uniformly Minimum Variance Unbiased Estimator of $ \theta $.
+\end{Example}
+\subsection*{Optimal Linear Estimation}
+The celebrated Gauss-Markov theorem states that the
+OLS (Ordinary Least Squares) estimator possesses
+the smallest sampling variance, within the class of all \underline{linear}
+unbiased estimators, if the error variables in the linear regression
+model are uncorrelated and have zero means and equal variances.
+
+\underline{Note}: The errors need not be normally distributed, nor be independent
+and identically distributed. They only need to be uncorrelated and with zero mean
+and homoscedastic (all equal) finite variance.
+
+\underline{Note}: The result, under the assumptions
+of normality and independence, was
+first established by Gauss.
+Much later, the result was proved by Markov under the weaker conditions
+of uncorrelated errors (and also without the assumption of normality).
+
+\underline{Gauss-Markov Theorem}. Consider
+the linear model
+\[ \Vector{y}=\Matrix{X}\Vector{\beta}+\Vector{\varepsilon}, \]
+with $ \Vector{y}\in\R^n $, $ \Matrix{X}\in\R^{n\times k} $,
+$ \Vector{\beta}\in\R^k $, $ \Vector{\varepsilon}\in\R^n $,
+or equivalently
+\[ y_i=\sum_{j=1}^{k}\beta_j X_{ij}+\varepsilon_i,\;\text{for }i=1,2,\ldots,n, \]
+where $ \beta_{ij} $ are non-random parameters that are unobservable.
+$ X_{ij} $ are non-random explanatory variables that
+are observable, the errors $ \varepsilon_i $ are random,
+and consequently the dependent variables $ y_i $ ($ i=1,2,\ldots,n $)
+are random. $ \varepsilon_i $'s are commonly referred
+to as ``noise'' or ``disturbance,'' but
+most commonly as ``error.''
+
+\underline{Note}: To include a constant in the above model,
+one can simply take $ X_{i0}=1 $ for all $ i=1,\ldots,n $,
+in order to introduce $ \beta_0 $ as the unobservable intercept term.
+Then, the vector $ \Vector{\beta} $ will be
+$ (\beta_0,\beta_1,\ldots,\beta_k)^\top_{(k+1)\times 1} $, and
+$ \Matrix{X}\in\R^{n\times(k+1)} $.
+
+\underline{Assumptions}:
+\begin{enumerate}[(1)]
+    \item Errors are ``centred,'' i.e., $ \E{\varepsilon_i}=0 $ for $ i=1,\ldots,n $;
+    \item Errors are ``homoscedastic,'' i.e., $ \Var{\varepsilon_i}=\sigma^2<\infty $
+          for $ i=1,\ldots,n $;
+    \item Errors are ``uncorrelated,'' i.e., $ \Cov{\varepsilon_i,\varepsilon_j}=0 $
+          for $ i\ne j $. In other words, the variance-covariance matrix of
+          $ \Vector{\varepsilon}=(\varepsilon_1,\varepsilon_2,\ldots,\varepsilon_n)^\top $
+          as $ \sigma^2 \Matrix{I} $, where $ \Matrix{I} $ is an identity matrix of order $ n $.
+\end{enumerate}
+Then, the OLS (Ordinary Least Squares) estimator of $ \Vector{\beta} $
+is given by
+\[ \hat{\Vector{\beta}}=(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Vector{y}, \]
+provided $ \Matrix{X}^\top \Matrix{X} $ is of full rank, and that this estimator
+is BLUE (Best Linear Unbiased Estimator).
+
+\underline{Preamble}: A linear estimator of the parameter $ \beta_j $
+is of the form
+\[ \hat{\beta}_j=c_{1j}y_1+\cdots+c_{nj}y_n \]
+in which the coefficients $ c_{1j},\ldots,c_{nj} $ are
+not allowed to depend on the coefficients $ \beta_j $
+as they are unobservable, but are allowed to depend on $ X_{ij} $
+as they are observable.
+
+The dependence of the coefficients on $ X_{ij} $ would typically be non-linear;
+but the estimator is linear in each $ y_i $ and hence in each random
+error $ \varepsilon_i $. This is why we call it ``linear regression.''
+
+The estimator $ \hat{\beta}_j $ will be unbiased if and only if
+\[ \E{\hat{\beta}_j}=\beta_j \]
+regardless of $ X_{ij} $. Now, let $ L=\sum_{j=0}^{k}\ell_j\beta_j $
+be some linear combination of the coefficients $ \beta_0,\ldots,\beta_k $.
+Then, the MSE (mean squared error) of the corresponding estimator $ \hat{L} $
+is
+\[ \E*{\biggl(\sum_{j=0}^{k}\ell_j\hat{\beta}_j-\sum_{j=0}^{k}\ell_j\beta_j\biggr)^{\!2}}
+    =\E*{\biggl(\sum_{j=0}^{k}\ell_j(\hat{\beta}_j-\beta_j)\biggr)^{\!2}}. \]
+It is the expectation of the square of the weighted sum (across the parameters)
+of the differences between the estimators and the corresponding parameters
+to be estimated.
+
+Observe that as we are considering the case in which
+all the parameter estimates are unbiased, the MSE is the same
+as the variance of the estimator of the linear combination
+$ L $.
+
+The BLUE of $ \Vector{\beta}=(\beta_0,\ldots,\beta_k)^\top $
+is the one in which the smallest MSE for every vector $ L $
+of the linear combination of parameters. This is equivalent to saying
+\[ \Var{\tilde{\Vector{\beta}}}-\Var{\hat{\Vector{\beta}}} \]
+is a positive semi-definite matrix for any other linear unbiased estimator
+$ \tilde{\Vector{\beta}} $.
+
+\underline{Derivation of OLS estimator}:
+The MSE function that we need to minimize is
+\begin{align*}
+    Q(\beta_0,\beta_1,\ldots,\beta_k)
+     & =\sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_{i1}-\beta_k x_{ik})^2                                               \\
+     & =(\Vector{y}-\Matrix{X}\Vector{\beta})^\top_{1\times n}(\Vector{y}-\Matrix{X}\Vector{\beta})_{n\times 1}.
+\end{align*}
+The first derivative is
+\begin{align*}
+    \odv{Q}{\Vector{\beta}}
+     & =-2 \Matrix{X}^\top (\Vector{y}-\Matrix{X}\Vector{\beta})                 \\
+     & =-2 \begin{bmatrix}
+               \sum_{i=1}^{n}(y_i-\beta_0-\beta_1x_{i1}-\cdots-\beta_k x_{ik})       \\
+               \sum_{i=1}^{n}x_{i1}(y_i-\beta_0-\beta_1x_{i1}-\cdots-\beta_k x_{ik}) \\
+               \vdots                                                                \\
+               \sum_{i=1}^{n}x_{ik}(y_i-\beta_0-\beta_1x_{i1}-\cdots-\beta_k x_{ik})
+           \end{bmatrix} \\
+     & =\Vector{0}_{(k+1)\times 1},
+\end{align*}
+where $ \Matrix{X} $ is the design matrix
+\[ \Matrix{X}=\begin{bmatrix}
+        1      & x_{11} & \cdots & x_{1k} \\
+        1      & x_{21} & \cdots & x_{2k} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        1      & x_{n1} & \cdots & x_{nk}
+    \end{bmatrix}_{n\times(k+1)}\in\R^{n\times(k+1)} \]
+and $ n\ge k+1 $ (so that $ \Matrix{X}^\top \Matrix{X} $ of
+order $ (k+1)\times(k+1) $ can be of full rank).
+
+The solution from the equation
+\[ -2 \Matrix{X}^\top(\Vector{y}-\Matrix{X}\Vector{\beta})=\Vector{0}\iff
+    (\Matrix{X}^\top \Matrix{X})\Vector{\beta}=\Matrix{X}^\top \Vector{y} \]
+is clearly
+\[ \hat{\Vector{\beta}}=(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Vector{y}, \]
+where $ \Matrix{X} $ is the design matrix of as presented above.
+
+\underline{Checking for minimum}:
+The Hessian matrix of second derivatives is readily obtained to be
+\begin{align*}
+    \mathcal{H}
+     & =\odv[order=2]{Q}{\Vector{\beta}}=\begin{pmatrix}
+                                             n                    & \sum_{i=1}^{n}x_{i1}       & \cdots & \sum_{i=1}^{n}x_{ik}       \\
+                                             \sum_{i=1}^{n}x_{i1} & \sum_{i=1}^{n}x_{i1}^2     & \cdots & \sum_{i=1}^{n}x_{i1}x_{ik} \\
+                                             \vdots               & \vdots                     & \ddots & \vdots                     \\
+                                             \sum_{i=1}^{n}x_{ik} & \sum_{i=1}^{n}x_{i1}x_{ik} & \cdots & \sum_{i=1}^{n}x_{ik}^2
+                                         \end{pmatrix} \\
+     & =2 \Matrix{X}^\top \Matrix{X}.
+\end{align*}
+Assume that the columns of the design matrix $ \Matrix{X} $
+are linearly independent, so that $ \Matrix{X}^\top \Matrix{X} $
+is invertible. Let
+\[ \Matrix{X}=\begin{bmatrix}
+        \Vector{c}_0 & \Vector{c}_1 & \cdots & \Vector{c}_k
+    \end{bmatrix}. \]
+Then,
+\[ \lambda_0 \Vector{c}_0+\lambda_1 \Vector{c}_1+\cdots+\lambda_k \Vector{c}_k=0
+    \iff \lambda_0=\lambda_1=\cdots=\lambda_k=0. \]
+Now, let
+$ (\lambda_0,\lambda_1,\ldots,\lambda_k)\in\R^{(k+1)\times 1} $
+be an eigenvector of the Hessian matrix $ \mathcal{H} $. Then,
+\[ \Vector{\lambda}\ne \Vector{0}\implies
+    (\lambda_0 \Vector{c}_0+\lambda_1 \Vector{c}_1+\cdots+\lambda_k \Vector{c}_k)^2>0. \]
+So, we find
+\begin{align*}
+    \begin{bmatrix}
+        \lambda_0 & \lambda_1 & \cdots & \lambda_k
+    \end{bmatrix}\begin{bmatrix}
+                     \Vector{c}_0 \\
+                     \Vector{c}_1 \\
+                     \vdots       \\
+                     \Vector{c}_k
+                 \end{bmatrix}\begin{bmatrix}
+                                  \Vector{c}_0 &
+                                  \Vector{c}_1 &
+                                  \cdots       &
+                                  \Vector{c}_k
+                              \end{bmatrix}\begin{bmatrix}
+                                               \lambda_0 \\ \lambda_1 \\ \vdots \\ \lambda_k
+                                           \end{bmatrix}
+     & =\Vector{\lambda}^\top(\tfrac{1}{2}\mathcal{H})\Vector{\lambda} &  & \text{since $ \mathcal{H}=2 \Matrix{X}^\top \Matrix{X} $}    \\
+     & =\tfrac{1}{2}\Vector{\lambda}^\top \mathcal{H}\Vector{\lambda}                                                                    \\
+     & =\tfrac{1}{2}(\Vector{\lambda}^\top \Vector{\lambda})a          &  & \text{since $ \Vector{\lambda} $ is a vector of eigenvalues} \\
+     & >0,
+\end{align*}
+where $ a $ is the eigenvalue corresponding to the eigenvector $ \Vector{\lambda} $.
+Further,
+\[ \Vector{\lambda}^\top \Vector{\lambda}=\sum_{i=1}^{k}\lambda_i^2>0\implies a>0. \]
+Finally, as eigenvalue $ \Vector{\lambda} $ is arbitrary, all eigenvalues
+of $ \mathcal{H} $ are positive, and so $ \mathcal{H} $ is positive definite.
+Hence, the OLS estimator
+\[ \hat{\Vector{\beta}}=(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Vector{y} \]
+does indeed correspond to a global minimum.
+
+\underline{Uniqueness of the OLS estimator}: Assume
+\[ \tilde{\Vector{\beta}}=\Matrix{A}\Vector{y} \]
+be another linear estimator of $ \Vector{\beta} $ with
+\[ \Matrix{A}=(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}, \]
+where $ \Matrix{B} $ is a $ (k+1)\times n $ non-zero matrix. Then, we find
+\begin{align*}
+    \E{\tilde{\Vector{\beta}}}
+     & =\E{\Matrix{A}\Vector{y}}                                                                                                                                                                                                                            \\
+     & =\E*{\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}(\Matrix{X}\Vector{\beta}+\Vector{\varepsilon})}                                                                                                                            \\
+     & =\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}\Matrix{X}\Vector{\beta}+\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}\E{\Vector{\varepsilon}}                                                           \\
+     & =\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}\Matrix{X}\Vector{\beta}                                                                                              &  & \text{since $ \E{\Vector{\varepsilon}}=\Vector{0} $} \\
+     & =(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Matrix{X}\Vector{\beta}+\Matrix{B}\Matrix{X}\Vector{\beta}                                                                                                                                        \\
+     & =(\Matrix{I}_{(k+1)\times(k+1)}+\Matrix{B}\Matrix{X})\Vector{\beta},
+\end{align*}
+where $ \Matrix{I}_{(k+1)\times(k+1)} $ is an identity matrix of
+order $ (k+1)\times(k+1) $. Thus, $ \tilde{\Vector{\beta}} $
+is an unbiased estimator of $ \Vector{\beta} $ if and only if
+\[ \Matrix{B}\Matrix{X}=\Matrix{O}. \]
+Now, let us consider
+\begin{align*}
+    \Var{\tilde{\Vector{\beta}}}
+     & =\Var{\Matrix{A}\Vector{y}}                                                                                                                                                                                        \\
+     & =\Matrix{A}\Var{\Vector{y}}\Matrix{A}^\top                                                                                                                                                                         \\
+     & =\Matrix{A}(\sigma^2 \Matrix{I})\Matrix{A}^\top                                                                                                                                                                    \\
+     & =\sigma^2 \Matrix{A}\Matrix{A}^\top                                                                                                                                                                                \\
+     & =\sigma^2\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}^\top                                                             \\
+     & =\sigma^2\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top + \Matrix{B}}\Set*{\Matrix{X}(\Matrix{X}^\top \Matrix{X})^{-1} + \Matrix{B}^\top}                                                                  \\
+     & =\sigma^2\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Matrix{X}(\Matrix{X}^\top \Matrix{X})^{-1}+(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Matrix{B}^\top+
+    \Matrix{B}\Matrix{X}(\Matrix{X}^\top \Matrix{X})^{-1}+\Matrix{B}\Matrix{B}^\top}                                                                                                                                      \\
+     & =\sigma^2(\Matrix{X}^\top \Matrix{X})^{-1}+\sigma^2(\Matrix{X}^\top \Matrix{X})^{-1}(\Matrix{B}\Matrix{X})^\top+\sigma^2(\Matrix{B}\Matrix{X})(\Matrix{X}^\top \Matrix{X})^{-1}+\sigma^2 \Matrix{B}\Matrix{B}^\top \\
+     & =\sigma^2(\Matrix{X}^\top \Matrix{X})^{-1}+\sigma^2 \Matrix{B}\Matrix{B}^\top,\;\text{due to unbiasedness condition}                                                                                               \\
+     & =\Var{\hat{\Vector{\beta}}}+\sigma^2 \Matrix{B}\Matrix{B}^\top,\;\text{since $ \Var{\hat{\Vector{\beta}}}=\sigma^2(\Matrix{X}^\top \Matrix{X})^{-1} $}.
+\end{align*}
+As $ \Matrix{B}\Matrix{B}^\top $ is a positive semidefinite matrix,
+$ \Var{\tilde{\Vector{\beta}}} $ exceeds $ \Var{\hat{\Vector{\beta}}} $
+by a positive semidefinite matrix.
+
+\underline{Another interpretation for this property}:
+Let $ \Vector{\ell}^\top \hat{\Vector{\beta}} $ and $ \Vector{\ell}^\top \tilde{\Vector{\beta}} $
+be both linear unbiased estimators of $ \Vector{\ell}^\top \Vector{\beta} $. Then,
+\begin{align*}
+    \Var{\Vector{\ell}^\top \tilde{\Vector{\beta}}}
+     & =\Vector{\ell}^\top \Var{\tilde{\Vector{\beta}}}\Vector{\ell}                                                                                  \\
+     & =\sigma^2 \Vector{\ell}^\top\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}+\Matrix{B}\Matrix{B}^\top}\Vector{\ell}                                    \\
+     & =\sigma^2 \Vector{\ell}^\top(\Matrix{X}^\top \Matrix{X})^{-1}\Vector{\ell}+\sigma^2 \Vector{\ell}^\top \Matrix{B}\Matrix{B}^\top \Vector{\ell} \\
+     & =\Var{\Vector{\ell}^\top\hat{\Vector{\beta}}}+\sigma^2(\Matrix{B}^\top \Vector{\ell})^\top(\Matrix{B}^\top \Vector{\ell})                      \\
+     & =\Var{\Vector{\ell}^\top\hat{\Vector{\beta}}}+\sigma^2\lVert \Matrix{B}^\top \Vector{\ell}\rVert                                               \\
+     & \ge \Var{\Vector{\ell}^\top\hat{\Vector{\beta}}}.
+\end{align*}
+Furthermore, equality holds if and only if $ \Matrix{B}^\top \Vector{\ell}=\Vector{0} $.
+Then, in this case, we readily find
+\begin{align*}
+    \Vector{\ell}^\top \tilde{\Vector{\beta}}
+     & =\Vector{\ell}^\top\Set*{(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}+\Matrix{B}}\Vector{y}                                                                                                   \\
+     & =\Vector{\ell}^\top(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top\Vector{y}+\Vector{\ell}^\top\Matrix{B}\Vector{y}                                                                         \\
+     & =\Vector{\ell}^\top \hat{\Vector{\beta}}+(\Matrix{B}^\top \Vector{\ell})^\top \Vector{y},\;\text{since $ \hat{\Vector{\beta}}=(\Matrix{X}^\top \Matrix{X})^{-1}\Matrix{X}^\top \Vector{y} $} \\
+     & =\Vector{\ell}^\top \hat{\Vector{\beta}},\;\text{since $ \Matrix{B}^\top \Vector{\ell}=\Vector{0} $}.
+\end{align*}
+This establishes that the equality holds if and only if
+$ \Vector{\ell}^\top \tilde{\Vector{\beta}}=\Vector{\ell}^\top \hat{\Vector{\beta}} $,
+which shows the uniqueness of the OLS estimator as a
+Best Linear Unbiased Estimator.
+
+\underline{Warning}: The condition that the estimator be unbiased
+cannot be dropped, since biased estimators may exist
+with lower variance (and even with lower MSE).
+
+To see this, consider the following example: Let
+$ X_1,X_2,\ldots,X_n $ be a random sample from $ \EXP{\theta} $
+distribution. Then, $ \bar{X} $ is an unbiased estimator of $ \theta $
+with
+\[ \E{\bar{X}}=\theta\quad\text{and}\quad\Var{\bar{X}}=\frac{\theta^2}{n}. \]
+Now, consider another linear estimator of $ \theta $ to be
+\[ \tilde{\theta}=\sum_{i=1}^{n}X_i a_i. \]
+Then, evidently, we have:
+\begin{align*}
+    \E{\tilde{\theta}}          & =\sum_{i=1}^{n}a_i\E{X_i}=\theta\sum_{i=1}^{n}a_i,                           \\
+    \text{Bias}(\tilde{\theta}) & =\E{\tilde{\theta}}-\theta=\theta\Set[\bigg]{\sum_{i=1}^{n}a_i-1},           \\
+    \Var{\tilde{\theta}}        & =\sum_{i=1}^{n}a_i^2\Var{X_i}=\theta^2 \sum_{i=1}^{n}a_i^2,
+    \text{MSE}(\tilde{\theta})  & =\Var{\tilde{\theta}}+\bigl(\text{Bias}(\tilde{\theta})\bigr)^2              \\
+                                & =\theta^2\Set*{\sum_{i=1}^{n}a_i^2+\biggl(\sum_{i=1}^{n}a_i-1\biggr)^{\!2}}.
+\end{align*}
+To minimize $ \text{MSE}(\tilde{\theta}) $, we find the partial derivatives to be
+\begin{align*}
+    \pdv{\text{MSE}(\tilde{\theta})}{a_i}
+                 & =\theta^2\Set*{2 a_i+2\biggl(\sum_{j=1}^{n}a_j-1\biggr)}=0 \\
+    \implies a_i & =-\biggl(\sum_{j=1}^{n}a_j-1\biggr),\; i=1,\ldots,n.
+\end{align*}
+Adding these $ n $ equations,
+\[ \sum_{j=1}^{n}a_j=-n\biggl(\sum_{j=1}^{n}a_j-1\biggr)=-n \sum_{j=1}^{n}a_j+n \]
+and so
+\[ \sum_{j=1}^{n}a_j=\frac{n}{n+1}. \]
+This immediately yields
+\[ a_i=-\biggl(\sum_{j=1}^{n}a_j-1\biggr)=-\biggl(\frac{n}{n+1}-1\biggr)=\frac{1}{n+1},\;\text{for }i=1,\ldots,n. \]
+Hence, the linear estimator $ \tilde{\theta} $ becomes
+\[ \tilde{\theta}=\sum_{i=1}^{n}a_i X_i=\frac{1}{n+1}\sum_{i=1}^{n}X_i=\frac{n}{n+1}\bar{X}. \]
+Observe that
+\begin{align*}
+    \text{Bias}(\tilde{\theta}) & =\frac{n}{n+1}\theta-\theta=-\frac{1}{n+1}\theta,                                                 \\
+    \Var{\tilde{\theta}}        & =\frac{n^2}{(n+1)^2}\Var{\bar{X}}=\frac{n^2}{(n+1)^2}\frac{\theta^2}{n}=\frac{n}{(n+1)^2}\theta^2 \\
+                                & <\frac{\theta^2}{n},
+\end{align*}
+which is the variance of $ \bar{X} $, the OLS estimator of $ \theta $. Furthermore,
+\begin{align*}
+    \text{MSE}(\tilde{\theta})
+     & =\Var{\tilde{\theta}}+\bigl(\text{Bias}(\tilde{\theta})\bigr)^2          \\
+     & =\frac{n}{(n+1)^2}\theta^2+\frac{\theta^2}{(n+1)^2}=\frac{\theta^2}{n+1} \\
+     & <\frac{\theta^2}{n},
+\end{align*}
+the variance of $ \bar{X} $ (the OLS estimator). This is an example
+to demonstrate why unbiasedness is needed in the Gauss-Markov theorem.
+
+\underline{Things to keep in mind}:
+\begin{enumerate}[(1)]
+    \item In most applications of OLS, the regressors (parameters of interest)
+          in the design matrix $ \Matrix{X} $ are assumed to be fixed in
+          repeated samples. This assumption may not be reasonable in some cases (like Econometrics).
+          Instead, there are assumptions of Gauss-Markov theorem are stated conditional on $ \Matrix{X} $;
+    \item $ \Vector{y} $ is assumed to be a linear function of the variables
+          specified in the model. But, the specification must be linear in its parameters;
+          it does not mean that there must be a linear relationship between $ \Vector{y} $
+          and the independent variables $ \Matrix{X} $. The independent variables
+          can take on non-linear forms as long as the parameters are linear;
+    \item Data transformations can be made use to convert an equation into a linear form.
+          For example, ``the power law model'' of the form
+          \[ y=\alpha X^\beta e^{\varepsilon} \]
+          can be transformed, by natural logarithms, to
+          \[ \ln{y}=\ln{\alpha}+\beta\ln{X}+\varepsilon. \]
+          Similarly, the ``Cobb-Douglas model'' of the form
+          \[ y=A L^{\alpha}K^{\alpha} \]
+          can be transformed, by natural logarithms, to
+          \[ \ln{y}=\ln{A}+\alpha\ln{L}+(1-\alpha)\ln{K}+\varepsilon; \]
+          remember the parameters that minimize the residuals of the transformed
+          model would not minimize the residuals of the original model;
+    \item Recall we assumed that $ \Matrix{X} $ must have full column rank, i.e.,
+          \[ \text{rank}(\Matrix{X})=k+1; \]
+          otherwise, $ \Matrix{X}^\top \Matrix{X} $ is not invertible and consequently
+          the OLS estimator cannot be computed.
+
+          This gets violated in case of ``perfect multicollinearity,''
+          a case when some explanatory variables are linearly dependent. This
+          can happen, for example, in a ``dummy variable trap,''
+          when a base dummy variable is not omitted resulting in perfect correlation
+          between the dummy variable and the constant term.
+
+          Interestingly, ``near multicollinearity''
+          would result in unbiased estimation, even though with much lesser precision.
+          The estimators would be less efficient and very sensitive to particular sets of data.
+
+          Multicollinearity can be detected from ``variance inflation factor''
+          (which is the variance of estimating a parameter in a model that includes
+          multiple other parameters divided by the variance of a model using only that variable),
+          or ``conditional number'' (which measures how much the output value can change for a small change
+          in the input argument);
+    \item ``Spherical errors model'' means that the outer product of the error
+          vector must be spherical, i.e.,
+          \[ \E{\Vector{\varepsilon}^\top \Vector{\varepsilon}\given \Matrix{X}}
+              =\Var{\Vector{\varepsilon}\given \Matrix{X}}=
+              \begin{bmatrix}
+                  \sigma^2 & \cdots & 0        \\
+                  0        & \ddots & 0        \\
+                  0        & \cdots & \sigma^2
+              \end{bmatrix}_{n\times n}=\sigma^2 \Matrix{I},\;\text{with } \sigma^2>0. \]
+          This means that the error term has uniform variance (i.e.,
+          homoscedasticity) and no serial dependence. Recall
+          that in the case of multivariate normal distribution
+          for $ \Vector{\varepsilon}\sim\mathcal{N}_n(\Vector{0},\sigma^2 \Matrix{I}) $,
+          the equation $ f(\Vector{\varepsilon})=c $ will correspond to a ball
+          centred at $ \Vector{0} $ with radius $ \sigma $ in $ \R^n $.
+
+          Homoscedasticity will get violated when there is ``autocorrelation.''
+          In this case, the OLS estimator is still unbiased, but is inefficient.
+
+          When there is ``spherical errors,'' the OLS estimator remains BLUE;
+    \item Finally, it may be observed that the expectation of errors,
+          conditioned on the regressors, is
+          \[ \E{\Vector{\varepsilon}_i\given \Vector{X}}=\E{\Vector{\varepsilon}_i\given \Vector{x}_1,\ldots,\Vector{x}_n}=\Vector{0}, \]
+          where $ \Vector{x}_i=(1,x_{i1},\ldots,x_{ik})^\top $ is the data vector of
+          regressors from the $ i\textsuperscript{th} $ observation, and then
+          \[ \Matrix{X}=\begin{pmatrix}
+                  \Vector{x}_1^\top & \Vector{x}_2^\top & \cdots & \Vector{x}_n^\top
+              \end{pmatrix}^\top \]
+          is the design matrix (on the data matrix). So, the above statement means that
+          $ \Vector{x}_i $ and $ \Vector{\varepsilon}_i $ are orthogonal to each other, i.e., their inner product
+          \[ \E{\Vector{x}_j\cdot \varepsilon_i}
+              =\begin{pmatrix}
+                  \E{1\cdot \varepsilon_i}      \\
+                  \E{x_{j1}\cdot \varepsilon_i} \\
+                  \vdots                        \\
+                  \E{x_{jk}\cdot \varepsilon_i}
+              \end{pmatrix}=\Vector{0},\;\text{for all }i,j. \]
+          This will get violated if the explanatory variables are stochastic, for example,
+          when they are measured with error, or when they are ``endogenous'' (i.e.,
+          when an explanatory variable is correlated with error variable).
+
+          Instrument variable methods become useful in this case!
+\end{enumerate}

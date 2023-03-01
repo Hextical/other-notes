@@ -27,7 +27,6 @@
 \makeatletter
 \@namedef{T1/zi4/m/it}{<->ssub*XCharterx/m/it}
 \makeatother
-\usepackage{bm}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
@@ -162,11 +161,8 @@
 \DeclareMathOperator*{\arginf}{arg\,inf}
 \DeclareMathOperator*{\argsup}{arg\,sup}
 
-\providecommand{\RandomVector}[1]{\bm{#1}}% general vectors in bold italic
-\providecommand{\Vector}[1]{\bm{#1}}% general vectors in bold italic
-\providecommand{\Matrix}[1]{\bm{#1}}
-\providecommand{\MatrixCal}[1]{\bm{\mathcal{#1}}}
-\providecommand{\Field}[1]{\bm{#1}}
+\providecommand{\Vector}[1]{{\boldsymbol #1}}% general vectors in bold italic
+\providecommand{\Matrix}[1]{\mathbf{#1}}
 
 \providecommand{\conj}[1]{\bar{#1}}
 \newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
@@ -263,5 +259,7 @@
     \LARGE Foundations/Stats\\%
     \large STATS 743B\\%
     \normalsize}%
-\author{Cameron Roopnarine\thanks{\LaTeX{}er}}%
+\author{Cameron Roopnarine\thanks{\LaTeX{}er}\and Narayanaswamy Balakrishnan\thanks{Instructor}}%
 \date{\today}%
+
+\newcommand{\R}{\mathbb{R}}%
