@@ -1,0 +1,191 @@
+\makeheading{Lecture 14}{\printdate{2023-03-02}}%chktex 8
+\section{Lecture 14: General Linear Hypothesis Testing}
+Let $ \Matrix{B}\in\R^{(k+1)\times s} $
+with $ \rank{\Matrix{B}}=s $ and $ \Vector{m}\in\R^s $.
+We want to test $ \HN $: $ \Matrix{B}'\Vector{\beta}=\Vector{m} $
+versus $ \HA $: $ \Matrix{B}'\Vector{\beta}\ne \Vector{m} $. Write
+\[ \Matrix{B}=\begin{pmatrix}
+        b_{11}     & \cdots & b_{1s}     \\
+        b_{21}     & \cdots & b_{2s}     \\
+        \vdots     & \ddots & \vdots     \\
+        b_{(k+1)1} & \cdots & b_{(k+1)s}
+    \end{pmatrix}=\begin{pmatrix}
+        \Vector{b}_1 & \Vector{b}_2 & \cdots & \Vector{b}_s
+    \end{pmatrix}. \]
+Hence,
+\[ \Matrix{B}'\Vector{\beta}=
+    \begin{pmatrix}
+        \Vector{b}_1' \Vector{\beta} & \cdots & \Vector{b}_s' \Vector{\beta}
+    \end{pmatrix}'. \]
+$ \Matrix{B}'\Vector{\beta} $ is estimable if and only if
+$ \Vector{b}_i'\Vector{\beta} $ is estimable
+for all $ i=1,\ldots,s $. Therefore,
+$ \Vector{b}'\Vector{\beta} $ is estimable if and only if $ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $
+implies $ \Matrix{B}'\Vector{\beta} $ is estimable
+if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
+
+\begin{Theorem}{}{}
+    Assume that $ \Matrix{B}'\Vector{\beta} $ is estimable.
+    \begin{enumerate}[(1)]
+        \item $ \E{\Matrix{B}'\Vector{\beta}_0}=\Matrix{B}\Vector{\beta} $.
+        \item $ \Var{\Matrix{B}'\Vector{\beta}_0}=\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{B} $.
+    \end{enumerate}
+    $ \Vector{\beta}_0 $ is a solution of the normal equation
+    $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $.
+    \tcblower{}
+    \textbf{Proof}:
+    Since $ \Matrix{B}'\Vector{\beta} $ is estimable, $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
+    \begin{enumerate}[(1)]
+        \item First, note that $ \Matrix{B}'\Vector{\beta}_0=\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0 $, so
+              \begin{align*}
+                  \E{\Matrix{B}'\Vector{\beta}_0}
+                   & =\E{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0} \\
+                   & =\Matrix{B}'\Matrix{F}\E{\Matrix{X}'\Matrix{X}\Vector{\beta}_0} \\
+                   & =\Matrix{B}'\Matrix{F}\E{\Matrix{X}'\Vector{Y}}                 \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\E{\Vector{Y}}                 \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}       \\
+                   & =\Matrix{B}'\Vector{\beta}.
+              \end{align*}
+        \item \begin{align*}
+                  \Var{\Matrix{B}'\Vector{\beta}_0}
+                   & =\Var{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0}                         \\
+                   & =\Var{\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}}                                         \\
+                   & =(\Matrix{B}'\Matrix{F}\Matrix{X}')\sigma^2 \Matrix{I}(\Matrix{B}'\Matrix{F}\Matrix{X}')' \\
+                   & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}'\Matrix{B}                 \\
+                   & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{B}.
+              \end{align*}
+    \end{enumerate}
+\end{Theorem}
+\begin{Theorem}{}{}
+    If $ \Matrix{B}'\Vector{\beta} $ is estimable, then
+    $ \rank{\Matrix{B}'\Matrix{F}\Matrix{B}}=s $.
+    \tcblower{}
+    \textbf{Proof}: $ \Matrix{B}'\Vector{\beta} $
+    is estimable implies that there exists $ \Matrix{C}\in\R^{(k+1)\times s} $
+    matrix such that $ \Matrix{B}'=\Matrix{C}'\Matrix{X}'\Matrix{X} $ (extension of Theorem 13.3).
+    We know that $ \rank{\Matrix{B}'}=s=\rank{\Matrix{C}'\Matrix{X}'\Matrix{X}}\le \rank{\Matrix{C}'}\le s $.
+    Therefore, $ \rank{\Matrix{C}}=\rank{\Matrix{C}'}=s $. Also,
+    $ \rank{\Matrix{B}'}\le \rank{\Matrix{C}'\Matrix{X}}\le \rank{\Matrix{C}'}=s $,
+    which implies that $ \rank{\Matrix{C}'\Matrix{X}'}=\rank{\Matrix{X}\Matrix{C}}=s $.
+    Now,
+    \begin{align*}
+        \Matrix{B}'\Matrix{F}\Matrix{B}
+         & =\Matrix{C}'\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{C} \\
+         & =\Matrix{C}'\Matrix{X}'\Matrix{X}\Matrix{C},
+    \end{align*}
+    and by Theorem 1.3, we have that $ \rank{\Matrix{B}'\Matrix{F}\Matrix{B}}=\rank{\Matrix{C}'\Matrix{X}'}=s $.
+\end{Theorem}
+\begin{Theorem}{}{}
+    Set $ Q=(\Matrix{B}'\Vector{\beta}_0-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0-\Vector{m}) $.
+    Then, the following hold:
+    \begin{enumerate}[(1)]
+        \item $ Q/\sigma^2 \sim \chi^2(s,\lambda) $, where
+              \[ \lambda=\frac{1}{2\sigma^2}(\Matrix{B}'\Vector{\beta}-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}-\Vector{m}). \]
+        \item $ Q $ and $ \SSE $ are independent.
+    \end{enumerate}
+    \tcblower{}
+    \textbf{Proof}:
+    \begin{enumerate}[(1)]
+        \item The main idea is to use Theorem 4.1.
+              Note that $ \Vector{Y}\sim \N{\Matrix{X}\Vector{\beta},\sigma^2 \Matrix{I}} $.
+              \begin{align*}
+                  \Matrix{B}'\Vector{\beta}_0-\Vector{m}
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0-\Vector{m}                         \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}                                         \\
+                   & \sim\MN*{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}-\Vector{m},\Matrix{\Sigma}},
+              \end{align*}
+              where
+              \begin{align*}
+                  \Matrix{\Sigma}
+                   & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{X}\Matrix{X}'(\Matrix{B}'\Matrix{F}\Matrix{X}')' \\
+                   & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{B}'\Matrix{F}'\Matrix{B}    \\
+                   & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{B}.
+              \end{align*}
+              Therefore,
+              \[ \Matrix{A}\Matrix{\Sigma}=(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}\sigma^2(\Matrix{B}'\Matrix{F}\Matrix{B})=\Matrix{I}. \]
+        \item $ \SSE=\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y} $ and
+              $ Q=(\Matrix{B}'\Vector{\beta}_0-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0-\Vector{m}) $.
+              Rewrite the following into a quadratic form:
+              \[ (\Matrix{B}'\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}) \]
+              However, we can alternatively only prove that $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y} $ is independent of $ \SSE $.
+              \begin{align*}
+                  \Matrix{B}'\Matrix{F}\Matrix{X}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'-\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}' \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}.
+              \end{align*}
+    \end{enumerate}
+\end{Theorem}
+\subsection*{General One-Way Classification Model}
+We have $ a $ groups, for $ i=1,\ldots,a $ (factors),
+$ j=1,\ldots,n_i $ (level), $ n=n_1+\cdots+n_a $.
+Note that $ Y_{ij}=\mu+\alpha_i+\varepsilon_{ij} $,
+where $ \mu $ is a global average, $ \alpha_i $
+is additional impact of group $ i $ ($ \alpha_i>0 $ higher than global average),
+and $ \varepsilon_{ij} $ is the error of group $ i $ on level $ j $. In vector form,
+\[ \begin{pmatrix}
+        Y_{11}   \\
+        \vdots   \\
+        Y_{1n_1} \\
+        \vdots   \\
+        Y_{a1}   \\
+        \vdots   \\
+        Y_{an_a}
+    \end{pmatrix}=\Matrix{X}\begin{pmatrix}
+        \mu      \\
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_a
+    \end{pmatrix}+\Vector{\varepsilon}, \]
+where
+\[ \Matrix{X}=\begin{pmatrix}
+        n_1\begin{Bmatrix}
+               1      & 1      & 0      & \cdots & 0      \\
+               \vdots & \vdots & \vdots & \cdots & \vdots \\
+               1      & 1      & 0      & \cdots & 0      \\
+           \end{Bmatrix} \\
+        \vdots                                        \\
+        n_a\begin{Bmatrix}
+               1      & 0      & 0      & \cdots & 1      \\
+               \vdots & \vdots & \vdots & \cdots & \vdots \\
+               1      & 0      & 0      & \cdots & 1      \\
+           \end{Bmatrix}
+    \end{pmatrix} \]
+and $ \rank{\Matrix{X}}=a $. Note that
+\[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+        n      & n_1 & n_2    & \cdots & n_a    \\
+        n_1    & n_1 & 0      & \cdots & 0      \\
+        \vdots & 0   & n_2    & 0      & \cdots \\
+        n_a    & 0   & \cdots & n_a
+    \end{pmatrix} \]
+A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
+\[ \Matrix{F}=\begin{pmatrix}
+        0      & \cdots & 0      \\
+        \vdots & 1/n_1  & 0      \\
+        \vdots & \ddots & \vdots \\
+        0      & \cdots & 1/n_a
+    \end{pmatrix} \]
+\[ \Matrix{X}'\Vector{Y}=\begin{pmatrix}
+        \sum_{i=1}^{a}\sum_{j=1}^{n_i}Y_{ij} \\
+        \sum_{j=1}^{n_1}Y_{1j}               \\
+        \vdots                               \\
+        \sum_{j=1}^{n_a}Y_{aj}
+    \end{pmatrix}=\begin{pmatrix}
+        Y_{..} \\
+        Y_{1.} \\
+        \vdots \\
+        Y_{a.}
+    \end{pmatrix}, \]
+where $ Y_{..}=\sum_{i=1}^{n}\sum_{j=1}^{n_i}Y_{ij} $
+and $ Y_{i.}=\sum_{j=1}^{n_i}=Y_{ij} $. Furthermore,
+\[ \Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
+        0                   \\
+        \frac{1}{n_1}Y_{1.} \\
+        \vdots              \\
+        \frac{1}{n_a}Y_{a.}
+    \end{pmatrix}=\begin{pmatrix}
+        0            \\
+        \bar{Y}_{1.} \\
+        \vdots       \\
+        \bar{Y}_{a.}
+    \end{pmatrix}, \]
+where $ \bar{Y}_{i.}=\frac{1}{n_i}Y_{i.} $.

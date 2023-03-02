@@ -170,9 +170,50 @@ $ \HA $: $ \Vector{\beta}\ne 0 $ as before.
     If $ \Vector{Y} \sim \MN{\Matrix{X}\Vector{\beta},\sigma^2\Matrix{I}} $,
     then
     \[ \Vector{b}'\Vector{\beta}_0 \sim \MN{\Vector{b}'\Vector{\beta},
-            \sigma^2\Vector{b}'\Matrix{F}\Vector{b}}, \]
-    and
-    \[ \frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{\sqrt{\sigma^2\Vector{b}'\Matrix{F}\Vector{b}}}
-        \sim \N{0,1}. \]
-    However, since $ \sigma^2 $ is unknown, this quantity follows a $ t $-distribution.
+            \sigma^2\Vector{b}'\Matrix{F}\Vector{b}}. \]
 \end{Theorem}
+\underline{Claim}:
+\[ \frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{\sqrt{\sigma^2\Vector{b}'\Matrix{F}\Vector{b}}}\sim t_{n-r}. \]
+\begin{align*}
+    \frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{\sqrt{\sigma^2\Vector{b}'\Matrix{F}\Vector{b}}}
+     & =\frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{
+        \sqrt{\sigma^2 \Vector{b}'\Matrix{F}\Vector{b}\frac{\hat{\sigma}^2}{\sigma^2}}
+    }                                                                 \\
+     & =\frac{\Vector{b}'\Vector{\beta}_0-\Vector{b}'\Vector{\beta}}{
+        \sqrt{\sigma^2 \Vector{b}'\Matrix{F}\Vector{b}}
+    }\bigg/\sqrt{\frac{\hat{\sigma}^2}{\sigma^2}}                     \\
+     & =\frac{Z}{\sqrt{\frac{V}{n-r}}} \sim t(n-r),
+\end{align*}
+since
+\[ \frac{\hat{\sigma}^2}{\sigma}=\frac{\SSE}{n-r}, \]
+$ \SSE \sim \chi^2(n-r) $, $ Z \sim \N{0,1} $, and $ V \sim \chi^2(n-r) $.
+By Theorem 13.2 (2) $ Z $ and $ V $ are independent.
+
+A $ (1-\alpha)100\% $ confidence interval for $ \Vector{b}'\Vector{\beta} $
+is given by
+\[ \Vector{b}'\Vector{\beta}_0\pm t_{n-r;\alpha/2}\hat{\sigma}\sqrt{\Vector{b}'\Matrix{F}\Vector{b}}. \]
+\begin{Example}{}{}
+    Refer to Example 12.1. Note that
+    \[ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}'\implies
+        b_2+b_3+b_4=b_1,\; b_2=-b_3=1,
+        \Vector{b}'=\begin{pmatrix}
+            0 & 1 & -1 & 0
+        \end{pmatrix}. \]
+    We can estimate
+    \[ \Vector{b}'\Vector{\beta}=\begin{pmatrix}
+            0 & 1 & -1 & 0
+        \end{pmatrix}\begin{pmatrix}
+            \beta_0 \\
+            \beta_1 \\
+            \beta_2 \\
+            \beta_3
+        \end{pmatrix}=\beta_1-\beta_2. \]
+    $ n=6 $, $ r=3 $, $ \alpha=5\% $, $ t_{n-r;\alpha/2}=3.182 $.
+    \begin{align*}
+        \hat{\sigma}^2                                   & =\frac{\SSE}{n-r}=\frac{70}{3}=23.33 \\
+        \frac{\Vector{b}'\Matrix{F}\Vector{b}}{\sigma^2} & =\frac{5}{6}.
+    \end{align*}
+    The confidence interval is
+    \[ \Vector{b}'\Vector{\beta}_0\pm 3.182\sqrt{23.33}\sqrt{\frac{5}{6}}
+        =14\pm 14.0303=(-0.0303,28.0303). \]
+\end{Example}
