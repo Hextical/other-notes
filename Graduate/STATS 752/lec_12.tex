@@ -121,7 +121,7 @@ However, $ \Vector{\beta}_0 $ may not be a good estimator.
     $ Y_{ij}= $ observation of $ j\textsuperscript{th} $ plant of type $ i $ for $ i=1,2,3 $;
     $ n_1=3 $, $ n_2=2 $, $ n_3=1 $, and $ n=n_1+n_2+n_3=6 $.
     \[ \Vector{Y}'=\begin{pmatrix}
-            Y_{11} & Y_{12} & Y_{13} & Y_{21} & Y_{22} & Y_{23}
+            Y_{11} & Y_{12} & Y_{13} & Y_{21} & Y_{22} & Y_{33}
         \end{pmatrix}=\begin{pmatrix}
             101 & 105 & 94 & 84 & 88 & 32
         \end{pmatrix}'. \]
@@ -139,7 +139,7 @@ However, $ \Vector{\beta}_0 $ may not be a good estimator.
         Y_{13} & =\beta_0+\beta_1+0\beta_2+0\beta_3+\varepsilon_{13}  \\
         Y_{21} & =\beta_0+0\beta_1+\beta_2+0\beta_3+\varepsilon_{21}  \\
         Y_{22} & =\beta_0+0\beta_1+\beta_2+0\beta_3+\varepsilon_{22}  \\
-        Y_{23} & =\beta_0+0\beta_1+0\beta_2+\beta_3+\varepsilon_{23}.
+        Y_{33} & =\beta_0+0\beta_1+0\beta_2+\beta_3+\varepsilon_{33}.
     \end{align*}
     Therefore, $ \Vector{Y}=\Matrix{X}\Vector{\beta} $ with
     \[ \Matrix{X}=\begin{pmatrix}
@@ -158,10 +158,10 @@ However, $ \Vector{\beta}_0 $ may not be a good estimator.
             1 & 0 & 0 & 1
         \end{pmatrix}. \]
     \[ \Matrix{X}'\Vector{Y}=\begin{pmatrix}
-            Y_{0.} \\
+            Y_{..} \\
             Y_{1.} \\
             Y_{2.} \\
-            Y_{23}
+            Y_{3.}
         \end{pmatrix}=\begin{pmatrix}
             504 \\ 300 \\ 172 \\32
         \end{pmatrix}. \]
