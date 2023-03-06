@@ -202,3 +202,152 @@ and $ Y_{i.}=\sum_{j=1}^{n_i}=Y_{ij} $. Furthermore,
         \bar{Y}_{a.}
     \end{pmatrix}, \]
 where $ \bar{Y}_{i.}=\frac{1}{n_i}Y_{i.} $.
+\begin{align*}
+    \SST
+     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}(\hat{Y}_{ij}-\bar{Y}_{..})                \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}\hat{Y}_{ij}-\tfrac{1}{n}Y_{..}^2.         \\
+    \SSR
+     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{..}^2                                    \\
+     & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_i}-\frac{Y_{..}^2}{n}.                   \\
+    \SSE
+     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}Y_{ij}^2-\sum_{i=1}^{a}\frac{Y_{i.}}{n_i}.
+\end{align*}
+Distributions:
+\begin{itemize}
+    \item $ \SSE/\sigma^2 \sim \chi^2(n-a) $.
+    \item $ \SSR/\sigma^2 \sim \chi^2(a-1,\lambda) $, where
+          \[ \lambda=\frac{1}{2\sigma^2}(\Matrix{X}\Vector{\beta})(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})\Matrix{X}\Vector{\beta}. \]
+\end{itemize}
+For $ \HN $: $ \Matrix{X}\Vector{\beta}=\Vector{0} $ versus $ \HA $: $ \Matrix{X}\Vector{\beta}\ne \Vector{0} $.
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation} & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
+        \midrule
+        \text{Due to Regression}   & a-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
+        \text{Error}               & n-a                       & \SSE                  & \MSE                           \\
+        \text{Total}               & n-1                       & \SST                                                   \\
+        \bottomrule
+    \end{array} \]
+We reject if $ F>F_{\alpha}(a-1,n-a) $. If $ \HN $ is rejected,
+then we conclude that the model
+\[ Y_{ij}=\mu+\alpha_i+\varepsilon_{ij} \]
+accounts for significantly more of the variation in the $ Y $-variable
+then the model $ Y_{ij}=\mu+\varepsilon_{ij} $.
+\subsection*{Estimable Linear Combinations}
+$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b} $.
+\begin{align*}
+    \Matrix{F}\Matrix{X}'\Matrix{X}
+     & =\begin{pmatrix}
+            0      & \cdots & 0      & 0      & \cdots & 0      & 0      & \cdots & 0      \\
+            1/n_1  & \cdots & 1/n_1  & 0      & \cdots & 0      & 0      & \cdots & 0      \\
+            0      & \cdots & 0      & 1/n_2  & \cdots & 1/n_2  & 0      & \cdots & 0      \\
+            \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+            0      & \cdots & 0      & 0      & \cdots & 0      & 1/n_a  & \cdots & 1/n_a
+        \end{pmatrix}\begin{pmatrix}
+                         1      & \cdots & 1      & 1      & \cdots & 1      & \cdots & 1      & \cdots & 1      \\
+                         1      & \cdots & 1      & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
+                         0      & \cdots & 0      & 1      & \cdots & 1      & \cdots & 0      & \cdots & 0      \\
+                         \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+                         0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 1      & \cdots & 1
+                     \end{pmatrix} \\
+\end{align*}
+\begin{align*}
+    \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X} & =\Vector{b}                                    \\
+    \Vector{b}'                                & =\begin{pmatrix}
+                                                      b_1 + \cdots + b_a & b_1 & b_2 & \cdots & b_a
+                                                  \end{pmatrix} \\
+                                               & =\begin{pmatrix}
+                                                      b_0 & b_1 & \cdots & b_a
+                                                  \end{pmatrix},
+\end{align*}
+where $ b_0=b_1+\cdots+b_a $. Now,
+\begin{align*}
+    \Vector{b}'\Vector{\beta}
+     & =\begin{pmatrix}
+            b_0 & \cdots & b_a
+        \end{pmatrix}
+    \begin{pmatrix}
+        \mu      \\
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_a
+    \end{pmatrix}                                                  \\
+     & =b_0 \Vector{\mu}+b_1 \alpha_1+\cdots+b_a \alpha_a           \\
+     & =(b_1+\cdots+b_a)\Vector{\mu}+b_1\alpha_1+\cdots+b_a\alpha_a \\
+     & =b_1(\mu+\alpha_1)+\cdots+b_a(\mu+\alpha_a).
+\end{align*}
+Questions:
+\begin{enumerate}[(1)]
+    \item Is $ \mu $ estimable? No.
+    \item Are $ \alpha_i $'s estimable? No. $ b_i=1 $, $ b_j=0 $ for $ i\ne j $,
+          so we will get $ \mu+\alpha_i\ne \alpha_i $.
+    \item Is $ \mu+\alpha_i $ estimable? Yes. Choose $ b_i=1 $ and $ b_j=0 $ for $ i\ne j $.
+    \item Is $ \alpha_i-\alpha_j $ estimable (for $ i\ne j $)? Yes. $ b_i=1 $, $ b_j=-1 $, and
+          $ b_k=0 $ for $ k\ne i,j $.
+\end{enumerate}
+\subsection*{Confidence Interval}
+If $ \Vector{b}'\Vector{\beta} $ is estimable, then a $ 100(1-\alpha)\% $
+confidence interval for $ \Vector{b}'\Vector{\beta} $ is
+\[ \Vector{b}'\Vector{\beta}_0\pm t_{n-a,\alpha/2}\hat{\sigma}\sqrt{\Vector{b}'\Matrix{F}\Vector{b}}. \]
+To get a CI for $ \beta_i-\beta_j $, we need to consider
+\begin{align*}
+    \Vector{b}'\Matrix{F}\Vector{b}
+     & \begin{pmatrix}
+           \cdots & 1/n_i & \cdots & 1/n_j
+       \end{pmatrix}\Vector{\beta} \\
+     & =\frac{1}{n_i}+\frac{1}{n_j}.
+\end{align*}
+Therefore, $ \hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}} $ is the standard
+error for the CI of $ \beta_i-\beta_j $.
+\subsection*{Two-Way Nested Classification}
+Suppose we want to know the students opinion of the instructor's
+classroom use of computer facility ($ 0\leftrightarrow 10 $).
+For example, if we have two courses English (two sections) and Geology (three sections):
+\begin{itemize}
+    \item English Section 1: 5.
+    \item English Section 2: 8, 10, 9.
+    \item Geology Section 1: 8, 10.
+    \item Geology Section 2: 6, 2, 1, 3.
+    \item Geology Section 3: 3, 7.
+\end{itemize}
+The model will be $ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk} $,
+where $ i=1,\ldots,a $, $ j=1,\ldots,b_i $, $ k=1,\ldots,n_{ij} $.
+The total number of observations is $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij} $.
+The total number of parameters is $ m=1+a+(b_1+\cdots+b_a) $.
+\begin{Example}{}{}
+    Refer to the English and Geology data from earlier.
+    \begin{itemize}
+        \item $ a=2 $, $ b_1=2 $, $ b_2=3 $.
+        \item $ n_{11}=1 $, $ n_{12}=3 $, $ n_{21}=2 $, $ n_{22}=4 $, $ n_{23}=2 $.
+        \item $ n=n_{11}+n_{12}+n_{21}+n_{22}+n_{23}=1+3+2+4+2=12 $.
+        \item $ m=1+a+b_1+b_2=1+2+2+3=8 $.
+    \end{itemize}
+    \[ \begin{pmatrix}
+            \mu        \\
+            \alpha_1   \\
+            \alpha_2   \\
+            \beta_{11} \\
+            \beta_{12} \\
+            \beta_{21} \\
+            \beta_{22} \\
+            \beta_{23}
+        \end{pmatrix} \]
+    \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+            n_{..} & n_{1.} & n_{2.} & n_{11} & n_{12} & n_{21} & n_{22} & n_{23} \\
+            n_{1.} & n_{2.} & 0      & n_{11} & n_{12} & 0      & 0      & 0      \\
+            n_{2.} & 0      & n_{2.} & 0      & 0      & n_{21} & n_{22} & n_{23} \\
+            n_{11} & n{11}  & 0      & n_{11} & 0      & 0      & 0      & 0      \\
+            n_{12} & n_{12} & 0      & 0      & n_{12} & 0      & 0      & 0      \\
+            n_{21} & 0      & n_{21} & 0      & 0      & n_{21} & 0      & 0      \\
+            n_{22} & 0      & n_{22} & 0      & 0      & 0      & n_{22} & 0      \\
+            n_{23} & 0      & n_{23} & 0      & 0      & 0      & 0      & n_{23}
+        \end{pmatrix}. \]
+    A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
+    \[ F=\begin{pmatrix}
+            \Matrix{O} & \Matrix{O}                     \\
+            \Matrix{O} & \diag{1/n_{11},\ldots,/n_{23}}
+        \end{pmatrix}. \]
+    \[ \Vector{\beta}_0'=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
+            0 & 0 & 0 & \bar{Y}_{11.} & \bar{Y}_{12.} & \bar{Y}_{21.} & \bar{Y}_{22.} & \bar{Y}_{23.}
+        \end{pmatrix}. \]
+\end{Example}
