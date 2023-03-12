@@ -1,3 +1,5 @@
+\makeheading{Lecture 16}{\printdate{2023-03-09}}%chktex 8
+\section{Lecture 16: Two-Way Nested Classification (Continued)}
 \begin{itemize}
     \item Model 1: $ Y_{ijk}=\mu+\varepsilon_{ijk} $.
     \item Model 2: $ Y_{ijk}=\mu+\alpha_i+\varepsilon_{ijk} $.
@@ -6,36 +8,39 @@
 \subsection*{ANOVA}
 \begin{align*}
     \SST
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(Y_{ijk}-\bar{Y}_{...})^2                         \\
-     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{...}^2.                                                            \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(Y_{ijk}-\bar{Y}_{...})^2                           \\
+     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{...}^2.                                                              \\
     \SSR
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(\hat{Y}_{ijk}-\bar{Y}_{...})^2                   \\
-     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-n\bar{Y}_{...}^2.                                           \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(\hat{Y}_{ijk}-\bar{Y}_{...})^2                     \\
+     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-n\bar{Y}_{...}^2.                                             \\
+     & =\textcolor{blue}{\text{SS}(\alpha,\beta:\alpha\mid \mu)}.                                            \\
     \SSE
-     & =\SST-\SSR                                                                                          \\
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\biggl[\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\tfrac{1}{n{ij}}Y_{ij.}^2\biggr]
+     & =\SST-\SSR                                                                                            \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\biggl(\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\tfrac{1}{n_{ij}}Y_{ij.}^2\biggr).
 \end{align*}
 \subsection*{ANOVA Table I}
 Testing the overall effectiveness of Model 3.
 \[ \begin{array}{lllll}
         \toprule
-        \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
+        \text{Source of Variation}                          & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
         \midrule
-        \alpha,\beta:\alpha\text{ after }\mu & b-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
-        \text{Error}                         & n-b                       & \SSE                  & \MSE                           \\
-        \text{Total}                         & n-1                       & \SST                                                   \\
+        \text{Fitting }\alpha,\beta:\alpha\text{ after }\mu & b-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
+        \text{Error}                                        & n-b                       & \SSE                  & \MSE                           \\
+        \midrule
+        \text{Total}                                        & n-1                       & \SST                                                   \\
         \bottomrule
     \end{array} \]
+Tests on the significant impact on the variation in $ Y $.
 \subsection*{ANOVA Table II}
-Testing Model 1 and 2.
 \[ \begin{array}{lllll}
         \toprule
-        \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares}                  & \text{Mean Square}                      & F                                    \\
+        \text{Source of Variation}                          & \text{Degrees of Freedom} & \text{Sum of Squares}                  & \text{Mean Square}                      & F                               \\
         \midrule
-        \alpha\text{ after }\mu              & a-1                       & \text{SS}(\alpha\mid \mu)              & \text{MSR}(\alpha\mid \mu)              & F(\alpha\mid \mu)                    \\
-        \beta:\alpha\text{ after }\mu,\alpha & b-a                       & \text{SS}(\beta:\alpha\mid \mu,\alpha) & \text{MSR}(\beta:\alpha\mid \mu,\alpha) & F(\beta\colon \alpha\mid \mu,\alpha) \\
-        \text{Error}                         & n-b                       & \SSE                                   & \MSE                                                                           \\
-        \text{Total}                         & n-1                       & \SST                                                                                                                    \\
+        \text{Fitting }\alpha\text{ after }\mu              & a-1                       & \text{SS}(\alpha\mid \mu)              & \text{MSR}(\alpha\mid \mu)              & F(\alpha\mid \mu)               \\
+        \text{Fitting }\beta:\alpha\text{ after }\mu,\alpha & b-a                       & \text{SS}(\beta:\alpha\mid \mu,\alpha) & \text{MSR}(\beta:\alpha\mid \mu,\alpha) & F(\beta: \alpha\mid \mu,\alpha) \\
+        \text{Error}                                        & n-b                       & \SSE                                   & \MSE                                                                      \\
+        \midrule
+        \text{Total}                                        & n-1                       & \SST                                                                                                               \\
         \bottomrule
     \end{array} \]
 \begin{itemize}
@@ -44,33 +49,42 @@ Testing Model 1 and 2.
     \item $ \text{SS}(\beta:\alpha\mid \mu,\alpha)=\text{SS}(\alpha,\beta:\alpha\mid \mu)-\text{SS}(\alpha\mid \mu) $; that is,
           we are checking the impact of $ \beta $ after $ \alpha $ on the model.
 \end{itemize}
+\begin{align*}
+    F(\alpha\mid \mu)
+     & =\frac{\MSR(\alpha\mid \mu)}{\MSE} \sim F(\alpha-1,n-b). \\
+    F(\beta:\alpha\mid \mu,\alpha)
+     & =\frac{\MSR(\beta:\alpha)}{\MSE}\sim F(b-a,n-b).
+\end{align*}
 \begin{Example}{}{}
-    Refer to the English and Geology data from earlier.
+    Refer to the English and Geology data from Example 15.1.
     \begin{itemize}
         \item $ \SST=110 $
         \item $ \SSR=84 $.
-        \item $ \text{SS}(\alpha\mid \mu)=24 $.
-        \item $ \text{SS}(\beta:\alpha\mid \mu,\alpha)=60 $.
+        \item $ \SSE=26 $.
+        \item $ \displaystyle\text{SS}(\alpha\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\frac{Y_{...}^2}{n}=24 $.
+        \item $ \text{SS}(\beta:\alpha\mid \mu,\alpha)=84-24=60 $.
     \end{itemize}
-    Table I\@:
+    ANOVA Table I\@:
     \[ \begin{array}{lllll}
             \toprule
-            \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F             \\
+            \text{Source of Variation}                          & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F             \\
             \midrule
-            \alpha,\beta:\alpha\text{ after }\mu & 4                         & 84                    & 21                 & 21(7)/26=5.66 \\
-            \text{Error}                         & 7                         & 26                    & 26/7                               \\
-            \text{Total}                         & 11                        & 110                                                        \\
+            \text{Fitting }\alpha,\beta:\alpha\text{ after }\mu & 4                         & 84                    & 21                 & 21(7)/26=5.66 \\
+            \text{Error}                                        & 7                         & 26                    & 26/7                               \\
+            \midrule
+            \text{Total}                                        & 11                        & 110                                                        \\
             \bottomrule
         \end{array} \]
-    Table II\@:
+    ANOVA Table II\@:
     \[ \begin{array}{lllll}
             \toprule
-            \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F   \\
+            \text{Source of Variation}                          & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F   \\
             \midrule
-            \alpha\text{ after }\mu              & 1                         & 24                    & 24                 & 6.5 \\
-            \beta:\alpha\text{ after }\mu,\alpha & 3                         & 60                    & 20                 & 5.4 \\
-            \text{Error}                         & 7                         & 26                    & 26/7                     \\
-            \text{Total}                         & 11                                                                           \\
+            \text{Fitting }\alpha\text{ after }\mu              & 1                         & 24                    & 24                 & 6.5 \\
+            \text{Fitting }\beta:\alpha\text{ after }\mu,\alpha & 3                         & 60                    & 20                 & 5.4 \\
+            \text{Error}                                        & 7                         & 26                    & 26/7                     \\
+            \midrule
+            \text{Total}                                        & 11                        & 110                                              \\
             \bottomrule
         \end{array} \]
     \begin{itemize}
@@ -84,9 +98,9 @@ Testing Model 1 and 2.
     \end{itemize}
 \end{Example}
 \subsection*{Estimable Combinations}
-$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{\beta}' $.
+$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $.
 Write $ \Vector{b}'\Matrix{F}\Matrix{X}'=\Vector{c}' $.
-Also, $ \Vector{b}'\Vector{\beta}=\Vector{c}'\Matrix{X}\Vector{\beta} $.
+Also, $ \Vector{b}'\Vector{\beta}=\Vector{c}'\Matrix{X}\Vector{\beta} $. Idea:
 \[ \Vector{c}'=\begin{pmatrix}
         c_{111} & \cdots c_{11n_{11}} & \cdots & c_{ij1} & \cdots & c_{ijn_{ij}} & \cdots
     \end{pmatrix}. \]
@@ -100,6 +114,7 @@ Also, $ \Vector{b}'\Vector{\beta}=\Vector{c}'\Matrix{X}\Vector{\beta} $.
         \end{pmatrix}\Vector{\beta}                            \\
      & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}w_{ij}(\mu+\alpha_i+\beta_{ij}).
 \end{align*}
+Conclusion:
 \begin{enumerate}[(1)]
     \item $ \mu $, $ \mu+\alpha_i $, $ \alpha_i $ are not estimable.
     \item $ \mu+\alpha_i+\beta_{ij} $ is estimable.
@@ -119,6 +134,38 @@ Choose
 %        \mu & \alpha_1 & \cdots & \alpha_a & \beta_{11} & \cdots & \beta_{1b_1} & \cdots & \beta_{a1} & \cdots & \beta_{ab_a} \\
 %        0   & 0        & \cdots & 0        & 1          & -1     & \cdots       & 0      & 0          & \cdots & 0
 %    \end{pmatrix} \]
-$ \Matrix{B} $ is an $ m\times(b-a) $ matrix. $ \rank{\Matrix{B}}=b-a $.
-\[ Q=(\Matrix{B}'\beta_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})\Matrix{B}'\Vector{\beta}_0=\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
-\[ F=\frac{Q/(n-a)}{Q/(n-b)} \sim F(b-a,n-b). \]
+$ \Matrix{B}\in\R^{m\times(b-a)} $, where $ \rank{\Matrix{B}}=b-a $. Once again,
+I can't be bothered to type these huge matrices in \LaTeX{}.
+\[ Q=(\Matrix{B}'\beta_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})(\Matrix{B}'\Vector{\beta}_0)-\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
+\[ F=\frac{Q/(n-a)}{\SSE/(n-b)} \sim F(b-a,n-b). \]
+\begin{Remark}{}{}
+    If $ n_{ij}=r $ for all $ i,j $, $ b_i=c $ for all $ i $, then the model
+    is called a \textbf{balanced} model.
+\end{Remark}
+From Example 15.1, we have
+\[ \Vector{\beta}=\begin{pmatrix}
+        \mu        \\
+        \alpha_1   \\
+        \alpha_2   \\
+        \beta_{11} \\
+        \beta_{12} \\
+        \beta_{21} \\
+        \beta_{22} \\
+        \beta_{23}
+    \end{pmatrix}, \]
+\[ \Vector{b}'=\begin{pmatrix}
+        a_1 & a_2 & a_3 & b_{11} & b_{12} & b_{21} & b_{22} & b_{23}
+    \end{pmatrix}. \]
+Therefore, $ \Matrix{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $, where
+\begin{align*}
+    a_1 & = b_{11} + b_{12} + b_{21} + b_{22} + b_{23}, \\
+    a_2 & =b_{11} +b_{12},                              \\
+    a_3 & =b_{21}+b_{22}+b_{23.}
+\end{align*}
+Therefore,
+\begin{align*}
+    \Vector{b}'\Vector{\beta}
+     & =a_1\mu+a_2\alpha_1+a_3\alpha_2+b_{11}\beta_{11}+b_{12}\beta_{12}+b_{21}\beta_{21}
+    +b_{22}\beta_{22}+\beta_{23}\beta_{23}                                                                                                                                   \\
+     & =b_{11}(\mu+\alpha_1+\beta_{11})+b_{12}(\mu+\alpha_1+\beta_{12})+b_{21}(\mu+\alpha_2+\beta_{21})+\beta_{22}(\mu+\alpha_2+\beta_{22})+b_{23}(\mu+\alpha_2+\beta_{23}).
+\end{align*}

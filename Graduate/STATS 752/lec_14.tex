@@ -17,26 +17,30 @@ Hence,
     \begin{pmatrix}
         \Vector{b}_1' \Vector{\beta} & \cdots & \Vector{b}_s' \Vector{\beta}
     \end{pmatrix}'. \]
-$ \Matrix{B}'\Vector{\beta} $ is estimable if and only if
-$ \Vector{b}_i'\Vector{\beta} $ is estimable
-for all $ i=1,\ldots,s $. Therefore,
-$ \Vector{b}'\Vector{\beta} $ is estimable if and only if $ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $
-implies $ \Matrix{B}'\Vector{\beta} $ is estimable
-if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
-
+In order for $ \Matrix{B}'\Vector{\beta} $ to be estimable, we need
+$ \Vector{b}_i'\Vector{\beta} $ to be estimable for $ i=1,\ldots,s $.
+This requires
+\[ \Vector{b}_i'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}_i'
+    \iff \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}'. \]
 \begin{Theorem}{}{}
+    Let $ \Vector{\beta}_0 $ be a solution to the normal equation
+    \[ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y}. \]
+    Since $ \Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{X} $,
+    it follows that $ \Matrix{X}\Vector{\beta} $ is estimable and
+    $ \Matrix{X}\Vector{\beta}_0 $ is an estimator of $ \Matrix{X}\Vector{\beta} $.
+
     Assume that $ \Matrix{B}'\Vector{\beta} $ is estimable.
     \begin{enumerate}[(1)]
         \item $ \E{\Matrix{B}'\Vector{\beta}_0}=\Matrix{B}\Vector{\beta} $.
         \item $ \Var{\Matrix{B}'\Vector{\beta}_0}=\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{B} $.
     \end{enumerate}
-    $ \Vector{\beta}_0 $ is a solution of the normal equation
-    $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $.
     \tcblower{}
     \textbf{Proof}:
     Since $ \Matrix{B}'\Vector{\beta} $ is estimable, $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
+    Furthermore,
+    \[ \Matrix{B}'\Vector{\beta}_0=\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0. \]
     \begin{enumerate}[(1)]
-        \item First, note that $ \Matrix{B}'\Vector{\beta}_0=\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0 $, so
+        \item For the expectation,
               \begin{align*}
                   \E{\Matrix{B}'\Vector{\beta}_0}
                    & =\E{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0} \\
@@ -46,7 +50,8 @@ if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
                    & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}       \\
                    & =\Matrix{B}'\Vector{\beta}.
               \end{align*}
-        \item \begin{align*}
+        \item For the variance,
+              \begin{align*}
                   \Var{\Matrix{B}'\Vector{\beta}_0}
                    & =\Var{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0}                         \\
                    & =\Var{\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}}                                         \\
@@ -71,9 +76,16 @@ if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
     \begin{align*}
         \Matrix{B}'\Matrix{F}\Matrix{B}
          & =\Matrix{C}'\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{C} \\
-         & =\Matrix{C}'\Matrix{X}'\Matrix{X}\Matrix{C},
+         & =\Matrix{C}'\Matrix{X}'\Matrix{X}\Matrix{C}                                \\
+         & =(\Matrix{X}\Matrix{C})'(\Matrix{X}\Matrix{C}),
     \end{align*}
-    and by Theorem 1.3, we have that $ \rank{\Matrix{B}'\Matrix{F}\Matrix{B}}=\rank{\Matrix{C}'\Matrix{X}'}=s $.
+    and by Theorem 1.3, we have that
+    \begin{align*}
+        \rank{\Matrix{B}'\Matrix{F}\Matrix{B}}
+         & =\rank[\big]{(\Matrix{X}\Matrix{C})'(\Matrix{X}\Matrix{C})} \\
+         & =\rank{\Matrix{X}\Matrix{C}}                                \\
+         & =s.
+    \end{align*}
 \end{Theorem}
 \begin{Theorem}{}{}
     Set $ Q=(\Matrix{B}'\Vector{\beta}_0-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0-\Vector{m}) $.
@@ -90,9 +102,10 @@ if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
               Note that $ \Vector{Y}\sim \N{\Matrix{X}\Vector{\beta},\sigma^2 \Matrix{I}} $.
               \begin{align*}
                   \Matrix{B}'\Vector{\beta}_0-\Vector{m}
-                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0-\Vector{m}                         \\
-                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}                                         \\
-                   & \sim\MN*{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}-\Vector{m},\Matrix{\Sigma}},
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0-\Vector{m}                        \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}                                        \\
+                   & \sim\MN*{\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}-\Vector{m},\Matrix{\Sigma}} \\
+                   & =\MN{\underbrace{\Matrix{B}'\Vector{\beta}-\Vector{m}}_{\Vector{\mu}},\Matrix{\Sigma}},
               \end{align*}
               where
               \begin{align*}
@@ -102,12 +115,31 @@ if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
                    & =\sigma^2 \Matrix{B}'\Matrix{F}\Matrix{B}.
               \end{align*}
               Therefore,
-              \[ \Matrix{A}\Matrix{\Sigma}=(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}\sigma^2(\Matrix{B}'\Matrix{F}\Matrix{B})=\Matrix{I}. \]
-        \item $ \SSE=\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y} $ and
-              $ Q=(\Matrix{B}'\Vector{\beta}_0-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0-\Vector{m}) $.
-              Rewrite the following into a quadratic form:
-              \[ (\Matrix{B}'\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}) \]
-              However, we can alternatively only prove that $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y} $ is independent of $ \SSE $.
+              \[ \Matrix{A}\Matrix{\Sigma}=(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}\sigma^2(\Matrix{B}'\Matrix{F}\Matrix{B})=\Matrix{I}, \]
+              which is idempotent. It follows from Theorem 4.1 that $ Q \sim \chi^2(s,\lambda) $,
+              where $ \lambda $ is defined above.
+        \item $ Q=(\Matrix{B}'\Vector{\beta}_0-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0-\Vector{m}) $.
+              Idea: rewrite $ Q $ into a quadratic form and use Theorem 5.1.
+              \[ Q=(\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}-\Vector{m}) \]
+
+              Recall that $ \SSE=\Vector{Y}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')\Vector{Y} $,
+              and
+              \begin{align*}
+                  \Matrix{B}'\Vector{\beta}_0
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Vector{\beta}_0 \\
+                   & =\Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y}                 \\
+                   & =(\Matrix{B}'\Matrix{F}\Matrix{X}')\Vector{Y}.
+              \end{align*}
+              Hence,
+              \begin{align*}
+                  (\Matrix{B}'\Matrix{F}\Matrix{X}')\sigma^2 \Matrix{I}(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')
+                   & =\sigma^2[\Matrix{B}'\Matrix{F}\Matrix{X}'-\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'] \\
+                   & =\sigma^2[\Matrix{B}'\Matrix{F}\Matrix{X}'-\Matrix{B}'\Matrix{F}\Matrix{X}']                                \\
+                   & =\Matrix{O}.
+              \end{align*}
+              Therefore, by Theorem 5.1, we obtain the result.
+
+              \underline{Alternative Proof Idea}: Prove that $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Vector{Y} $ is independent of $ \SSE $.
               \begin{align*}
                   \Matrix{B}'\Matrix{F}\Matrix{X}'(\Matrix{I}-\Matrix{X}\Matrix{F}\Matrix{X}')
                    & =\Matrix{B}'\Matrix{F}\Matrix{X}'-\Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}' \\
@@ -116,12 +148,15 @@ if and only if $ \Matrix{B}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{B}' $.
     \end{enumerate}
 \end{Theorem}
 \subsection*{General One-Way Classification Model}
-We have $ a $ groups, for $ i=1,\ldots,a $ (factors),
-$ j=1,\ldots,n_i $ (level), $ n=n_1+\cdots+n_a $.
-Note that $ Y_{ij}=\mu+\alpha_i+\varepsilon_{ij} $,
-where $ \mu $ is a global average, $ \alpha_i $
-is additional impact of group $ i $ ($ \alpha_i>0 $ higher than global average),
-and $ \varepsilon_{ij} $ is the error of group $ i $ on level $ j $. In vector form,
+\[ Y_{ij}=\mu+\alpha_i+\varepsilon_{ij}, \]
+where $ i=1,\ldots,a $ are the factors, $ j=1,\ldots,n_i $ are the levels,
+and $ n=n_1+\cdots+n_a $ are the total number of observations.
+\begin{itemize}
+    \item $ \mu $ is the global average;
+    \item $ \alpha_i $ is additional impact of group $ i $ ($ \alpha_i>0 $ higher than global average);
+    \item $ \varepsilon_{ij} $ is the error of group $ i $ on level $ j $.
+\end{itemize}
+In matrix-vector form, we may write the model as follows.
 \[ \begin{pmatrix}
         Y_{11}   \\
         \vdots   \\
@@ -169,7 +204,7 @@ and $ \rank{\Matrix{X}}=a $. Note that
         n_2    & 0      & n_2    & \cdots & 0      \\
         \vdots & \vdots & \ddots & \ddots & \vdots \\
         n_a    & 0      & \cdots & 0      & n_a
-    \end{pmatrix} \]
+    \end{pmatrix}\in\R^{(a+1)\times (a+1)} \]
 A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
 \[ \Matrix{F}=\begin{pmatrix}
         0      & \cdots & 0      & 0      \\
@@ -189,8 +224,33 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
         Y_{a.}
     \end{pmatrix}, \]
 where $ Y_{..}=\sum_{i=1}^{n}\sum_{j=1}^{n_i}Y_{ij} $
-and $ Y_{i.}=\sum_{j=1}^{n_i}=Y_{ij} $. Furthermore,
-\[ \Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
+and $ Y_{i.}=\sum_{j=1}^{n_i}=Y_{ij} $. Also,
+\begin{align*}
+    \Matrix{F}\Matrix{X}'
+     & =\begin{pmatrix}
+            0      & \cdots & 0      & 0      \\
+            \vdots & 1/n_1  & \ddots & \vdots \\
+            0      & \ddots & \ddots & 0      \\
+            0      & \cdots & 0      & 1/n_a
+        \end{pmatrix}\begin{pmatrix}
+                         1      & \cdots & 1      & 1      & \cdots & 1      & \cdots & 1      & \cdots & 1      \\
+                         1      & \cdots & 1      & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
+                         0      & \cdots & 0      & 1      & \cdots & 1      & \cdots & 0      & \cdots & 0      \\
+                         \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+                         0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 1      & \cdots & 1
+                     \end{pmatrix} \\
+     & =\begin{pmatrix}
+            0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
+            1/n_1  & \cdots & 1/n_1  & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
+            0      & \cdots & 0      & 1/n_2  & \cdots & 1/n_2  & \cdots & 0      & \cdots & 0      \\
+            \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+            0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 1/n_a  & \cdots & 1/n_a
+        \end{pmatrix}
+\end{align*}
+Therefore, a solution to the normal equation
+\[ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} \]
+is
+\[ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
         0                   \\
         \frac{1}{n_1}Y_{1.} \\
         \vdots              \\
@@ -202,153 +262,68 @@ and $ Y_{i.}=\sum_{j=1}^{n_i}=Y_{ij} $. Furthermore,
         \bar{Y}_{a.}
     \end{pmatrix}, \]
 where $ \bar{Y}_{i.}=\frac{1}{n_i}Y_{i.} $.
-\begin{align*}
-    \SST
-     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}(\hat{Y}_{ij}-\bar{Y}_{..})                \\
-     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}\hat{Y}_{ij}-\tfrac{1}{n}Y_{..}^2.         \\
-    \SSR
-     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{..}^2                                    \\
-     & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_i}-\frac{Y_{..}^2}{n}.                   \\
-    \SSE
-     & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}Y_{ij}^2-\sum_{i=1}^{a}\frac{Y_{i.}}{n_i}.
-\end{align*}
-Distributions:
+\begin{itemize}
+    \item Sum of Squares Total:
+          \begin{align*}
+              \SST
+               & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}(Y_{ij}-\bar{Y}_{..})^2      \\
+               & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}Y_{ij}^2-\frac{Y_{..}^2}{n}.
+          \end{align*}
+    \item Sum of Squares Regression: Define $ \hat{\Vector{Y}}=\Matrix{X}\Vector{\beta}_0=
+              \Matrix{X}\Matrix{F}\Matrix{X}'\Vector{Y} $. Hence,
+          \begin{align*}
+              \SSR
+               & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}(\hat{Y}_{ij}-\bar{Y}_{..})^2                                                              \\
+               & =\hat{\Vector{Y}}'\hat{\Vector{Y}}-2\biggl(\sum_{i=1}^{a}\sum_{j=1}^{n_i}\hat{Y}_{ij}\biggr)\bar{Y}_{..}+n\bar{Y}_{..}^2.
+          \end{align*}
+          Furthermore,
+          \begin{align*}
+              \sum_{i=1}^{a}\sum_{j=1}^{n_i}\hat{Y}_{ij}
+               & =\Vector{j}'\hat{\Vector{Y}}                             \\
+               & =\Vector{j}'\Matrix{X}\Vector{\beta}_0                   \\
+               & =\begin{pmatrix}
+                      n & n_1 & \cdots & n_a
+                  \end{pmatrix}\Vector{\beta}_0                           \\
+               & =n_1 \bar{Y}_{1.}+n_2\bar{Y}_{2.}+\cdots+n_a\bar{Y}_{a.} \\
+               & =Y_{..}                                                  \\
+               & =n\bar{Y}_{..}
+          \end{align*}
+          Furthermore, $ \SSR=\hat{\Vector{Y}}'\hat{\Vector{Y}}-n\bar{Y}_{..}^2 $, and
+          \[ \hat{\Vector{Y}}'=\Matrix{X}\Vector{\beta}_0=
+              \Matrix{X}\begin{pmatrix}
+                  0            \\
+                  \bar{Y}_{1.} \\
+                  \vdots       \\
+                  \bar{Y}_{a.}
+              \end{pmatrix}=\begin{pmatrix}
+                  n_1\begin{Bmatrix}
+                         \bar{Y}_{1.} \\
+                         \vdots       \\
+                         \bar{Y}_{1.} \\
+                     \end{Bmatrix} \\
+                  \vdots            \\
+                  n_a\begin{Bmatrix}
+                         \bar{Y}_{a.} \\
+                         \vdots       \\
+                         \bar{Y_{a.}}
+                     \end{Bmatrix}
+              \end{pmatrix} \]
+          Therefore,
+          \begin{align*}
+              \SSR
+               & =n_1\bar{Y}_{1.}^2+\cdots+n_a\bar{Y}_{a.}^2-n\bar{Y}_{..}^2   \\
+               & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_i}-\frac{\bar{Y}_{..}^2}{n}.
+          \end{align*}
+    \item Sum of Squares Error:
+          \begin{align*}
+              \SSE
+               & =\SST-\SSR                                                                \\
+               & =\sum_{i=1}^{a}\sum_{j=1}^{n_i}Y_{ij}^2-\sum_{i=1}^{a}\frac{Y_{i.}}{n_i}.
+          \end{align*}
+\end{itemize}
+By Theorem 13.1 and Theorem 13.2, we have the following distributions.
 \begin{itemize}
     \item $ \SSE/\sigma^2 \sim \chi^2(n-a) $.
     \item $ \SSR/\sigma^2 \sim \chi^2(a-1,\lambda) $, where
           \[ \lambda=\frac{1}{2\sigma^2}(\Matrix{X}\Vector{\beta})(\Matrix{X}\Matrix{F}\Matrix{X}'-\tfrac{1}{n}\Matrix{J})\Matrix{X}\Vector{\beta}. \]
 \end{itemize}
-For $ \HN $: $ \Matrix{X}\Vector{\beta}=\Vector{0} $ versus $ \HA $: $ \Matrix{X}\Vector{\beta}\ne \Vector{0} $.
-\[ \begin{array}{lllll}
-        \toprule
-        \text{Source of Variation} & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
-        \midrule
-        \text{Due to Regression}   & a-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
-        \text{Error}               & n-a                       & \SSE                  & \MSE                           \\
-        \text{Total}               & n-1                       & \SST                                                   \\
-        \bottomrule
-    \end{array} \]
-We reject if $ F>F_{\alpha}(a-1,n-a) $. If $ \HN $ is rejected,
-then we conclude that the model
-\[ Y_{ij}=\mu+\alpha_i+\varepsilon_{ij} \]
-accounts for significantly more of the variation in the $ Y $-variable
-then the model $ Y_{ij}=\mu+\varepsilon_{ij} $.
-\subsection*{Estimable Linear Combinations}
-$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b} $.
-\begin{align*}
-    \Matrix{F}\Matrix{X}'\Matrix{X}
-     & =\begin{pmatrix}
-            0      & \cdots & 0      & 0      & \cdots & 0      & 0      & \cdots & 0      \\
-            1/n_1  & \cdots & 1/n_1  & 0      & \cdots & 0      & 0      & \cdots & 0      \\
-            0      & \cdots & 0      & 1/n_2  & \cdots & 1/n_2  & 0      & \cdots & 0      \\
-            \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
-            0      & \cdots & 0      & 0      & \cdots & 0      & 1/n_a  & \cdots & 1/n_a
-        \end{pmatrix}\begin{pmatrix}
-                         1      & \cdots & 1      & 1      & \cdots & 1      & \cdots & 1      & \cdots & 1      \\
-                         1      & \cdots & 1      & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
-                         0      & \cdots & 0      & 1      & \cdots & 1      & \cdots & 0      & \cdots & 0      \\
-                         \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
-                         0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 1      & \cdots & 1
-                     \end{pmatrix} \\
-\end{align*}
-\begin{align*}
-    \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X} & =\Vector{b}                                    \\
-    \Vector{b}'                                & =\begin{pmatrix}
-                                                      b_1 + \cdots + b_a & b_1 & b_2 & \cdots & b_a
-                                                  \end{pmatrix} \\
-                                               & =\begin{pmatrix}
-                                                      b_0 & b_1 & \cdots & b_a
-                                                  \end{pmatrix},
-\end{align*}
-where $ b_0=b_1+\cdots+b_a $. Now,
-\begin{align*}
-    \Vector{b}'\Vector{\beta}
-     & =\begin{pmatrix}
-            b_0 & \cdots & b_a
-        \end{pmatrix}
-    \begin{pmatrix}
-        \mu      \\
-        \alpha_1 \\
-        \vdots   \\
-        \alpha_a
-    \end{pmatrix}                                                  \\
-     & =b_0 \Vector{\mu}+b_1 \alpha_1+\cdots+b_a \alpha_a           \\
-     & =(b_1+\cdots+b_a)\Vector{\mu}+b_1\alpha_1+\cdots+b_a\alpha_a \\
-     & =b_1(\mu+\alpha_1)+\cdots+b_a(\mu+\alpha_a).
-\end{align*}
-Questions:
-\begin{enumerate}[(1)]
-    \item Is $ \mu $ estimable? No.
-    \item Are $ \alpha_i $'s estimable? No. $ b_i=1 $, $ b_j=0 $ for $ i\ne j $,
-          so we will get $ \mu+\alpha_i\ne \alpha_i $.
-    \item Is $ \mu+\alpha_i $ estimable? Yes. Choose $ b_i=1 $ and $ b_j=0 $ for $ i\ne j $.
-    \item Is $ \alpha_i-\alpha_j $ estimable (for $ i\ne j $)? Yes. $ b_i=1 $, $ b_j=-1 $, and
-          $ b_k=0 $ for $ k\ne i,j $.
-\end{enumerate}
-\subsection*{Confidence Interval}
-If $ \Vector{b}'\Vector{\beta} $ is estimable, then a $ 100(1-\alpha)\% $
-confidence interval for $ \Vector{b}'\Vector{\beta} $ is
-\[ \Vector{b}'\Vector{\beta}_0\pm t_{n-a,\alpha/2}\hat{\sigma}\sqrt{\Vector{b}'\Matrix{F}\Vector{b}}. \]
-To get a CI for $ \beta_i-\beta_j $, we need to consider
-\begin{align*}
-    \Vector{b}'\Matrix{F}\Vector{b}
-     & \begin{pmatrix}
-           \cdots & 1/n_i & \cdots & 1/n_j
-       \end{pmatrix}\Vector{\beta} \\
-     & =\frac{1}{n_i}+\frac{1}{n_j}.
-\end{align*}
-Therefore, $ \hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}} $ is the standard
-error for the CI of $ \beta_i-\beta_j $.
-\subsection*{Two-Way Nested Classification}
-Suppose we want to know the students opinion of the instructor's
-classroom use of computer facility ($ 0\leftrightarrow 10 $).
-For example, if we have two courses English (two sections) and Geology (three sections):
-\begin{itemize}
-    \item English Section 1: 5.
-    \item English Section 2: 8, 10, 9.
-    \item Geology Section 1: 8, 10.
-    \item Geology Section 2: 6, 2, 1, 3.
-    \item Geology Section 3: 3, 7.
-\end{itemize}
-The model will be $ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk} $,
-where $ i=1,\ldots,a $, $ j=1,\ldots,b_i $, $ k=1,\ldots,n_{ij} $.
-The total number of observations is $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij} $.
-The total number of parameters is $ m=1+a+(b_1+\cdots+b_a) $.
-Note that $ \rank{\Matrix{X}'\Matrix{X}}=b $.
-\begin{Example}{}{}
-    Refer to the English and Geology data from earlier.
-    \begin{itemize}
-        \item $ a=2 $, $ b_1=2 $, $ b_2=3 $.
-        \item $ n_{11}=1 $, $ n_{12}=3 $, $ n_{21}=2 $, $ n_{22}=4 $, $ n_{23}=2 $.
-        \item $ n=n_{11}+n_{12}+n_{21}+n_{22}+n_{23}=1+3+2+4+2=12 $.
-        \item $ m=1+a+b_1+b_2=1+2+2+3=8 $.
-    \end{itemize}
-    \[ \begin{pmatrix}
-            \mu        \\
-            \alpha_1   \\
-            \alpha_2   \\
-            \beta_{11} \\
-            \beta_{12} \\
-            \beta_{21} \\
-            \beta_{22} \\
-            \beta_{23}
-        \end{pmatrix} \]
-    \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
-            n_{..} & n_{1.} & n_{2.} & n_{11} & n_{12} & n_{21} & n_{22} & n_{23} \\
-            n_{1.} & n_{2.} & 0      & n_{11} & n_{12} & 0      & 0      & 0      \\
-            n_{2.} & 0      & n_{2.} & 0      & 0      & n_{21} & n_{22} & n_{23} \\
-            n_{11} & n_{11} & 0      & n_{11} & 0      & 0      & 0      & 0      \\
-            n_{12} & n_{12} & 0      & 0      & n_{12} & 0      & 0      & 0      \\
-            n_{21} & 0      & n_{21} & 0      & 0      & n_{21} & 0      & 0      \\
-            n_{22} & 0      & n_{22} & 0      & 0      & 0      & n_{22} & 0      \\
-            n_{23} & 0      & n_{23} & 0      & 0      & 0      & 0      & n_{23}
-        \end{pmatrix}. \]
-    A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
-    \[ \Matrix{F}=\begin{pmatrix}
-            \Matrix{O} & \Matrix{O}                     \\
-            \Matrix{O} & \diag{1/n_{11},\ldots,/n_{23}}
-        \end{pmatrix}. \]
-    \[ \Vector{\beta}_0'=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
-            0 & 0 & 0 & \bar{Y}_{11.} & \bar{Y}_{12.} & \bar{Y}_{21.} & \bar{Y}_{22.} & \bar{Y}_{23.}
-        \end{pmatrix}. \]
-\end{Example}

@@ -1,0 +1,201 @@
+\makeheading{Lecture 15}{\printdate{2023-03-06}}%chktex 8
+\section{Lecture 15: ANOVA Table For One-Way Classification}
+For $ \HN $: $ \Matrix{X}\Vector{\beta}=\Vector{0} $ versus $ \HA $: $ \Matrix{X}\Vector{\beta}\ne \Vector{0} $.
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation} & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
+        \midrule
+        \text{Due to Regression}   & a-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
+        \text{Error}               & n-a                       & \SSE                  & \MSE                           \\
+        \text{Total}               & n-1                       & \SST                                                   \\
+        \bottomrule
+    \end{array} \]
+if $ F=\MSR/MSE >F_{\alpha}(a-1,n-a) $, then we conclude
+that the model $ Y_{ij}+\mu+\alpha_i+\varepsilon_{ij} $
+accounts for significantly more variation in the $ Y $ variable
+than the model $ Y_{ij}+\mu+\varepsilon_{ij} $.
+\subsection*{Estimable Linear Combinations}
+$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $,
+where $ \Vector{b}\in\R^{a+1} $.
+\begin{align*}
+    \Matrix{F}\Matrix{X}'\Matrix{X}
+     & =\begin{pmatrix}
+            0      & \cdots & 0      & 0      & \cdots & 0      & 0      & \cdots & 0      \\
+            1/n_1  & \cdots & 1/n_1  & 0      & \cdots & 0      & 0      & \cdots & 0      \\
+            0      & \cdots & 0      & 1/n_2  & \cdots & 1/n_2  & 0      & \cdots & 0      \\
+            \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+            0      & \cdots & 0      & 0      & \cdots & 0      & 1/n_a  & \cdots & 1/n_a
+        \end{pmatrix}                      \\
+     & \quad \times \begin{pmatrix}
+                        1      & \cdots & 1      & 1      & \cdots & 1      & \cdots & 1      & \cdots & 1      \\
+                        1      & \cdots & 1      & 0      & \cdots & 0      & \cdots & 0      & \cdots & 0      \\
+                        0      & \cdots & 0      & 1      & \cdots & 1      & \cdots & 0      & \cdots & 0      \\
+                        \vdots & \ddots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots \\
+                        0      & \cdots & 0      & 0      & \cdots & 0      & \cdots & 1      & \cdots & 1
+                    \end{pmatrix}\Matrix{X} \\
+     & =\text{exercise}                                                                                     \\
+     & =\begin{pmatrix}
+            0      & 0      & 0      & \cdots   & 0      \\
+            1      & 1      & 0      & \cdots   & 0      \\
+            1      & 0      & 1      & \cdots   & 0      \\
+            \vdots & \vdots & \vdots & \ddots   & \vdots \\
+            1      & 0      & 0      & 0 \cdots & 1
+        \end{pmatrix}.
+\end{align*}
+\[ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X} =\begin{pmatrix}
+        b_1 + \cdots + b_a & b_1 & b_2 & \cdots & b_a
+    \end{pmatrix}=\begin{pmatrix}
+        b_0 & b_1 & \cdots & b_a
+    \end{pmatrix}, \]
+where $ b_0=b_1+\cdots+b_a $. Now,
+\begin{align*}
+    \Vector{b}'\Vector{\beta}
+     & =\begin{pmatrix}
+            b_0 & \cdots & b_a
+        \end{pmatrix}
+    \begin{pmatrix}
+        \mu      \\
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_a
+    \end{pmatrix}                                                  \\
+     & =b_0 \Vector{\mu}+b_1 \alpha_1+\cdots+b_a \alpha_a           \\
+     & =(b_1+\cdots+b_a)\Vector{\mu}+b_1\alpha_1+\cdots+b_a\alpha_a \\
+     & =b_1(\mu+\alpha_1)+\cdots+b_a(\mu+\alpha_a).
+\end{align*}
+Questions:
+\begin{enumerate}[(1)]
+    \item Is $ \mu $ estimable? No.
+    \item Are $ \alpha_i $'s estimable? No. $ b_i=1 $, $ b_j=0 $ for $ i\ne j $,
+          so we will get $ \mu+\alpha_i\ne \alpha_i $.
+    \item Is $ \mu+\alpha_i $ estimable? Yes. Choose $ b_i=1 $ and $ b_j=0 $ for $ i\ne j $.
+    \item Is $ \alpha_i-\alpha_j $ estimable (for $ i\ne j $)? Yes. $ b_i=1 $, $ b_j=-1 $, and
+          $ b_k=0 $ for $ k\ne i,j $.
+\end{enumerate}
+\subsection*{Confidence Interval}
+If $ \Vector{b}'\Vector{\beta} $ is estimable, then a $ 100(1-\alpha)\% $
+confidence interval for $ \Vector{b}'\Vector{\beta} $ is
+\[ \Vector{b}'\Vector{\beta}_0\pm t_{n-a,\alpha/2}\hat{\sigma}\sqrt{\Vector{b}'\Matrix{F}\Vector{b}}. \]
+To get a CI for $ \beta_i-\beta_j $, we need to consider
+\[ \Vector{b}'=\begin{pmatrix}
+        0 & \cdots & 0 & \underbrace{1}_i & \cdots & \underbrace{-1}_{j} & 0 & \cdots & 0
+    \end{pmatrix}, \]
+we have $ \Vector{b}'\Vector{\beta}=\Vector{\beta}_i-\Vector{\beta}_j $. Hence,
+\begin{align*}
+    \Vector{b}'\Matrix{F}\Vector{b}
+     & \begin{pmatrix}
+           0 & \cdots & 0 & 1/n_i & \cdots & -1/n_j & 0 & \cdots & 0
+       \end{pmatrix}\Vector{\beta} \\
+     & =\frac{1}{n_i}+\frac{1}{n_j}.
+\end{align*}
+Therefore, $ \hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}} $ is the standard
+error for the CI of $ \beta_i-\beta_j $, and a $ 100(1-\alpha)\% $ confidence
+interval for $ \beta_i-\beta_j $ is
+\[ \beta_i^0-\beta_j^0\pm t_{n-\alpha,\alpha/2}\hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}}. \]
+\subsection*{Two-Way Nested Classification}
+\[ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk}, \]
+where $ i=1,\ldots,a $ (category $ i $), $ j=1,\ldots,b_i $ (subclass $ j $),
+$ k=1,\ldots,n_{ij} $ (observation $ k $).
+\begin{itemize}
+    \item $ \mu $ is the overall mean;
+    \item $ \alpha_i $ is the effect due to category $ i $;
+    \item $ \beta_{ij} $ is the effect due to subclass $ j $;
+    \item $ \varepsilon_{ijk} $ is the error.
+\end{itemize}
+In matrix-vector form, we may write the model as follows (why would anyone write this).
+\[ \underbrace{\begin{pmatrix}
+            Y_{1 1 1}          \\
+            \vdots             \\
+            Y_{1 1 n_{11}}     \\
+            \vdots             \\
+            Y_{1 b_1 1}        \\
+            \vdots             \\
+            Y_{1 b_1 n_{1b_1}} \\
+            \vdots             \\
+            Y_{2 1 1}          \\
+            \vdots             \\
+            Y_{2 1 n_{21}}     \\
+            \vdots             \\
+            Y_{2 b_2 1}        \\
+            \vdots             \\
+            Y_{2 b_2 n_{2b_2}} \\
+            \vdots             \\
+            Y_{a 1 1}          \\
+            \vdots             \\
+            Y_{a 1 n_{a_1}}    \\
+            \vdots             \\
+            Y_{a b_a 1}        \\
+            \vdots             \\
+            Y_{a b_a n_{ab_a}}
+        \end{pmatrix}}_{\Vector{Y}}=\Matrix{X}\underbrace{\begin{pmatrix}
+            \mu          \\
+            \alpha_1     \\
+            \vdots       \\
+            \alpha_a     \\
+            \beta_{11}   \\
+            \vdots       \\
+            \beta_{1b_1} \\
+            \vdots       \\
+            \beta_{a1}   \\
+            \vdots       \\
+            \beta_{ab_a}
+        \end{pmatrix}}_{\Vector{\beta}}+\Vector{\varepsilon}, \]
+where I personally can't be bothered to write out $ \Matrix{X} $.
+
+\underline{Notes}:
+\begin{itemize}
+    \item Total number of observations: $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij} $.
+    \item Total number of parameters: $ m=1+a+\sum_{i=1}^{a}b_i $.
+    \item $ \rank{\Matrix{X}'\Matrix{X}}=b $.
+\end{itemize}
+\begin{Example}{}{}
+    Suppose we want to know the students opinion of the instructor's
+    classroom use of computer facility ($ 0\leftrightarrow 10 $).
+    For example, if we have two courses English (two sections) and Geology (three sections):
+    \begin{itemize}
+        \item English Section 1: 5.
+        \item English Section 2: 8, 10, 9.
+        \item Geology Section 1: 8, 10.
+        \item Geology Section 2: 6, 2, 1, 3.
+        \item Geology Section 3: 3, 7.
+    \end{itemize}
+    We calculate the following.
+    \begin{itemize}
+        \item $ a=2 $, $ b_1=2 $, $ b_2=3 $.
+        \item $ n_{11}=1 $, $ n_{12}=3 $, $ n_{21}=2 $, $ n_{22}=4 $, $ n_{23}=2 $.
+        \item $ n=n_{11}+n_{12}+n_{21}+n_{22}+n_{23}=1+3+2+4+2=12 $.
+        \item $ m=1+a+b_1+b_2=1+2+2+3=8 $.
+    \end{itemize}
+    \[ \Vector{\beta}=\begin{pmatrix}
+            \mu        \\
+            \alpha_1   \\
+            \alpha_2   \\
+            \beta_{11} \\
+            \beta_{12} \\
+            \beta_{21} \\
+            \beta_{22} \\
+            \beta_{23}
+        \end{pmatrix} \]
+    \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+            n_{..} & n_{1.} & n_{2.} & n_{11} & n_{12} & n_{21} & n_{22} & n_{23} \\
+            n_{1.} & n_{2.} & 0      & n_{11} & n_{12} & 0      & 0      & 0      \\
+            n_{2.} & 0      & n_{2.} & 0      & 0      & n_{21} & n_{22} & n_{23} \\
+            n_{11} & n_{11} & 0      & n_{11} & 0      & 0      & 0      & 0      \\
+            n_{12} & n_{12} & 0      & 0      & n_{12} & 0      & 0      & 0      \\
+            n_{21} & 0      & n_{21} & 0      & 0      & n_{21} & 0      & 0      \\
+            n_{22} & 0      & n_{22} & 0      & 0      & 0      & n_{22} & 0      \\
+            n_{23} & 0      & n_{23} & 0      & 0      & 0      & 0      & n_{23}
+        \end{pmatrix}. \]
+    \[ \Matrix{X}'\Vector{Y}=\begin{pmatrix}
+            Y_{...} & Y_{1.} & Y_{2.} & Y_{11.} & Y_{12.} & Y_{21.} & Y_{22.} & Y_{23.}
+        \end{pmatrix}. \]
+    $ \rank{\Matrix{X}'\Matrix{X}}=b_1+b_2=5 $, and a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
+    \[ \Matrix{F}=\begin{pmatrix}
+            \Matrix{O} & \Matrix{O}                     \\
+            \Matrix{O} & \diag{1/n_{11},\ldots,/n_{23}}
+        \end{pmatrix}. \]
+    Therefore,
+    \[ \Vector{\beta}_0'=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
+            0 & 0 & 0 & \bar{Y}_{11.} & \bar{Y}_{12.} & \bar{Y}_{21.} & \bar{Y}_{22.} & \bar{Y}_{23.}
+        \end{pmatrix}'. \]
+\end{Example}
