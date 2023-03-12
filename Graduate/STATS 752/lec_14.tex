@@ -314,6 +314,7 @@ The model will be $ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk} $,
 where $ i=1,\ldots,a $, $ j=1,\ldots,b_i $, $ k=1,\ldots,n_{ij} $.
 The total number of observations is $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij} $.
 The total number of parameters is $ m=1+a+(b_1+\cdots+b_a) $.
+Note that $ \rank{\Matrix{X}'\Matrix{X}}=b $.
 \begin{Example}{}{}
     Refer to the English and Geology data from earlier.
     \begin{itemize}
@@ -336,14 +337,14 @@ The total number of parameters is $ m=1+a+(b_1+\cdots+b_a) $.
             n_{..} & n_{1.} & n_{2.} & n_{11} & n_{12} & n_{21} & n_{22} & n_{23} \\
             n_{1.} & n_{2.} & 0      & n_{11} & n_{12} & 0      & 0      & 0      \\
             n_{2.} & 0      & n_{2.} & 0      & 0      & n_{21} & n_{22} & n_{23} \\
-            n_{11} & n{11}  & 0      & n_{11} & 0      & 0      & 0      & 0      \\
+            n_{11} & n_{11} & 0      & n_{11} & 0      & 0      & 0      & 0      \\
             n_{12} & n_{12} & 0      & 0      & n_{12} & 0      & 0      & 0      \\
             n_{21} & 0      & n_{21} & 0      & 0      & n_{21} & 0      & 0      \\
             n_{22} & 0      & n_{22} & 0      & 0      & 0      & n_{22} & 0      \\
             n_{23} & 0      & n_{23} & 0      & 0      & 0      & 0      & n_{23}
         \end{pmatrix}. \]
     A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
-    \[ F=\begin{pmatrix}
+    \[ \Matrix{F}=\begin{pmatrix}
             \Matrix{O} & \Matrix{O}                     \\
             \Matrix{O} & \diag{1/n_{11},\ldots,/n_{23}}
         \end{pmatrix}. \]

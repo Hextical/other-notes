@@ -1,0 +1,124 @@
+\begin{itemize}
+    \item Model 1: $ Y_{ijk}=\mu+\varepsilon_{ijk} $.
+    \item Model 2: $ Y_{ijk}=\mu+\alpha_i+\varepsilon_{ijk} $.
+    \item Model 3: $ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk} $.
+\end{itemize}
+\subsection*{ANOVA}
+\begin{align*}
+    \SST
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(Y_{ijk}-\bar{Y}_{...})^2                         \\
+     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{...}^2.                                                            \\
+    \SSR
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(\hat{Y}_{ijk}-\bar{Y}_{...})^2                   \\
+     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-n\bar{Y}_{...}^2.                                           \\
+    \SSE
+     & =\SST-\SSR                                                                                          \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\biggl[\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\tfrac{1}{n{ij}}Y_{ij.}^2\biggr]
+\end{align*}
+\subsection*{ANOVA Table I}
+Testing the overall effectiveness of Model 3.
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F         \\
+        \midrule
+        \alpha,\beta:\alpha\text{ after }\mu & b-1                       & \SSR                  & \MSR               & \MSR/\MSE \\
+        \text{Error}                         & n-b                       & \SSE                  & \MSE                           \\
+        \text{Total}                         & n-1                       & \SST                                                   \\
+        \bottomrule
+    \end{array} \]
+\subsection*{ANOVA Table II}
+Testing Model 1 and 2.
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares}                  & \text{Mean Square}                      & F                                    \\
+        \midrule
+        \alpha\text{ after }\mu              & a-1                       & \text{SS}(\alpha\mid \mu)              & \text{MSR}(\alpha\mid \mu)              & F(\alpha\mid \mu)                    \\
+        \beta:\alpha\text{ after }\mu,\alpha & b-a                       & \text{SS}(\beta:\alpha\mid \mu,\alpha) & \text{MSR}(\beta:\alpha\mid \mu,\alpha) & F(\beta\colon \alpha\mid \mu,\alpha) \\
+        \text{Error}                         & n-b                       & \SSE                                   & \MSE                                                                           \\
+        \text{Total}                         & n-1                       & \SST                                                                                                                    \\
+        \bottomrule
+    \end{array} \]
+\begin{itemize}
+    \item $ \text{SS}(\alpha\mid \mu)= $ SSR of Model 2; that is, we are checking the impact of
+          $ \alpha $ on the variance.
+    \item $ \text{SS}(\beta:\alpha\mid \mu,\alpha)=\text{SS}(\alpha,\beta:\alpha\mid \mu)-\text{SS}(\alpha\mid \mu) $; that is,
+          we are checking the impact of $ \beta $ after $ \alpha $ on the model.
+\end{itemize}
+\begin{Example}{}{}
+    Refer to the English and Geology data from earlier.
+    \begin{itemize}
+        \item $ \SST=110 $
+        \item $ \SSR=84 $.
+        \item $ \text{SS}(\alpha\mid \mu)=24 $.
+        \item $ \text{SS}(\beta:\alpha\mid \mu,\alpha)=60 $.
+    \end{itemize}
+    Table I\@:
+    \[ \begin{array}{lllll}
+            \toprule
+            \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F             \\
+            \midrule
+            \alpha,\beta:\alpha\text{ after }\mu & 4                         & 84                    & 21                 & 21(7)/26=5.66 \\
+            \text{Error}                         & 7                         & 26                    & 26/7                               \\
+            \text{Total}                         & 11                        & 110                                                        \\
+            \bottomrule
+        \end{array} \]
+    Table II\@:
+    \[ \begin{array}{lllll}
+            \toprule
+            \text{Source of Variation}           & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} & F   \\
+            \midrule
+            \alpha\text{ after }\mu              & 1                         & 24                    & 24                 & 6.5 \\
+            \beta:\alpha\text{ after }\mu,\alpha & 3                         & 60                    & 20                 & 5.4 \\
+            \text{Error}                         & 7                         & 26                    & 26/7                     \\
+            \text{Total}                         & 11                                                                           \\
+            \bottomrule
+        \end{array} \]
+    \begin{itemize}
+        \item Testing $ \alpha,\beta:\alpha\text{ after }\mu $: $ 5.66>F_{0.05}(4,7)=4.12 $, reject the fact
+              that we do not need $ \alpha $ and $ \beta $, so Model 3 is adequate. Model 3
+              accounts for significantly more variation than Model 1.
+        \item Testing $ \alpha\text{ after }\mu $: $ 6.5>F_{0.05}(1,7)=5.59 $, we need $ \alpha $.
+              Model 2 accounts for significantly more variation than Model 1.
+        \item Testing $ \beta:\alpha\text{ after }\mu,\alpha $: $ 5.4>F_{0.05}(3,7)=4.35 $, we need $ \beta $.
+              Model 3 accounts for significantly more variation than Model 2.
+    \end{itemize}
+\end{Example}
+\subsection*{Estimable Combinations}
+$ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{\beta}' $.
+Write $ \Vector{b}'\Matrix{F}\Matrix{X}'=\Vector{c}' $.
+Also, $ \Vector{b}'\Vector{\beta}=\Vector{c}'\Matrix{X}\Vector{\beta} $.
+\[ \Vector{c}'=\begin{pmatrix}
+        c_{111} & \cdots c_{11n_{11}} & \cdots & c_{ij1} & \cdots & c_{ijn_{ij}} & \cdots
+    \end{pmatrix}. \]
+\[ \Vector{c}'\Matrix{X}=\begin{pmatrix}
+        w_{11} & \cdots & w_{1b_1} & w_{21} & \cdots & w_{2b_2} & \cdots & w_{a1} & \cdots & w_{ab_a}
+    \end{pmatrix}. \]
+\begin{align*}
+    \Vector{b}'\Vector{\beta}
+     & =\begin{pmatrix}
+            w_{11} & \cdots & w_{1b_1} & \cdots
+        \end{pmatrix}\Vector{\beta}                            \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}w_{ij}(\mu+\alpha_i+\beta_{ij}).
+\end{align*}
+\begin{enumerate}[(1)]
+    \item $ \mu $, $ \mu+\alpha_i $, $ \alpha_i $ are not estimable.
+    \item $ \mu+\alpha_i+\beta_{ij} $ is estimable.
+    \item $ \beta_{ij}-\beta_{i\ell} $ is estimable.
+    \item $ \mu+\alpha_i+\sum_{j=1}^{b_i}w_{ij}\beta_{ij} $ is estimable if $ \sum_{j=1}^{b_i}w_{ij}=1 $.
+    \item $ \alpha_i-\alpha_\ell+\sum_{j=1}^{n_i}w_{ij}\beta_{ij}-\sum_{\ell=1}^{\beta_\ell}w_{i\ell}\beta_{i\ell} $
+          is estimable if $ \sum_{j=1}^{b_i}w_{ij}=\sum_{\ell=1}^{b_\ell}w_{i\ell}=1 $.
+    \item $ \alpha_i-\alpha_\ell $ are not estimable.
+\end{enumerate}
+\subsection*{Hypothesis Testing}
+\begin{itemize}
+    \item $ \HN $: $ \beta_{i1}=\cdots=\beta_{ib_i} $, $ i=1,\ldots,a $;
+    \item $ \HA $: at least one equality fails.
+\end{itemize}
+Choose
+%\[ \Matrix{B}'=\begin{pmatrix}
+%        \mu & \alpha_1 & \cdots & \alpha_a & \beta_{11} & \cdots & \beta_{1b_1} & \cdots & \beta_{a1} & \cdots & \beta_{ab_a} \\
+%        0   & 0        & \cdots & 0        & 1          & -1     & \cdots       & 0      & 0          & \cdots & 0
+%    \end{pmatrix} \]
+$ \Matrix{B} $ is an $ m\times(b-a) $ matrix. $ \rank{\Matrix{B}}=b-a $.
+\[ Q=(\Matrix{B}'\beta_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})\Matrix{B}'\Vector{\beta}_0=\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
+\[ F=\frac{Q/(n-a)}{Q/(n-b)} \sim F(b-a,n-b). \]
