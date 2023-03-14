@@ -1,2 +1,168 @@
 \makeheading{Lecture 17}{\printdate{2023-03-13}}%chktex 8
-\section{Lecture 17: Coming Soon}
+\section{Lecture 17: Two-Way Cross Classification}
+Basic Data Structure:
+\begin{itemize}
+    \item Two factors $ A $ and $ B $, where
+          factor $ A $ has $ a $ levels, and factor $ B $
+          has $ b $ levels.
+\end{itemize}
+\[ \begin{array}{ccccc}
+        A\backslash B & 1      & 2      & \cdots & b      \\
+        1             & n_{11} & n_{12} & \cdots & n_{1b} \\
+        2                                                 \\
+        \vdots                                            \\
+        a             & n_{a1} & n_{a2} & \cdots & n_{ab}
+    \end{array} \]
+Let $ n_{ij} $ be the number of observations at cell $ (i,j) $. The model with
+\textbf{no interaction} is defined as
+\[ Y_{ij}=\mu+\alpha_i+\beta_j+\varepsilon_{ij}. \]
+Write
+\[ \Vector{\beta}'=\begin{pmatrix}
+        \mu & \alpha_1 & \cdots & \alpha_a & \beta_1 & \cdots & \beta_b
+    \end{pmatrix}'. \]
+For this model, $ n_{ij}=0 $ or $ 1 $. If $ n_{ij}=1 $ for all cells, the model
+is said to be \textbf{balanced}. In this case, we have
+\[ \Matrix{X}=\begin{pNiceMatrix}[first-row,first-col]
+        (i,j)  & \mu    & \alpha_1 & \alpha_2 & \cdots & \alpha_a & \beta_1 & \beta_2 & \cdots & \beta_b \\
+        (1,1)  & 1      & 1        & 0        & \cdots & 0        & 1       & 0       & \cdots & 0       \\
+        \vdots & \vdots & \vdots   & \vdots   & \ddots & \vdots   & \vdots  & \vdots  & \ddots & \vdots  \\
+        (1,b)  & 1      & 1        & 0        & \cdots & 0        & 0       & 0       & \cdots & 1       \\
+        (2,1)  & 1      & 0        & 1        & \cdots & 0        & 1       & 0       & \cdots & 0       \\
+        \vdots & \vdots & \vdots   & \vdots   & \ddots & \vdots   & \vdots  & \vdots  & \ddots & \vdots  \\
+        (2,b)  & 1      & 0        & 1        & \cdots & 0        & 0       & 0       & \cdots & 1       \\
+        \vdots & \vdots & \vdots   & \vdots   & \ddots & \vdots   & \vdots  & \vdots  & \ddots & \vdots  \\
+        (a,1)  & 1      & 0        & 1        & \cdots & 1        & 1       & 0       & \cdots & 0       \\
+        \vdots & \vdots & \vdots   & \vdots   & \ddots & \vdots   & \vdots  & \vdots  & \ddots & \vdots  \\
+        (a,b)  & 1      & 0        & 1        & \cdots & 1        & 0       & 0       & \cdots & 1
+    \end{pNiceMatrix}\in \R^{(ab)\times \overbrace{(1+a+b)}^{m}}. \]
+\[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+        n_{..} & n_{1.} & n_{2.} & \cdots & n_{a.} & n_{.1} & \cdots & n_{.b} \\
+        n_{1.} & n_{1.} & 0      & \cdots & 0      & 1      & \cdots & 1      \\
+        n_{2.} & 0      & n_{2.} & \ddots & 0      & 1      & \cdots & 1      \\
+        \vdots & \vdots & \ddots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        n_{a.} & 0      & 0      & \cdots & n_{a.} & 1      & \cdots & 1      \\
+        n_{.1} & 1      & 1      & \cdots & 1      & n_{.1} & \cdots & 0      \\
+        \vdots & \vdots & \ddots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        n_{.b} & 1      & 1      & \cdots & 1      & 0      & \cdots & n_{.b}
+    \end{pmatrix}\in\R^{m\times m}. \]
+For a general model $ n_{ij}=0 $ or $ 1 $, we have
+\[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+        n_{..} & n_{1.} & n_{2.} & \cdots & n_{a.} & n_{.1} & \cdots & n_{.b} \\
+        n_{1.} & n_{1.} & 0      & \cdots & 0      & n_{11} & \cdots & n_{1b} \\
+        n_{2.} & 0      & n_{2.} & \ddots & 0      & n_{21} & \cdots & n_{2b} \\
+        \vdots & \vdots & \ddots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        n_{a.} & 0      & 0      & \cdots & n_{a.} & n_{a1} & \cdots & n_{ab} \\
+        n_{.1} & n_{11} & n_{21} & \cdots & n_{a1} & n_{.1} & \cdots & 0      \\
+        \vdots & \vdots & \ddots & \ddots & \vdots & \vdots & \ddots & \vdots \\
+        n_{.b} & n_{1b} & n_{2b} & \cdots & n_{ab} & 0      & \cdots & n_{.b}
+    \end{pmatrix}. \]
+\[ \Matrix{X}'\Vector{Y}=\begin{pmatrix}
+        Y_{..} \\
+        Y_{1.} \\
+        \vdots \\
+        Y_{a.} \\
+        Y_{.1} \\
+        \vdots \\
+        Y_{.b}
+    \end{pmatrix}. \]
+The normal equation is $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $. We
+note that $ \rank{\Matrix{X}}=a+b-1 $ since the sum of rows $ 2 $ to $ a $ equals the first row,
+and the sum of rows $ a+2 $ to $ a+b+1 $ also equals to the first row. Since the number of parameters
+is $ a+b+1 $, it follows that we have the freedom of removing two equations.
+
+\underline{General Rules}:
+\begin{enumerate}[(1)]
+    \item Remove the first equation by setting $ \mu=0 $.
+    \item If $ a<b $, set $ \alpha_1=0 $. If $ a>b $, set $ \beta_b=0 $. If $ a=b $, set either $ \alpha_1 $ or $ \beta_b=0 $.
+\end{enumerate}
+Let
+\begin{align*}
+    \Matrix{D}_{a.}      & =\diag{n_{1.},\ldots,n_{a.}}     \\
+    \Matrix{D}_{.(b-1)}  & =\diag{n_{.1},\ldots,n_{.(b-1)}} \\
+    \Matrix{N}           & =\begin{pmatrix}
+                                n_{11} & \cdots & n_{1(b-1)} \\
+                                \vdots & \ddots & \vdots     \\
+                                n_{a1} & \cdots & n_{a(b-1)}
+                            \end{pmatrix}    \\
+    \Vector{\alpha}      & =\begin{pmatrix}
+                                \alpha_1 \\
+                                \vdots   \\
+                                \alpha_a
+                            \end{pmatrix}                  \\
+    \Vector{\beta}_{b-1} & =\begin{pmatrix}
+                                \beta_1 \\
+                                \vdots  \\
+                                \beta_{b-1}
+                            \end{pmatrix}.
+\end{align*}
+Hence, we can write
+\[ \begin{pmatrix}
+        \Matrix{D}_{a.} & \Matrix{N}          \\
+        \Matrix{N}'     & \Matrix{D}_{.(b-1)}
+    \end{pmatrix}\begin{pmatrix}
+        \Vector{\alpha} \\
+        \Vector{\beta}_{b-1}
+    \end{pmatrix}=\begin{pmatrix}
+        Y_{1.} \\
+        \vdots \\
+        Y_{a.} \\
+        Y_{.1} \\
+        \vdots \\
+        Y_{.(b-1)}
+    \end{pmatrix} \]
+Therefore,
+\begin{align*}
+    \Matrix{D}_{a.}\Vector{\alpha}+\Matrix{N}\Vector{\beta}_{b-1}      & =\Vector{Y}_{a.}     \\
+    \Matrix{N}'\Vector{\alpha}+\Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1} & =\Vector{Y}_{.(b-1)}
+\end{align*}
+\begin{align*}
+    \implies \Vector{\alpha}=\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1}).                                                                                                                                            \\
+    \Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1}                                                                                & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Vector{\alpha}                                                                  \\
+                                                                                                                           & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\bigl(\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1})\bigr) \\
+                                                                                                                           & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1}).            \\
+    \implies (\underbrace{\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}}_{\Matrix{C}})\Vector{\beta}_{b-1} & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}.
+\end{align*}
+Therefore,
+\[ \Vector{\beta}_{b-1}=\Matrix{C}^{-1}(\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}) \]
+and
+\[ \Vector{\alpha}=\Matrix{D}_{a.}^{-1}\bigl[\Vector{Y}_{a.}-\Matrix{N}\Matrix{C}^{-1}(\Vector{Y}_{.(b-1)}-\Matrix{N}^{-1}\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.})\bigr] \]
+\begin{align*}
+    \Matrix{C}      & =\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}           \\
+    \Matrix{M}      & =\Matrix{D}_{a.}^{-1}\Matrix{N}                                          \\
+    \Vector{r}      & =\Vector{Y}_{a.(b-1)}-\Matrix{M}'\Vector{Y}_{a.}                         \\
+    \Vector{\alpha} & =\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
+    \Vector{\beta}  & =\Matrix{C}^{-1}\Vector{r}
+\end{align*}
+A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
+\[ \Matrix{F}=\begin{pmatrix}
+        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
+        \Matrix{O} & \Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}' & -\Matrix{M}\Matrix{C}^{-1} & \Matrix{O} \\
+        \Matrix{O} & -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            & \Matrix{O} \\
+        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
+    \end{pmatrix}. \]
+Hence, one solution is
+\[ \Vector{\beta}_0=\begin{pmatrix}
+        \Matrix{O}                                                              \\
+        \Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
+        \Matrix{C}^{-1}\Vector{r}                                               \\
+        \Matrix{O}
+    \end{pmatrix}. \]
+Simple exercise:
+\begin{align*}
+     & \begin{pmatrix}
+           \Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}' & -\Matrix{M}\Matrix{C}^{-1} \\
+           -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            \\
+       \end{pmatrix}\begin{pmatrix}
+                        \Matrix{D}_{a.} & \Matrix{N}          \\
+                        \Matrix{N}'     & \Matrix{D}_{.(b-1)}
+                    \end{pmatrix}                                                                                                                                        \\
+     & =\begin{pmatrix}
+            \Matrix{I}_a + \Matrix{M}\Matrix{C}^{-1}\Matrix{M}'\Matrix{D}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Matrix{N}' & (\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}-\Matrix{M}\Matrix{C}^{-1}\Matrix{D}_{.(b-1)} \\
+            -\Matrix{C}^{-1}\Matrix{M}'\Matrix{D}_{a.}+\Matrix{C}^{-1}\Matrix{N}'                                   & -\Matrix{C}^{-1}\Matrix{M}'\Matrix{N}+\Matrix{C}^{-1}\Matrix{D}_{.(b-1)}.
+        \end{pmatrix} \\
+     & =\begin{pmatrix}
+            \Matrix{I}_a & \Matrix{O}       \\
+            \Matrix{O}   & \Matrix{I}_{b-1}
+        \end{pmatrix}                                                                                                                                                                                              \\
+     & =\Matrix{I}_{a+b-1}.
+\end{align*}
