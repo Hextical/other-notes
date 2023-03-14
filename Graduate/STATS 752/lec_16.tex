@@ -129,14 +129,15 @@ Conclusion:
     \item $ \HN $: $ \beta_{i1}=\cdots=\beta_{ib_i} $, $ i=1,\ldots,a $;
     \item $ \HA $: at least one equality fails.
 \end{itemize}
-Choose
-%\[ \Matrix{B}'=\begin{pmatrix}
-%        \mu & \alpha_1 & \cdots & \alpha_a & \beta_{11} & \cdots & \beta_{1b_1} & \cdots & \beta_{a1} & \cdots & \beta_{ab_a} \\
-%        0   & 0        & \cdots & 0        & 1          & -1     & \cdots       & 0      & 0          & \cdots & 0
-%    \end{pmatrix} \]
-$ \Matrix{B}\in\R^{m\times(b-a)} $, where $ \rank{\Matrix{B}}=b-a $. Once again,
-I can't be bothered to type these huge matrices in \LaTeX{}.
-\[ Q=(\Matrix{B}'\beta_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})(\Matrix{B}'\Vector{\beta}_0)-\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
+Define $ (b_1-1)+(b_2-1)+\cdots+(b_a-1)=n' $ and
+$ m=1+a+\sum_{i=1}^{a}b_i $. Hence, $ \Matrix{B}'\in\R^{n'\times m} $, where $ \rank{\Matrix{B}}=b-a $. Therefore,
+\[ \Matrix{B}'=\begin{pmatrix}
+        \Matrix{O}_{n'\times (a+1)} & \diag{\Matrix{Z}_{b_1},\ldots,\Matrix{Z}_{b_a}}
+    \end{pmatrix}, \]
+where $ \Matrix{Z}_{b_i}=\begin{pmatrix}
+        \Matrix{1}_{(b_i-1)\times 1} & \diag{\underbrace{-1,\ldots,-1}_{b_i-1}}
+    \end{pmatrix}\in\R^{(b_i-1)\times b_i} $ for $ i=1,\ldots,a $.
+\[ Q=(\Matrix{B}'\Vector{\beta}_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})(\Matrix{B}'\Vector{\beta}_0)=\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
 \[ F=\frac{Q/(n-a)}{\SSE/(n-b)} \sim F(b-a,n-b). \]
 \begin{Remark}{}{}
     If $ n_{ij}=r $ for all $ i,j $, $ b_i=c $ for all $ i $, then the model
@@ -156,7 +157,7 @@ From Example 15.1, we have
 \[ \Vector{b}'=\begin{pmatrix}
         a_1 & a_2 & a_3 & b_{11} & b_{12} & b_{21} & b_{22} & b_{23}
     \end{pmatrix}. \]
-Therefore, $ \Matrix{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $, where
+Therefore, $ \Vector{b}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{b}' $, where
 \begin{align*}
     a_1 & = b_{11} + b_{12} + b_{21} + b_{22} + b_{23}, \\
     a_2 & =b_{11} +b_{12},                              \\
