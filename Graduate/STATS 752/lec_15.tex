@@ -144,7 +144,7 @@ where I personally can't be bothered to write out $ \Matrix{X} $.
 
 \underline{Notes}:
 \begin{itemize}
-    \item Total number of observations: $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij} $.
+    \item Total number of observations: $ n=\sum_{i=1}^{a}\sum_{j=1}^{b_i}n_{ij}=\sum_{i=1}^{a}n_{i.} $.
     \item Total number of parameters: $ m=1+a+\sum_{i=1}^{a}b_i $.
     \item $ \rank{\Matrix{X}'\Matrix{X}}=b $.
 \end{itemize}
@@ -194,6 +194,20 @@ where I personally can't be bothered to write out $ \Matrix{X} $.
             \Matrix{O} & \Matrix{O}                     \\
             \Matrix{O} & \diag{1/n_{11},\ldots,/n_{23}}
         \end{pmatrix}. \]
+    \[ \Matrix{X}=\begin{pmatrix}
+            1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+            1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 \\
+            1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 \\
+            1 & 1 & 0 & 0 & 1 & 0 & 0 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 1 & 0 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+        \end{pmatrix} \]
     Therefore,
     \[ \Vector{\beta}_0'=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pmatrix}
             0 & 0 & 0 & \bar{Y}_{11.} & \bar{Y}_{12.} & \bar{Y}_{21.} & \bar{Y}_{22.} & \bar{Y}_{23.}

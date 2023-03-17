@@ -1,0 +1,246 @@
+\makeheading{Lecture 18}{\printdate{2023-03-16}}%chktex 8
+\section{Lecture 18: Two-Way Crossed Classification (No Interaction)}
+Model: $ Y_{ij}+\mu+\alpha_i+\beta_j+\varepsilon_{ij} $. We know that
+$ \sum_{i=1}^{a}\alpha=0 $ and $ \sum_{j=1}^{b}\beta_j=0 $.
+\begin{align*}
+    \SST
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b}Y_{ij}^2-\frac{Y_{..}^2}{n}.                  \\
+    \text{SS}(\alpha,\beta\mid \mu)
+     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-\frac{Y_{..}^2}{n}                 \\
+     & =\textcolor{blue}{\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}-\frac{Y_{..}^2}{n}
+        +\Vector{\beta}_{b-1}'\Vector{r}},
+\end{align*}
+where $ \Matrix{C}^{-1}\Vector{r}=\Vector{\beta}_{b-1}' $.
+\begin{align*}
+    \Vector{\beta}_0'\Matrix{X}'\Vector{Y}
+     & =\Vector{\beta}_0'\begin{pmatrix}
+                             Y_{..}              \\
+                             \Vector{Y}_{a.}     \\
+                             \Vector{Y}_{.(b-1)} \\
+                             \Vector{Y}_{.b}
+                         \end{pmatrix}                                                                                                                      \\
+     & =\begin{pmatrix}
+            \Matrix{O}                                                    &
+            ( \Vector{\bar{Y}}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r})' &
+            ( \Matrix{C}^{-1}\Vector{r} )'                                &
+            \Matrix{O}
+        \end{pmatrix}\begin{pmatrix}
+                         Y_{..}              \\
+                         \Vector{Y}_{a.}     \\
+                         \Vector{Y}_{.(b-1)} \\
+                         \Vector{Y}_{.b}
+                     \end{pmatrix}                                                                            \\
+     & =(\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{a.}+(\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{.(b-1)}                 \\
+     & =\Vector{Y}_{a.}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}+(\Matrix{C}^{-1}\Vector{r})\Vector{Y}_{.(b-1)}-(\Matrix{C}^{-1}\Vector{r})'\Matrix{M}'\Vector{Y}_{a.} \\
+     & =\Vector{Y}_{a.}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}+(\Matrix{C}^{-1}\Vector{r})'[\Vector{Y}_{.(b-1)}-\Matrix{M}'\Vector{Y}_{a.}]                          \\
+     & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}+(\Matrix{C}^{-1}\Vector{r})'\Vector{r}.
+\end{align*}
+Therefore,
+\[ \text{SS}(\alpha\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}-\frac{Y_{..}^2}{n}. \]
+\subsection*{ANOVA Table I}
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}                   & \text{Degrees of Freedom} & \text{Sum of Squares}           & \text{Mean Square}              & F                       \\
+        \midrule
+        \text{Fitting }\alpha,\beta\text{ after }\mu & a+b-2                     & \text{SS}(\alpha,\beta\mid \mu) & \text{MS}(\alpha,\beta\mid \mu) & F(\alpha,\beta\mid \mu) \\
+        \text{Error}                                 & n-(a+b-1)                 & \SSE                            & \MSE                                                      \\
+        \midrule
+        \text{Total}                                 & n-1                       & \SST                                                                                        \\
+        \bottomrule
+    \end{array} \]
+$ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a-b) $.
+\subsection*{ANOVA Table II}
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}                    & \text{Degrees of Freedom} & \text{Sum of Squares}           & \text{Mean Square}              & F              \\
+        \midrule
+        \text{Fitting }\alpha\text{ after }\mu        & a-1                       & \text{SS}(\alpha\mid \mu)       & \text{MS}(\alpha\mid \mu)       & F(a-1,n+1-a-b) \\
+        \text{Fitting }\beta \text{ after }\mu,\alpha & b-1                       & \text{SS}(\beta\mid \mu,\alpha) & \text{MS}(\beta\mid \mu,\alpha) & F(b-1,n+1-a-b) \\
+        \text{Error}                                  & n+1-a-b                   & \SSE                            & \MSE                                             \\
+        \midrule
+        \text{Total}                                  & n-1                       & \SST                                                                               \\
+        \bottomrule
+    \end{array} \]
+\begin{align*}
+    \text{SS}(\beta\mid \mu,\alpha)
+     & =\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\alpha\mid \mu) \\
+     & =\Vector{\beta}_{b-1}'\Vector{r}.
+\end{align*}
+\subsection*{ANOVA Table III}
+\[ \begin{array}{lllll}
+        \toprule
+        \text{Source of Variation}                    & \text{Degrees of Freedom} & \text{Sum of Squares}           & \text{Mean Square}              & F              \\
+        \midrule
+        \text{Fitting }\beta\text{ after }\mu         & b-1                       & \text{SS}(\beta\mid \mu)        & \text{MS}(\beta\mid \mu)        & F(b-1,n+1-a-b) \\
+        \text{Fitting }\alpha \text{ after }\mu,\beta & a-1                       & \text{SS}(\alpha\mid \mu,\beta) & \text{MS}(\alpha\mid \mu,\beta) & F(a-1,n+1-a-b) \\
+        \text{Error}                                  & n+1-a-b                   & \SSE                            & \MSE                                             \\
+        \midrule
+        \text{Total}                                  & n-1                       & \SST                                                                               \\
+        \bottomrule
+    \end{array} \]
+\begin{align*}
+    \text{SS}(\beta\mid \mu)
+     & =\sum_{j=1}^{b}\frac{Y_{.j}^2}{n_{.j}}-\frac{Y_{..}^2}{n}. \\
+    \text{SS}(\alpha\mid \mu,\beta)
+     & =\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\beta\mid \mu).
+\end{align*}
+\subsection*{Estimable Functions}
+\[ \E{Y_{ij}}=\mu+\alpha_i+\beta_j =\sum_{i,j}w_{ij}(\mu+\alpha_i+\beta_j). \]
+\begin{enumerate}[(1)]
+    \item $ \mu+\alpha_i+\beta_j $ is estimable for all $ i,j $.
+    \item $ \alpha_i-\alpha_k $ is estimable for all $ i\ne k $,
+          where we choose $ w_{ij}=1 $, $ w_{kj}=-1 $, and $ w_{\ell s}=0 $ for all $ \ell,s $.
+          If $ j=1 $, we see that
+          \[ (\mu+\alpha_i+\beta_1)-(\mu+\alpha_k+\beta_1)=\alpha_i-\alpha_k. \]
+    \item $ \beta_k-\beta_\ell $ is estimable for all $ k\ne \ell $.
+\end{enumerate}
+\begin{Example}{}{}
+    Number of seconds beyond 3 minutes taken to boil
+    2 quarts of water.
+    \[ \begin{array}{cccc}
+                                            & \multicolumn{3}{c}{\text{Make of Pan } (\beta)}           \\
+            \text{Brand of Stove } (\alpha) & A                                               & B  & C  \\
+            X                               & 18                                              & 12 & 24 \\
+            Y                               & -                                               & -  & 9  \\
+            Z                               & 3                                               & -  & 15 \\
+            W                               & 6                                               & 3  & 18
+        \end{array} \]
+    \[ Y_{ij}=\mu+\alpha_i+\beta_j+\varepsilon_{ij}. \]
+    \[ \Vector{Y}=\begin{pmatrix}
+            Y_{11} \\
+            Y_{12} \\
+            Y_{13} \\
+            Y_{23} \\
+            Y_{31} \\
+            Y_{33} \\
+            Y_{41} \\
+            Y_{42} \\
+            Y_{43}
+        \end{pmatrix} \]
+    \[ \Matrix{X}=\begin{pNiceMatrix}[first-row,first-col]
+            (i,j) & \mu & \alpha_1 & \alpha_2 & \alpha_3 & \alpha_4 & \beta_1 & \beta_2 & \beta_3 \\
+                  & 1   & 1        & 0        & 0        & 0        & 1       & 0       & 0       \\
+                  & 1   & 1        & 0        & 0        & 0        & 0       & 1       & 0       \\
+                  & 1   & 1        & 0        & 0        & 0        & 0       & 1       & 0       \\
+                  & 1   & 0        & 1        & 0        & 0        & 0       & 0       & 1       \\
+                  & 1   & 0        & 0        & 1        & 0        & 1       & 0       & 0       \\
+                  & 1   & 0        & 0        & 0        & 1        & 0       & 0       & 1       \\
+                  & 1   & 0        & 0        & 0        & 1        & 1       & 0       & 0       \\
+                  & 1   & 0        & 0        & 0        & 1        & 0       & 1       & 0       \\
+                  & 1   & 0        & 0        & 0        & 1        & 0       & 0       & 1
+        \end{pNiceMatrix} \]
+    \begin{itemize}
+        \item $ n=9 $.
+        \item $ m=1+4+3=8 $.
+        \item $ n_{..}=9 $.
+        \item $ n_{1.}=3 $, $ n_{2.}=1 $, $ n_{3.}=2 $ $ n_{4.}=3 $.
+        \item $ n_{.1}=3 $, $ n_{.2}=2 $, $ n_{.3}=4 $.
+        \item $ a=4 $, $ b=3 $, so $ a>b $ (choose $ \mu=0 $, $ \alpha_1=0 $)
+    \end{itemize}
+    \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
+            9 & 3 & 1 & 2 & 3 & 3 & 2 & 4 \\
+            3 & 3 & 0 & 0 & 0 & 1 & 1 & 1 \\
+            1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 \\
+            2 & 0 & 0 & 2 & 0 & 1 & 0 & 1 \\
+            3 & 0 & 0 & 0 & 3 & 1 & 0 & 1 \\
+            3 & 1 & 0 & 1 & 1 & 3 & 0 & 0 \\
+            2 & 1 & 0 & 0 & 1 & 0 & 2 & 0 \\
+            4 & 1 & 1 & 1 & 1 & 0 & 0 & 4
+        \end{pmatrix} \]
+    \[ \Matrix{D}_{a.}=\diag{3,1,2,3}. \]
+    \[ \Matrix{N}=\begin{pmatrix}
+            1 & 1 \\
+            0 & 0 \\
+            1 & 0 \\
+            1 & 1
+        \end{pmatrix}. \]
+    \[ \Matrix{M}=\Matrix{D}_{a.}^{-1}\Matrix{N}=\begin{pmatrix}
+            1/3 & 1/3 \\
+            0   & 0   \\
+            1/2 & 0   \\
+            1/3 & 1/3
+        \end{pmatrix}. \]
+    \[ \Matrix{C}=\Matrix{D}_{.(-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}=
+        \begin{pmatrix}
+            3 & 0 \\
+            0 & 2
+        \end{pmatrix}-\begin{pmatrix}
+            1 & 0 & 1 & 1 \\
+            1 & 0 & 0 & 1
+        \end{pmatrix}\begin{pmatrix}
+            1/3 & 1/3 \\
+            0   & 0   \\
+            1/2 & 0   \\
+            1/3 & 1/3
+        \end{pmatrix}=\begin{pmatrix}
+            11/6 & -4/6 \\
+            -4/6 & 8/6
+        \end{pmatrix}. \]
+    \[ \Matrix{C}^{-1}=\frac{1}{12}\begin{pmatrix}
+            8 & 4  \\
+            4 & 11
+        \end{pmatrix}. \]
+    \begin{align*}
+        \Vector{r}
+         & =\Vector{Y}_{.(b-1)}-\Matrix{M}'\Vector{Y}_{a.}          \\
+         & =\begin{pmatrix}
+                27 \\
+                15
+            \end{pmatrix}-\begin{pmatrix}
+                              1/3 & 0 & 1/2 & 1/3 \\
+                              1/3 & 0 & 0   & 1/2
+                          \end{pmatrix}\begin{pmatrix}
+                                           54 \\
+                                           9  \\
+                                           18 \\
+                                           27
+                                       \end{pmatrix}=\begin{pmatrix}
+                                                         -9 \\
+                                                         -12
+                                                     \end{pmatrix}.
+    \end{align*}
+    \[ \Vector{\beta}_0=\begin{pmatrix}
+            0 & 26 & 9 & 14 & 17 & -10 & -14 & 0
+        \end{pmatrix}' \]
+    \[ \Matrix{F}=\frac{1}{12}\begin{pmatrix}
+            0               & \begin{pmatrix}
+                                  0 & 0 & 0 & 0
+                              \end{pmatrix}     & \begin{pmatrix}
+                                                      0 & 0 & 0
+                                                  \end{pmatrix}             \\
+            \begin{pmatrix}
+                0 \\
+                0 \\
+                0 \\
+                0
+            \end{pmatrix} & \begin{pmatrix}
+                                7 & 0  & 2 & 3 \\
+                                0 & 12 & 0 & 0 \\
+                                2 & 0  & 8 & 2 \\
+                                3 & 0  & 2 & 7
+                            \end{pmatrix}   & \begin{pmatrix}
+                                                  -4 & -5 \\
+                                                  0  & 0  \\
+                                                  -4 & -2 \\
+                                                  -4 & -5
+                                              \end{pmatrix} & \begin{pmatrix}
+                                                                  0 \\0\\0\\0
+                                                              \end{pmatrix} \\
+            \begin{pmatrix}
+                0 \\
+                0
+            \end{pmatrix} & \begin{pmatrix}
+                                -4 & 0 & -4 & -4 \\
+                                -5 & 0 & -2 & -5
+                            \end{pmatrix} & \begin{pmatrix}
+                                                8 & 4  \\
+                                                4 & 11
+                                            \end{pmatrix} & 0                \\
+            0               & \begin{pmatrix}
+                                  0 & 0 & 0 & 0
+                              \end{pmatrix}     & \begin{pmatrix}
+                                                      0 & 0 & 0
+                                                  \end{pmatrix} & 0
+        \end{pmatrix} \]
+
+\end{Example}

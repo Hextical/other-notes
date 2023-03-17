@@ -8,15 +8,15 @@
 \subsection*{ANOVA}
 \begin{align*}
     \SST
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(Y_{ijk}-\bar{Y}_{...})^2                           \\
-     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{...}^2.                                                              \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(Y_{ijk}-\bar{Y}_{...})^2                          \\
+     & =\Vector{Y}'\Vector{Y}-n\bar{Y}_{...}^2.                                                             \\
     \SSR
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(\hat{Y}_{ijk}-\bar{Y}_{...})^2                     \\
-     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-n\bar{Y}_{...}^2.                                             \\
-     & =\textcolor{blue}{\text{SS}(\alpha,\beta:\alpha\mid \mu)}.                                            \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\sum_{k=1}^{n_{ij}}(\hat{Y}_{ijk}-\bar{Y}_{...})^2                    \\
+     & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-n\bar{Y}_{...}^2.                                            \\
+     & =\textcolor{blue}{\text{SS}(\alpha,\beta:\alpha\mid \mu)}.                                           \\
     \SSE
-     & =\SST-\SSR                                                                                            \\
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\biggl(\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\tfrac{1}{n_{ij}}Y_{ij.}^2\biggr).
+     & =\SST-\SSR                                                                                           \\
+     & =\sum_{i=1}^{a}\sum_{j=1}^{b_i}\biggl(\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\frac{1}{n_{ij}}Y_{ij.}^2\biggr).
 \end{align*}
 \subsection*{ANOVA Table I}
 Testing the overall effectiveness of Model 3.
@@ -120,9 +120,9 @@ Conclusion:
     \item $ \mu+\alpha_i+\beta_{ij} $ is estimable.
     \item $ \beta_{ij}-\beta_{i\ell} $ is estimable.
     \item $ \mu+\alpha_i+\sum_{j=1}^{b_i}w_{ij}\beta_{ij} $ is estimable if $ \sum_{j=1}^{b_i}w_{ij}=1 $.
-    \item $ \alpha_i-\alpha_\ell+\sum_{j=1}^{n_i}w_{ij}\beta_{ij}-\sum_{\ell=1}^{\beta_\ell}w_{i\ell}\beta_{i\ell} $
+    \item $ \alpha_i-\alpha_\ell+\sum_{j=1}^{b_i}w_{ij}\beta_{ij}-\sum_{\ell=1}^{b_\ell}w_{i\ell}\beta_{i\ell} $
           is estimable if $ \sum_{j=1}^{b_i}w_{ij}=\sum_{\ell=1}^{b_\ell}w_{i\ell}=1 $.
-    \item $ \alpha_i-\alpha_\ell $ are not estimable.
+    \item $ \alpha_i-\alpha_\ell $ is not estimable.
 \end{enumerate}
 \subsection*{Hypothesis Testing}
 \begin{itemize}
@@ -140,7 +140,7 @@ where $ \Matrix{Z}_{b_i}=\begin{pmatrix}
 \[ Q=(\Matrix{B}'\Vector{\beta}_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})(\Matrix{B}'\Vector{\beta}_0)=\text{SS}(\beta:\alpha\mid \mu,\alpha).  \]
 \[ F=\frac{Q/(n-a)}{\SSE/(n-b)} \sim F(b-a,n-b). \]
 \begin{Remark}{}{}
-    If $ n_{ij}=r $ for all $ i,j $, $ b_i=c $ for all $ i $, then the model
+    If $ n_{ij}=r $ for all $ i,j $, and $ b_i=c $ for all $ i $, then the model
     is called a \textbf{balanced} model.
 \end{Remark}
 From Example 15.1, we have
@@ -167,6 +167,6 @@ Therefore,
 \begin{align*}
     \Vector{b}'\Vector{\beta}
      & =a_1\mu+a_2\alpha_1+a_3\alpha_2+b_{11}\beta_{11}+b_{12}\beta_{12}+b_{21}\beta_{21}
-    +b_{22}\beta_{22}+\beta_{23}\beta_{23}                                                                                                                                   \\
-     & =b_{11}(\mu+\alpha_1+\beta_{11})+b_{12}(\mu+\alpha_1+\beta_{12})+b_{21}(\mu+\alpha_2+\beta_{21})+\beta_{22}(\mu+\alpha_2+\beta_{22})+b_{23}(\mu+\alpha_2+\beta_{23}).
+    +b_{22}\beta_{22}+\beta_{23}\beta_{23}                                                                                                                               \\
+     & =b_{11}(\mu+\alpha_1+\beta_{11})+b_{12}(\mu+\alpha_1+\beta_{12})+b_{21}(\mu+\alpha_2+\beta_{21})+b_{22}(\mu+\alpha_2+\beta_{22})+b_{23}(\mu+\alpha_2+\beta_{23}).
 \end{align*}

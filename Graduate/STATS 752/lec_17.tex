@@ -9,8 +9,8 @@ Basic Data Structure:
 \[ \begin{array}{ccccc}
         A\backslash B & 1      & 2      & \cdots & b      \\
         1             & n_{11} & n_{12} & \cdots & n_{1b} \\
-        2                                                 \\
-        \vdots                                            \\
+        2             & n_{21} & n_{22} & \cdots & n_{2b} \\
+        \vdots        & \vdots & \vdots & \ddots & \vdots \\
         a             & n_{a1} & n_{a2} & \cdots & n_{ab}
     \end{array} \]
 Let $ n_{ij} $ be the number of observations at cell $ (i,j) $. The model with
@@ -73,66 +73,88 @@ is $ a+b+1 $, it follows that we have the freedom of removing two equations.
 \underline{General Rules}:
 \begin{enumerate}[(1)]
     \item Remove the first equation by setting $ \mu=0 $.
-    \item If $ a<b $, set $ \alpha_1=0 $. If $ a>b $, set $ \beta_b=0 $. If $ a=b $, set either $ \alpha_1 $ or $ \beta_b=0 $.
+    \item If $ a<b $, set $ \alpha_1=0 $. If $ a>b $, set $ \beta_b=0 $. If $ a=b $, set either $ \alpha_1=0 $ or $ \beta_b=0 $.
 \end{enumerate}
 Let
 \begin{align*}
-    \Matrix{D}_{a.}      & =\diag{n_{1.},\ldots,n_{a.}}     \\
-    \Matrix{D}_{.(b-1)}  & =\diag{n_{.1},\ldots,n_{.(b-1)}} \\
-    \Matrix{N}           & =\begin{pmatrix}
-                                n_{11} & \cdots & n_{1(b-1)} \\
-                                \vdots & \ddots & \vdots     \\
-                                n_{a1} & \cdots & n_{a(b-1)}
-                            \end{pmatrix}    \\
-    \Vector{\alpha}      & =\begin{pmatrix}
-                                \alpha_1 \\
-                                \vdots   \\
-                                \alpha_a
-                            \end{pmatrix}                  \\
-    \Vector{\beta}_{b-1} & =\begin{pmatrix}
-                                \beta_1 \\
-                                \vdots  \\
-                                \beta_{b-1}
-                            \end{pmatrix}.
+    \Matrix{D}_{a.}     & =\diag{n_{1.},\ldots,n_{a.}},     \\
+    \Matrix{D}_{.b}     & =\diag{n_{.1},\ldots,n_{.b}},     \\
+    \Matrix{D}_{.(b-1)} & =\diag{n_{.1},\ldots,n_{.(b-1)}}, \\
+    \Matrix{N}_{ab}     & =\begin{pmatrix}
+                               n_{11} & \cdots & n_{1b} \\
+                               \vdots & \ddots & \vdots \\
+                               n_{a1} & \cdots & n_{ab}
+                           \end{pmatrix}.
 \end{align*}
-Hence, we can write
+Therefore,
+\[ \Matrix{X}'\Matrix{X}=\begin{pNiceMatrix}
+        n_{..} & n_{1.}                        & \cdots & n_{a.} & n_{.1}                       & \cdots & n_{.b} \\
+        n_{1.} & \Block{3-3}{\Matrix{D}_{a.}}  &        &        & \Block{3-3}{\Matrix{N}_{ab}}                   \\
+        \vdots                                                                                                    \\
+        n_{a.}                                                                                                    \\
+        n_{.1} & \Block{3-3}{\Matrix{N}_{ab}'} &        &        & \Block{3-3}{\Matrix{D}_{.b}}                   \\
+        \vdots                                                                                                    \\
+        n_{.b}
+    \end{pNiceMatrix}. \]
+Furthermore,
+\[ \Vector{Y}_{a.}=\begin{pmatrix}
+        Y_{1.} & \cdots & Y_{a.}
+    \end{pmatrix}',\qquad \Vector{Y}_{.(b-1)}=\begin{pmatrix}
+        Y_{.1} & \cdots & Y_{.(b-1)}
+    \end{pmatrix}'. \]
+Removing $ \mu $ and $ \beta_b $ (first row and last row are linear combination of other rows), we obtain
 \[ \begin{pmatrix}
-        \Matrix{D}_{a.} & \Matrix{N}          \\
-        \Matrix{N}'     & \Matrix{D}_{.(b-1)}
+        \Matrix{D}_{a.}      & \Matrix{N}_{a(b-1)} \\
+        \Matrix{N}_{a(b-1)}' & \Matrix{D}_{.(b-1)}
     \end{pmatrix}\begin{pmatrix}
         \Vector{\alpha} \\
         \Vector{\beta}_{b-1}
     \end{pmatrix}=\begin{pmatrix}
-        Y_{1.} \\
-        \vdots \\
-        Y_{a.} \\
-        Y_{.1} \\
-        \vdots \\
-        Y_{.(b-1)}
-    \end{pmatrix} \]
+        \Vector{Y}_{a.} \\
+        \Vector{Y}_{.(b-1)}
+    \end{pmatrix}, \]
+where $ \Vector{\alpha}=\begin{pmatrix}
+        \alpha_1 \\
+        \vdots   \\
+        \alpha_a
+    \end{pmatrix} $, and $ \Vector{\beta}_{b-1} =\begin{pmatrix}
+        \beta_1 \\
+        \vdots  \\
+        \beta_{b-1}
+    \end{pmatrix} $. Set $ \Matrix{N}=\Matrix{N}_{a(b-1)} $.
 Therefore,
 \begin{align*}
     \Matrix{D}_{a.}\Vector{\alpha}+\Matrix{N}\Vector{\beta}_{b-1}      & =\Vector{Y}_{a.}     \\
     \Matrix{N}'\Vector{\alpha}+\Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1} & =\Vector{Y}_{.(b-1)}
 \end{align*}
+From the first equation, we obtain
+\[ \Vector{\alpha}=\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1}). \]
+Substituting $ \Vector{\alpha} $ into the second equation, we get
 \begin{align*}
-    \implies \Vector{\alpha}=\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1}).                                                                                                                                            \\
-    \Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1}                                                                                & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Vector{\alpha}                                                                  \\
-                                                                                                                           & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\bigl(\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1})\bigr) \\
-                                                                                                                           & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1}).            \\
-    \implies (\underbrace{\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}}_{\Matrix{C}})\Vector{\beta}_{b-1} & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}.
+    \Matrix{N}'\Matrix{D}_{a.}^{-1}(\Vector{Y}_{a.}-\Matrix{N}\Vector{\beta}_{b-1})+\Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1}                              & =\Vector{Y}_{.(b-1)}                                                \\
+    \Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}\Vector{\beta}_{b-1}+\Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1} & =\Vector{Y}_{.(b-1)}                                                \\
+    -\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}\Vector{\beta}_{b-1}+\Matrix{D}_{.(b-1)}\Vector{\beta}_{b-1}                                               & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.} \\
+    (\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N})\Vector{\beta}_{b-1}                                                                  & =\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.} \\
 \end{align*}
-Therefore,
-\[ \Vector{\beta}_{b-1}=\Matrix{C}^{-1}(\Vector{Y}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}) \]
-and
-\[ \Vector{\alpha}=\Matrix{D}_{a.}^{-1}\bigl[\Vector{Y}_{a.}-\Matrix{N}\Matrix{C}^{-1}(\Vector{Y}_{.(b-1)}-\Matrix{N}^{-1}\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.})\bigr] \]
+Define
 \begin{align*}
-    \Matrix{C}      & =\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}           \\
-    \Matrix{M}      & =\Matrix{D}_{a.}^{-1}\Matrix{N}                                          \\
-    \Vector{r}      & =\Vector{Y}_{a.(b-1)}-\Matrix{M}'\Vector{Y}_{a.}                         \\
-    \Vector{\alpha} & =\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
-    \Vector{\beta}  & =\Matrix{C}^{-1}\Vector{r}
+    \Matrix{C} & =\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}, \\
+    \Vector{r} & =\Vector{Y}_{.(b-1)}-\Matrix{M}'\Vector{Y}_{a.},                \\
+    \Matrix{M} & =\Matrix{D}_{a.}^{-1}\Matrix{N},
 \end{align*}
+so solving for $ \Vector{\beta}_{b-1} $ (assuming that $ \Matrix{C}^{-1} $ exists) above yields
+\[ \Vector{\beta}_{b-1}=\Matrix{C}^{-1}\Vector{r}. \]
+Furthermore,
+\[ \Vector{\alpha}=\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r}. \]
+Hence, one solution is
+\[ \Vector{\beta}_0=\begin{pmatrix}
+        \Matrix{O}                                                \\
+        \Vector{\bar{Y}}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
+        \Matrix{C}^{-1}\Vector{r}                                 \\
+        \Matrix{O}
+    \end{pmatrix}, \]
+where $ \Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}=\Vector{\bar{Y}}_{a.} $.
+
 A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
 \[ \Matrix{F}=\begin{pmatrix}
         \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
@@ -140,14 +162,7 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
         \Matrix{O} & -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            & \Matrix{O} \\
         \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
     \end{pmatrix}. \]
-Hence, one solution is
-\[ \Vector{\beta}_0=\begin{pmatrix}
-        \Matrix{O}                                                              \\
-        \Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
-        \Matrix{C}^{-1}\Vector{r}                                               \\
-        \Matrix{O}
-    \end{pmatrix}. \]
-Simple exercise:
+To verify this, we must check the following (exercise).
 \begin{align*}
      & \begin{pmatrix}
            \Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}' & -\Matrix{M}\Matrix{C}^{-1} \\
