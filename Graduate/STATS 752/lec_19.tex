@@ -1,7 +1,7 @@
 \makeheading{Lecture 19}{\printdate{2023-03-20}}%chktex 8
 \section{Lecture 19}
 \begin{itemize}
-    \item $ n_{..}=\sum_{i}\sum_j n_{ij} $
+    \item $ n_{..}=\sum_{i=1}^{a}\sum_{j=1}^{b_i} n_{ij} $
     \item $ \Vector{n}_{a.}=(n_{1.},\ldots,n_{a.})' $.
     \item $ \Vector{n}_{.b}=(n_{.1},\ldots,n_{.b})' $.
     \item $ \Matrix{D}_{a.}=\diag{n_{1.},\ldots,n_{a.}} $.
@@ -11,16 +11,13 @@
                   \vdots & \ddots & \vdots     \\
                   n_{a1} & \cdots & n_{a(b-1)}
               \end{pmatrix} $.
-    \item $ \Vector{n}_{.b}=\begin{pmatrix}
-                  n_{1b} \\
-                  \vdots \\
-                  n_{ab}
-              \end{pmatrix} $.
+    \item $ \Vector{n}_{b}=(n_{1b},\ldots,n_{ab})' $.
 \end{itemize}
+Using these definitions, we may write
 \[ \Matrix{X}'\Matrix{X}=\begin{pmatrix}
         n_{..}              & \Vector{n}_{a.}' & \Vector{n}_{.(b-1)}' & n_{.b}       \\
         \Vector{n}_{a.}     & \Matrix{D}_{a.}  & \Matrix{N}           & \Vector{n}_b \\
-        \Vector{n}_{.(b-1)} & \Matrix{N}       & \Matrix{D}_{.(b-1)}  & \Matrix{O}   \\
+        \Vector{n}_{.(b-1)} & \Matrix{N}'      & \Matrix{D}_{.(b-1)}  & \Matrix{O}   \\
         n_{.b}              & \Vector{n}_{b}'  & \Matrix{O}           & n_{.b}
     \end{pmatrix}. \]
 A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
@@ -30,20 +27,21 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
         \Matrix{O} & -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            & \Matrix{O} \\
         \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
     \end{pmatrix}. \]
-\begin{align*}
-    \Matrix{F}\Matrix{X}'\Matrix{X}
-     & =\begin{pmatrix}
-            \Matrix{O} & \Matrix{O} & \Matrix{O} & \Matrix{O} \\
-            \boxed{1}  & \boxed{5}  & \boxed{6}  & \boxed{3}  \\
-            \boxed{2}  & \boxed{7}  & \boxed{8}  & \boxed{4}  \\
-            \Matrix{O} & \Matrix{O} & \Matrix{O} & \Matrix{O}
-        \end{pmatrix}.
-\end{align*}
+Recall that $ \Matrix{M}=\Matrix{D}_{a.}^{-1}\Matrix{N} $ and $ \Matrix{C}=\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}=\Matrix{D}_{.(b-1)}-\Matrix{M}'\Matrix{N} $.
+We will compute the following quantity.
+\[ \Matrix{F}\Matrix{X}'\Matrix{X}
+    =\begin{pmatrix}
+        \Matrix{O} & \Matrix{O} & \Matrix{O} & \Matrix{O} \\
+        \boxed{1}  & \boxed{5}  & \boxed{6}  & \boxed{3}  \\
+        \boxed{2}  & \boxed{7}  & \boxed{8}  & \boxed{4}  \\
+        \Matrix{O} & \Matrix{O} & \Matrix{O} & \Matrix{O}
+    \end{pmatrix}. \]
+\subsection*{Block 1}
 \begin{align*}
     \boxed{1}
-     & =(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Vector{n}_{a.}-\Matrix{M}\Matrix{C}'\Vector{n}_{.(b-1)} \\
-     & =\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}+\Matrix{M}\Matrix{C}^{-1}[\Matrix{M}'\Vector{n}_{a.}-\Vector{n}_{.(b-1)}]       \\
-     & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\Matrix{O}                                                                    \\
+     & =(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Vector{n}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{n}_{.(b-1)} \\
+     & =\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}+\Matrix{M}\Matrix{C}^{-1}[\Matrix{M}'\Vector{n}_{a.}-\Vector{n}_{.(b-1)}]           \\
+     & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\Matrix{O}                                                                        \\
      & =\Vector{j}_a.
 \end{align*}
 \begin{align*}
@@ -66,13 +64,14 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
                                                n_{.(b-1)}
                                            \end{pmatrix}.
 \end{align*}
-
+\subsection*{Block 2}
 \begin{align*}
     \boxed{2}
      & =-\Matrix{C}^{-1}\Matrix{M}'\Vector{n}_{a.}+\Matrix{C}^{-1}\Vector{n}_{.(b-1)} \\
      & =-\Matrix{C}^{-1}[\Matrix{M}'\Vector{n}_{a.}-\Vector{n}_{.(b-1)}]              \\
      & =\Matrix{O}.
 \end{align*}
+\subsection*{Block 5}
 \begin{align*}
     \boxed{5}
      & =(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{D}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Matrix{N}'              \\
@@ -80,13 +79,9 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
      & =\Matrix{I}_a+\Matrix{M}\Matrix{C}^{-1}[\Matrix{M}'\Matrix{D}_{a.}-\Matrix{N}']                                               \\
      & =\Matrix{I}_a.
 \end{align*}
-\begin{align*}
-    \Matrix{M}'
-     & =\Matrix{N}'\Matrix{D}_{a.}^{-1}.               \\
-    \implies \Matrix{M}'\Matrix{D}_a
-     & =\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{D}_{a.} \\
-     & =\Matrix{N}'
-\end{align*}
+\[ \Matrix{M}'=\Matrix{N}'\Matrix{D}_{a.}^{-1}
+    \implies \Matrix{M}'\Matrix{D}_a=\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{D}_{a.}=\Matrix{N}'. \]
+\subsection*{Block 6}
 \begin{align*}
     \boxed{6}
      & =(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}-\Matrix{M}\Matrix{C}^{-1}\Matrix{D}_{.(b-1)}         \\
@@ -96,13 +91,14 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
      & =\Matrix{O}.
 \end{align*}
 \[ \Matrix{C}=\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}=\Matrix{D}_{.(b-1)}-\Matrix{M}'\Matrix{N}. \]
+\subsection*{Block 7}
 \begin{align*}
     \boxed{7}
-     & =-\Matrix{C}^{-1}\Matrix{M}'\Matrix{D}_{a.}+\Matrix{C}^{-1}\Matrix{N}' \\
-     & =-\Matrix{C}^{-1}[\Matrix{M}'\Matrix{D}_{a.}-\Matrix{N}']              \\
-     & =-\Matrix{C}^{-1}\Matrix{O}                                            \\
+     & =-\Matrix{C}^{-1}\Matrix{M}'\Matrix{D}_{a.}+\Matrix{C}^{-1}\Matrix{N}'                     \\
+     & =-\Matrix{C}^{-1}\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{D}_{a.}+\Matrix{C}^{-1}\Matrix{N}' \\
      & =\Matrix{O}.
 \end{align*}
+\subsection*{Block 8}
 \begin{align*}
     \boxed{8}
      & =-\Matrix{C}^{-1}\Matrix{M}'\Matrix{N}+\Matrix{C}^{-1}\Matrix{D}_{.(b-1)} \\
@@ -110,16 +106,17 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
      & =\Matrix{C}^{-1}\Matrix{C}                                                \\
      & =\Matrix{I}_{b-1}.
 \end{align*}
+\subsection*{Block 3}
 \begin{align*}
     \boxed{3}
      & =(\Matrix{D}_{.(b-1)}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Vector{n}_{b}                           \\
      & =(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')(\Vector{n}_{a.}-\Matrix{N}\Vector{j}_{b-1}) \\
-     & =\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}'\Vector{n}_{a.}                 \\
-     & \quad-(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}\Vector{j}_{b-1}              \\
-     & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}                    \\
-     & \quad-(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}\Vector{j}_{b-1}              \\
-     & =\Vector{j}_{a.}+\Matrix{M}\Matrix{C}^{-1}\Vector{j}_a+                                                  \\
-     & \quad-\Matrix{M}\Matrix{C}^{-1}\Matrix{D}_{.(b-1)}\Vector{j}_{b-1}                                       \\
+     & =\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}'\Vector{n}_{a.}
+    -(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}\Vector{j}_{b-1}                      \\
+     & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\Matrix{N}'\Matrix{D}_{a.}^{-1}\Vector{n}_{a.}
+    -(\Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}')\Matrix{N}\Vector{j}_{b-1}                      \\
+     & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\Vector{j}_a
+    -\Matrix{M}\Matrix{C}^{-1}\Matrix{D}_{.(b-1)}\Vector{j}_{b-1}                                               \\
      & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}[\Matrix{N}'\Vector{j}_a-\Matrix{D}_{.(b-1)}\Vector{j}_{b-1}]     \\
      & =\Vector{j}_a+\Matrix{M}\Matrix{C}^{-1}\left(\begin{pmatrix}
                                                             n_{.1} \\
@@ -151,8 +148,9 @@ A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
      & =\Matrix{D}_{a.}^{-1}\Matrix{N}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}'\Matrix{N}-\Matrix{M}\Matrix{C}^{-1}\Matrix{D}_{.(b-1)} \\
      & =\Matrix{M}-\Matrix{M}\Matrix{C}^{-1}(\Matrix{D}_{.(b-1)}-\Matrix{M}'\Matrix{N})                                            \\
      & =\Matrix{M}-\Matrix{M}                                                                                                      \\
-     & =\Matrix{O}
+     & =\Matrix{O}.
 \end{align*}
+\subsection*{Block 4}
 \begin{align*}
     \boxed{4}
      & =-\Matrix{C}^{-1}\Matrix{M}'\Vector{n}_{b}                                                                        \\
@@ -173,21 +171,20 @@ Therefore,
         \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}
     \end{pmatrix}. \]
 \subsection*{Estimable Combinations}
-$ \Matrix{W}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{W} $,
-where
-\[ \Matrix{W}=\begin{pmatrix}
+$ \Vector{w}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{w} $,
+where $ \Vector{w}=\begin{pmatrix}
         w_0 & w_1 & \cdots & w_a & w_{a+1} & \cdots & w_{a+b}
-    \end{pmatrix}. \]
+    \end{pmatrix} $.
 \begin{align*}
-    W'\Vector{\beta}
-     & =w_0\mu+w_1\alpha_1+\cdots+w_a\alpha_a+w_{a+1}\beta_1+\cdots+w_{a+b}\beta_b        \\
-     & =(w_1+\cdots+w_a)\mu+w_1\alpha_1+\cdots+w_a\alpha_a                                \\
-     & \quad+ w_{a+1}\beta_1+\cdots+w_{a+b-1}\beta_{b-1}                                  \\
-     & \quad+\bigl[(w_1+\cdots+w_a)-(w_{a+1}+\cdots+w_{a+b-1})\bigr]\beta_b               \\
-     & =\sum_{i=1}^{a}w_i(\mu+\alpha_i+\beta_b)+\sum_{j=1}^{b-1}w_{j+a}(\beta_j-\beta_b).
+    \Vector{w}'\Vector{\beta}
+     & =w_0\mu+w_1\alpha_1+\cdots+w_a\alpha_a+w_{a+1}\beta_1+\cdots+w_{a+b}\beta_b            \\
+     & =(w_1+\cdots+w_a)\mu+w_1\alpha_1+\cdots+w_a\alpha_a                                    \\
+     & \quad+ w_{a+1}\beta_1+\cdots+w_{a+b-1}\beta_{b-1}                                      \\
+     & \quad+\bigl[(w_1+\cdots+w_a)-(w_{a+1}+\cdots+w_{a+b-1})\bigr]\beta_b                   \\
+     & =\sum_{i=1}^{a}w_i(\mu+\alpha_i+\beta_{a+b})+\sum_{j=1}^{b-1}w_{j+a}(\beta_j-\beta_b).
 \end{align*}
 \begin{align*}
-    \Matrix{W}'\begin{pmatrix}
+    \Vector{w}'\begin{pmatrix}
                    \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}        \\
                    \Vector{j}_a & \Matrix{I}_a & \Matrix{O}       & \Vector{j}_a      \\
                    \Matrix{O}   & \Matrix{O}   & \Matrix{I}_{b-1} & -\Vector{j}_{b-1} \\
@@ -208,6 +205,9 @@ Therefore,
     \item $ \mu+\alpha_k+\beta_\ell $ is estimable. $ w_k=w_{\ell+a}=1 $ for $ \ell<b $, and $ w_k=1 $ otherwise.
     \item $ \alpha_k-\alpha_\ell $ is estimable.
     \item $ \beta_k-\beta_\ell $ is estimable.
-    \item $ \beta_k+\frac{1}{n_{.k}}\sum_{i=1}^{a}n_{ik}\alpha_i\sim _{.k}\beta_k+\sum_{i=1}^{a}n_{ik}\alpha_i $ is estimable.
-    \item $ \alpha_\ell+\frac{1}{n_{\ell.}}\sum_{j=1}^{b}n_{\ell j}\beta_j $ is estimable.
+    \item Fix $ 1\le k\le b-1 $, let $ w_i=n_{ik} $, $ w_{a+b}=n_{.k} $, others $ 0 $.
+          \[ \Vector{w}'\Vector{\beta}=\sum n_{ik}(\mu+\alpha_i)+n_{.k}\beta_{a+b}+n_{ik}(\beta_k-\beta_{a+b})=n_{.k}\mu+\biggl(n_{.k}\beta_k+\sum_{i=1}^{a}n_{ik}\alpha_i\biggr). \]
+          For $ k=a+b $, choose $ w_i=n_{ik} $, $ w_{a+j}=0 $ for all $ j $. Hence,
+          \[ \Vector{w}'\Vector{\beta}=n_{.k}\mu+\biggl(n_{.k}\beta_k+\sum_{i=1}^{a}n_{ik}\alpha_i\biggr) \]
 \end{enumerate}
+\underline{Exercise}: Verify that $ \Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{X}'\Matrix{X} $ (why would anyone do this).
