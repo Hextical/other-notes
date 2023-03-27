@@ -1,0 +1,108 @@
+\makeheading{Lecture 21}{\printdate{2023-03-23}}%chktex 8
+\section{Lecture 21: Two-way Crossed Classification (Interaction)}
+\subsection*{Estimable Combinations}
+$ \Vector{b}'\Vector{\beta} $ is estimable if and only if
+$ \Vector{b}'=\Vector{w}'\Matrix{X} $. Therefore,
+$ \Vector{w}'\Matrix{X}\Vector{\beta} $ is always estimable.
+\[ \Vector{\beta}'=(\mu,\alpha_1,\ldots,\alpha_a,\beta_1,\ldots,\beta_b,\Set{\gamma_{ij}})', \]
+where we only include the non-empty $ (i,j) $ in $ \Set{\gamma_{ij}} $.
+\[ (\Matrix{X}\Vector{\beta})'=(\underbrace{\mu+\alpha_1+\beta_1+\gamma_{11},\ldots,\mu+\alpha_1+\beta_1+\gamma_{11}}_{n_{11}},
+    \ldots,\underbrace{\mu+\alpha_a+\beta_b+\gamma_{ab},\ldots,\mu+\alpha_a+\beta_b+\gamma_{ab}}_{n_{ab}})'. \]
+\[ \Vector{w}'\Matrix{X}\Vector{\beta}=\sum_{i=1}^{a}\sum_{j=1}^{b}c_{ij}\mu_{ij}, \]
+where $ \mu_{ij}=\mu+\alpha_i+\beta_j+\gamma_{ij} $.
+\begin{enumerate}[(1)]
+    \item $ \mu_{ij}=\mu+\alpha_i+\beta_j+\gamma_{ij} $ is estimable.
+    \item For any $ k,\ell $, define
+          \[ \Lambda_{k\ell}=\alpha_k+\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}(\beta_j+\gamma_{kj})-
+              \biggl[\alpha_{\ell}+\frac{1}{n_{\ell.}}\sum_{j=1}^{b}n_{\ell j}(\beta_j+\gamma_{\ell j})\biggr]. \]
+          \underline{Claim}: $ \Lambda_{k\ell} $ is estimable.
+
+          First term,
+          \begin{align*}
+              \alpha_k+\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}(\beta_j+\gamma_{kj})
+               & =\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}\alpha_k+\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}(\beta_j+\gamma_{kj}) \\
+               & =\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}(\alpha_k+\beta_k+\gamma_{kj}+\mu-\mu)                             \\
+               & =-\mu+\frac{1}{n_{k.}}\sum_{j=1}^{b}n_{kj}(\mu+\alpha_k+\beta_j+\gamma_{kj}).
+          \end{align*}
+          Similarly,
+          \[ \alpha_{\ell}+\frac{1}{n_{\ell.}}\sum_{j=1}^{b}n_{\ell j}(\beta_j+\gamma_{\ell j})
+              =-\mu+\frac{1}{n_{\ell.}}\sum_{j=1}^{b}n_{\ell k}(\mu+\alpha_\ell+\beta_j+\gamma_{\ell j}).\]
+          Taking the difference of the first term and second term yields the result.
+    \item \[ \psi_j=\biggl(n_{.j}-\sum_{i=1}^{a}\frac{n_{ij}^2}{n_{i.}}\biggr)\beta_j
+              -\sum_{\ell \ne j}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}\beta_\ell
+              +\sum_{i=1}^{a}\biggl(n_{ij}-\frac{n_{ij}^2}{n_{i.}}\biggr)\gamma_{ij}
+              -\sum_{\ell \ne j}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}\gamma_{i\ell}. \]
+          \underline{Claim}: $ \psi_j $ is estimable.
+
+          \begin{align*}
+              \psi_j
+               & =\sum_{i=1}^{a}\biggl(n_{ij}-\frac{n_{ij}^2}{n_{i.}}\biggr)\beta_j
+              -\sum_{\ell \ne j}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}\beta_\ell
+              +\sum_{i=1}^{a}\biggl(n_{ij}-\frac{n_{ij}^2}{n_{i.}}\biggr)\gamma_{ij}-\sum_{\ell \ne j}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}\gamma_{i\ell}                \\
+               & =\sum_{i=1}^{a}\biggl(n_{ij}-\frac{n_{ij}^2}{n_{i.}}\biggr)(\beta_j+\gamma_{ij})
+              -\sum_{\ell\ne j}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}(\beta_\ell+\gamma_{i\ell})                                                                          \\
+               & =\sum_{i=1}^{a}n_{ij}(\beta_j+\gamma_{ij})-\sum_{\ell=1}^{b}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}(\beta_\ell+\gamma_{i\ell})                            \\
+               & =\sum_{i=1}^{a}n_{ij}(\mu+\alpha_i+\beta_j+\gamma_{ij})-\sum_{\ell=1}^{b}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}(\mu+\alpha_i+\beta_\ell+\gamma_{i\ell}),
+          \end{align*}
+          since
+          \begin{align*}
+              \sum_{i=1}^{a}n_{ij}(\mu+\alpha_i) & =n_{.j}\mu+\sum_{i=1}^{a}n_{.j}\alpha_i,                                     \\
+              \sum_{\ell=1}^{b}\sum_{i=1}^{a}\frac{n_{ij}n_{i\ell}}{n_{i.}}(\mu+\alpha_i)
+                                                 & =\sum_{i=1}^{a}(\mu+\alpha_i)\sum_{\ell=1}^{b}\frac{n_{ij}n_{i\ell}}{n_{i.}} \\
+                                                 & =\sum_{i=1}^{a}(\mu+\alpha_i)n_{ij}.
+          \end{align*}
+    \item For any $ (i,j) $ and $ (k,\ell) $ let
+          \[
+              \Theta_{(i,j),(k,\ell)}
+              =\gamma_{ij}-\gamma_{i\ell}-\gamma_{kj}+\gamma_{k\ell}. \]
+          \underline{Claim}: $ \Theta_{(i,j),(k,\ell)} $ is estimable. Proof by picture: a square.
+          By definition,
+          \begin{align*}
+              \mu_{ij}    & =\mu+\alpha_i+\beta_j+\gamma_{ij}.       \\
+              \mu_{i\ell} & =\mu+\alpha_i+\beta_\ell+\gamma_{i\ell}. \\
+              \mu_{kj}    & =\mu+\alpha_k+\beta_j+\gamma_{kj}.       \\
+              \mu_{k\ell} & =\mu+\alpha_k+\beta_\ell+\gamma_{k\ell}.
+          \end{align*}
+          Hence,
+          \begin{align*}
+              \mu_{ij}-\mu_{i\ell} & =\beta_j-\beta_\ell+\gamma_{ij}-\gamma_{i\ell}. \\
+              \mu_{kj}-\mu_{k\ell} & =\beta_j-\beta_\ell+\gamma_{kj}-\gamma_{k\ell}.
+          \end{align*}
+          Taking the difference of the first term and second term yields the result.
+\end{enumerate}
+\subsection*{Hypothesis Testing}
+\begin{enumerate}[(1)]
+    \item $ \HN $: $ \frac{1}{n_{i.}}\sum_{j=1}^{b}n_{ij}\mu_{ij} $ are the same for all $ i $.
+          \[ \frac{n_{i1}}{n_{i.}}\mu_{i1}+\cdots+\frac{n_{ib}}{n_{i.}}\mu_{ib}. \]
+          Intuitively, we are testing the weighted means are all the same in each row.
+          $ Q=\text{SS}(\alpha\mid \mu) $.
+
+          $ \HN $: $ \frac{1}{n_{.j}}\sum_{i=1}^{a}n_{ij}\mu_{ij} $ are the same for all $ j $.
+          $ Q=\text{SS}(\beta\mid \mu) $.
+    \item $ \HN $: $ \psi_j=0 $ for all $ j\le b-1 $. $ Q=\text{SS}(\beta\mid \mu,\alpha) $.
+          \[ \varphi_i=\biggl(n_{i.}-\sum_{j=1}^{b}\frac{n_{ij}^2}{n_{.j}}\biggr)\alpha_i
+              -\sum_{k\ne \ell}\biggl(\sum_{j=1}^{b}\frac{n_{ij}n_{kj}}{n_{.j}}\biggr)\alpha_k
+              +\sum_{j=1}^{b}\biggl(n_{ij}-\frac{n_{ij}^2}{n_{.j}}\biggr)\gamma_{ij}-\sum_{k\ne i}
+              \biggl(\sum_{j=1}^{b}\frac{n_{ij}n_{kj}}{n_{.j}}\biggr)\gamma_{kj}. \]
+          $ \HN $: $ \varphi_i=0 $ for all $ i=1,\ldots,a-1 $. $ Q=\text{SS}(\alpha\mid \mu,\beta) $.
+          The reason we are not testing all $ i,j $ since
+          \[ \sum_{j=1}^{b}\psi_j=\sum_{i=1}^{a}\varphi_i=0. \]
+          We will show $ \sum_{i=1}^{a}\varphi_i=0 $, the other is an exercise.
+          \begin{align*}
+              \sum_{i=1}^{a}\varphi_i
+               & =\sum_{i=1}^{a}n_{i.}\alpha_i-\sum_{i=1}^{a}\sum_{k=1}^{a}\sum_{j=1}^{b}\frac{n_{ij}n_{kj}}{n_{.j}}\alpha_k
+              +\sum_{i=1}^{a}\sum_{j=1}^{b}n_{ij}\gamma_{ij}-\sum_{i=1}^{a}\sum_{k=1}^{a}\sum_{j=1}^{b}\frac{n_{ij}n_{kj}}{n_{.j}}\gamma_{kj} \\
+               & =\sum_{i=1}^{a}n_{i.}\alpha_i
+              -\sum_{k=1}^{a}\alpha_k\sum_{j=1}^{b}\sum_{i=1}^{a}\frac{n_{ij}n_{kj}}{n_{.j}}
+              +\sum_{i=1}^{a}\sum_{j=1}^{b}n_{ij}\gamma_{ij}
+              -\sum_{k=1}^{a}\sum_{j=1}^{b}\gamma_{kj}\sum_{i=1}^{a}\frac{n_{ij}n_{kj}}{n_{.j}}                                               \\
+               & =\sum_{i=1}^{a}n_{i.}\alpha_i-\sum_{k=1}^{a}n_{k.}\alpha_k
+              +\sum_{i=1}^{a}\sum_{j=1}^{b}n_{ij}\gamma_{ij}-\sum_{k=1}^{a}\sum_{j=1}^{b}n_{kj}\gamma_{kj}                                    \\
+               & =0.
+          \end{align*}
+    \item Let $ g_1,\ldots,g_{s-a-b+1} $ be linearly independent functions of
+          $ \Set[\big]{\Theta_{(i,j),(k,\ell)}:(i,j),(k,\ell)} $.
+
+          $ \HN $: $ g_\ell=0 $ for all $ \ell=1,\ldots,s-a-b+1 $.
+          $ Q=\text{SS}(\gamma\mid \mu,\alpha,\beta) $.
+\end{enumerate}
