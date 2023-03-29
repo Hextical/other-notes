@@ -22,11 +22,12 @@ Using these definitions, we may write
     \end{pmatrix}. \]
 A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
 \[ \Matrix{F}=\begin{pmatrix}
-        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
+        0          & \Matrix{O}                                                & \Matrix{O}                 & 0          \\
         \Matrix{O} & \Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}' & -\Matrix{M}\Matrix{C}^{-1} & \Matrix{O} \\
         \Matrix{O} & -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            & \Matrix{O} \\
-        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
-    \end{pmatrix}. \]
+        0          & \Matrix{O}                                                & \Matrix{O}                 & 0          \\
+    \end{pmatrix}, \]
+where the dimensions of $ \Matrix{O} $ need to be filled in for A5Q2 (trivial).
 Recall that $ \Matrix{M}=\Matrix{D}_{a.}^{-1}\Matrix{N} $ and $ \Matrix{C}=\Matrix{D}_{.(b-1)}-\Matrix{N}'\Matrix{D}_{a.}^{-1}\Matrix{N}=\Matrix{D}_{.(b-1)}-\Matrix{M}'\Matrix{N} $.
 We will compute the following quantity.
 \[ \Matrix{F}\Matrix{X}'\Matrix{X}

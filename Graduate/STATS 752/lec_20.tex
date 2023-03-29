@@ -7,11 +7,8 @@ $ \beta_1,\ldots,\beta_b $ different.
     \item What is $ \Matrix{B} $ for this test?
     \item What is $ Q $?
 \end{enumerate}
-\[ (\Matrix{B}'\Vector{\beta})'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}). \]
-$ \Matrix{F} $ is a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $.
-\[ \Vector{\beta}=\begin{pmatrix}
-        \mu & \alpha_1 & \cdots & \alpha_a & \beta_1 & \cdots & \beta_b
-    \end{pmatrix}' \]
+\[ Q=(\Matrix{B}'\Vector{\beta}_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0), \]
+where $ \Matrix{F} $ is a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $.
 Hence, $ \Matrix{B}'\Vector{\beta}=\Vector{m}\iff
     \beta_1=\cdots=\beta_b $. If $ \Vector{m}=\Vector{0} $, then
 \[ \Matrix{B}'\Vector{\beta}=\begin{pmatrix}
@@ -30,7 +27,7 @@ Hence, $ \Matrix{B}'\Vector{\beta}=\Vector{m}\iff
     \end{pmatrix}=\Vector{0}. \]
 Therefore,
 \[ \Matrix{B}'=\begin{pmatrix}
-        \Matrix{O} & \Matrix{I}_{b-1} & -1 \Vector{j}
+        \Matrix{O} & \Matrix{I}_{b-1} & -\Vector{j}
     \end{pmatrix}. \]
 $ \Vector{\beta}_0 $ is one solution to the normal equation
 \[ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y}. \]
@@ -39,7 +36,7 @@ Exercise:
 If we test $ \HN $: $ \alpha_1=\cdots=\alpha_a $
 versus $ \HA $: $ \alpha_1,\cdots,\alpha_a $ different, then
 \[ \Matrix{B}'=\begin{pmatrix}
-        \Matrix{O} & \Matrix{I}_{a-1} & -1 \Vector{j} & \Matrix{O}
+        \Matrix{O} & \Matrix{I}_{a-1} & -\Vector{j} & \Matrix{O}
     \end{pmatrix}, \]
 and $ Q=\text{SS}(\alpha\mid \mu,\beta) $.
 
@@ -52,7 +49,7 @@ The first equation will be
     \implies \beta_1-\beta_b+
     \sum_{i=1}^{a}\biggl(\frac{n_{i1}}{n_{.1}}-\frac{n_{ib}}{n_{.b}}\biggr)\alpha_i=0. \]
 \[ \Matrix{B}'=\begin{pmatrix}
-        \frac{n_{11}}{n_{.1}}-\frac{n_{1b}}{n{.b}} & \cdots & \frac{n_{a1}}{n_{.1}}-\frac{n_{ab}}{n_{.b}} & 1 & \cdots & -1 \\
+        0 & \frac{n_{11}}{n_{.1}}-\frac{n_{1b}}{n{.b}} & \cdots & \frac{n_{a1}}{n_{.1}}-\frac{n_{ab}}{n_{.b}} & 1 & 0 & \cdots & 0 & -1 \\
         \vdots
     \end{pmatrix}, \]
 we will get $ Q=\text{SS}(\beta\mid \mu) $.
@@ -63,6 +60,7 @@ If $ n_{ij}=1 $ for all $ i,j $, then we will be testing $ \beta_1=\beta_b $.
 
 $ \HN $: equality of $ \alpha_i+\frac{1}{n_{i.}}\sum_{j=1}^{b}n_{ij}\beta_j $
 versus $ \HA $: $ \lnot \HN $, we will get $ Q=\text{SS}(\alpha\mid \mu) $.
+The details need to be filled it from A5Q3 (trivial)\@.
 \subsection*{Two-Way Crossed Classification with Interaction}
 \[ Y_{ijk}=\mu+\alpha_i+\beta_j+\gamma_{ij}+\varepsilon_{ijk}, \]
 where $ i=1,\ldots,a $; $ j=1,\ldots,b $;
@@ -131,9 +129,9 @@ $ \alpha\to\beta\to \gamma $.
         \bottomrule
     \end{array} \]
 \begin{align*}
-    \text{SS}(\alpha\mid \mu)              & =\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\frac{Y_{...}^2}{n_{..}}.                                                               \\
-    \text{SS}(\beta\mid \mu,\alpha)        & =\Vector{\beta}_{b-1}^0 \Vector{r}.                                                                                             \\
-    \text{SS}(\gamma\mid \mu,\alpha,\beta) & =\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}}-\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\Vector{\beta}_{b-1}^0 \Vector{r},
+    \text{SS}(\alpha\mid \mu)              & =\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\frac{Y_{...}^2}{n_{..}}.                                                                  \\
+    \text{SS}(\beta\mid \mu,\alpha)        & =(\Vector{\beta}_{b-1}^0)' \Vector{r}.                                                                                             \\
+    \text{SS}(\gamma\mid \mu,\alpha,\beta) & =\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}}-\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-(\Vector{\beta}_{b-1}^0)' \Vector{r},
 \end{align*}
 where
 \[ \Vector{\beta}_0=\begin{pmatrix}
