@@ -1,75 +1,100 @@
 \makeheading{Lecture 20}{\printdate{2023-03-23}}%chktex 8
-\section{Lecture 20: Two-way Crossed Classification (No Interaction)}
-$ \HA $: $ \beta_1=\cdots=\beta_b $ versus $ \HA $:
-$ \beta_1,\ldots,\beta_b $ different.
+\section{Lecture 20: Two-way Crossed Classification (No Interaction)  Part IV}
 \[ Y_{ij}=\mu+\alpha_i+\beta_j+\varepsilon_{ij}. \]
-\begin{enumerate}[(1)]
-    \item What is $ \Matrix{B} $ for this test?
-    \item What is $ Q $?
-\end{enumerate}
-\[ Q=(\Matrix{B}'\Vector{\beta}_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0), \]
-where $ \Matrix{F} $ is a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $.
-Hence, $ \Matrix{B}'\Vector{\beta}=\Vector{m}\iff
-    \beta_1=\cdots=\beta_b $. If $ \Vector{m}=\Vector{0} $, then
-\[ \Matrix{B}'\Vector{\beta}=\begin{pmatrix}
-        0      & 0      & \cdots & 0      & 1      & 0      & \cdots & -1 \\
-        0      & 0      & \cdots & 0      & 0      & 1      & \cdots & -1 \\
-        \vdots & \vdots & \ddots & \vdots & \vdots & \ddots               \\
-        0      & 0      & \cdots & 0      & 0      & \cdots & 1      & -1 \\
-    \end{pmatrix}\begin{pmatrix}
-        \mu      \\
-        \alpha_1 \\
-        \vdots   \\
-        \alpha_a \\
-        \beta_1  \\
-        \vdots   \\
-        \beta_b
-    \end{pmatrix}=\Vector{0}. \]
-Therefore,
-\[ \Matrix{B}'=\begin{pmatrix}
-        \Matrix{O} & \Matrix{I}_{b-1} & -\Vector{j}
-    \end{pmatrix}. \]
-$ \Vector{\beta}_0 $ is one solution to the normal equation
-\[ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y}. \]
-Exercise:
-\[ Q=\text{SS}(\beta\mid \mu,\alpha). \]
-If we test $ \HN $: $ \alpha_1=\cdots=\alpha_a $
-versus $ \HA $: $ \alpha_1,\cdots,\alpha_a $ different, then
-\[ \Matrix{B}'=\begin{pmatrix}
-        \Matrix{O} & \Matrix{I}_{a-1} & -\Vector{j} & \Matrix{O}
-    \end{pmatrix}, \]
-and $ Q=\text{SS}(\alpha\mid \mu,\beta) $.
-
-$ \HN $: $ \beta_j+\frac{1}{n_{.j}}\sum_{i=1}^a n_{ij}\alpha_i $
-are the same for all $ j $ versus $ \HA $: $ \lnot\HN $.
-
-The first equation will be
+\subsection*{$ \HN $: $ \Matrix{B}'\Vector{\beta}=\Vector{0} $
+    versus $ \HA $: $ \Matrix{B}'\Vector{\beta}\ne 0 $}
+The test statistic in general will be
+$ \displaystyle F=\frac{Q/r}{\MSE} $, where
+\begin{itemize}
+    \item $ Q=(\Matrix{B}'\Vector{\beta}_0)'(\Matrix{B}'\Matrix{F}\Matrix{B})^{-1}(\Matrix{B}'\Vector{\beta}_0) $;
+    \item $ \Vector{\beta}_0 $ is one solution to the normal equation
+          $ \Matrix{X}'\Matrix{X}\Vector{\beta}=\Matrix{X}'\Vector{Y} $;
+    \item $ \Matrix{F} $ is a $ g $-inverse of $ \Matrix{X}'\Matrix{X} $;
+    \item $ r=\rank{\Matrix{B}} $.
+\end{itemize}
+\subsection*{$ \HN $: $ \beta_1=\cdots=\beta_b $ versus $ \HA $: $ \lnot\HN $}
+\begin{itemize}
+    \item $ \Matrix{B}'=\begin{pNiceMatrix}[first-row]
+                  \mu    & \alpha_1 & \cdots & \alpha_a & \beta_1 & \beta_2 & \cdots & \beta_{b-1} & \beta_b \\
+                  0      & 0        & \cdots & 0        & 1       & 0       & \cdots & 0           & -1      \\
+                  0      & 0        & \cdots & 0        & 0       & 1       & \ddots & 0           & -1      \\
+                  \vdots & \vdots   & \ddots & \vdots   & \vdots  & \ddots  & \ddots & \vdots      & \vdots  \\
+                  0      & 0        & \cdots & 0        & 0       & \cdots  & 0      & 1           & -1      \\
+              \end{pNiceMatrix}=\begin{pmatrix}
+                  \Matrix{O}_{(b-1)\times(a+1)} & \Matrix{I}_{b-1} & -\Vector{j}_{b-1}
+              \end{pmatrix} $.
+    \item A5Q2\@: Show that $ Q=\text{SS}(\beta\mid \mu,\alpha) $, and $ r=b-1 $.
+\end{itemize}
+\subsection*{$ \HN $: $ \alpha_1=\cdots=\alpha_a $ versus $ \HA $: $ \lnot\HN $}
+\begin{itemize}
+    \item $ \Matrix{B}'=\begin{pmatrix}
+                  0 & \Matrix{I}_{a-1} & -\Vector{j}_{a-1} & \Matrix{O}_{(a-1)\times b}
+              \end{pmatrix} $.
+    \item $ Q=\text{SS}(\alpha\mid \mu,\beta) $ and $ r=a-1 $.
+\end{itemize}
+\subsection*{$ \HN $: $ \beta_j+\frac{1}{n_{.j}}\sum_{i=1}^a n_{ij}\alpha_i $
+    are equal for $ j=1,\ldots,b $ versus $ \HA $: $ \lnot\HN $}
+\underline{Idea}: The first equation will be
 \[ \beta_1+\frac{1}{n_{.1}}\sum_{i=1}^{a}n_{i1}\alpha_i=\beta_b
     +\frac{1}{n_{.b}}\sum_{i=1}^{a}n_{ib}\alpha_i
     \implies \beta_1-\beta_b+
     \sum_{i=1}^{a}\biggl(\frac{n_{i1}}{n_{.1}}-\frac{n_{ib}}{n_{.b}}\biggr)\alpha_i=0. \]
-\[ \Matrix{B}'=\begin{pmatrix}
-        0 & \frac{n_{11}}{n_{.1}}-\frac{n_{1b}}{n{.b}} & \cdots & \frac{n_{a1}}{n_{.1}}-\frac{n_{ab}}{n_{.b}} & 1 & 0 & \cdots & 0 & -1 \\
-        \vdots
-    \end{pmatrix}, \]
-we will get $ Q=\text{SS}(\beta\mid \mu) $.
+\begin{itemize}
+    \item $ \Matrix{B}'=\begin{pNiceMatrix}[first-row]
+                  \mu    & \alpha_1                                      & \cdots & \alpha_{a}                                    & \beta_1 & \beta_2 & \cdots & \beta_{b-1} & \beta_b \\
+                  0      & \dfrac{n_{11}}{n_{.1}}-\dfrac{n_{1b}}{n_{.b}} & \cdots & \dfrac{n_{a1}}{n_{.1}}-\dfrac{n_{ab}}{n_{.b}} & 1       & 0       & \cdots & 0           & -1      \\
+                  0      & \dfrac{n_{12}}{n_{.2}}-\dfrac{n_{2b}}{n_{.b}} & \cdots & \dfrac{n_{a2}}{n_{.2}}-\dfrac{n_{ab}}{n_{.b}} & 0       & 1       & \ddots & 0           & -1      \\
+                  \vdots & \vdots                                        & \ddots & \vdots                                        & \vdots  & \ddots  & \ddots & \ddots      & \vdots
+              \end{pNiceMatrix} $.
+    \item $ Q=\text{SS}(\beta\mid \mu) $ and $ r=b-1 $.
+\end{itemize}
+\underline{Notes}:
 \[ \frac{n_{11}}{n_{.1}}+\cdots+\frac{n_{a1}}{n_{.1}}=1. \]
 \[ \beta_1+\frac{n_{11}}{n_{.1}}\alpha_1+\cdots+\frac{n_{a1}}{n_{.1}}\alpha_a=
     \beta_b+\frac{n_{1b}}{n_{.b}}\alpha_1+\cdots+\frac{n_{ab}}{n_{.b}}\alpha_a. \]
-If $ n_{ij}=1 $ for all $ i,j $, then we will be testing $ \beta_1=\beta_b $.
+If $ n_{ij}=1 $ for all $ i=1,\ldots,a $ and $ j=1,\ldots,b $, then we will be testing $ \beta_1=\beta_b $.
 
-$ \HN $: equality of $ \alpha_i+\frac{1}{n_{i.}}\sum_{j=1}^{b}n_{ij}\beta_j $
-versus $ \HA $: $ \lnot \HN $, we will get $ Q=\text{SS}(\alpha\mid \mu) $.
-The details need to be filled it from A5Q3 (trivial)\@.
-\subsection*{Two-Way Crossed Classification with Interaction}
+\subsection*{$ \HN $: $ \alpha_i+\frac{1}{n_{i.}}\sum_{j=1}^{b}n_{ij}\beta_j $
+are equal for $ i=1,\ldots,a $ versus $ \HA $: $ \lnot\HN $}
+\begin{itemize}
+    \item $ \Matrix{B}'= $ exercise.
+    \item $ Q=\text{SS}(\alpha\mid \mu) $ and $ r=a-1 $.
+\end{itemize}
+\subsection*{Existence of Interaction}
+\begin{Example}{}{}
+    No interaction:
+    \begin{center}
+        \begin{tabular}{c|ccc}
+            Age$\backslash$ Type & A   & B   & C   \\
+            \hline
+            $<$30                & 3.2 & 1.8 & 6.5 \\
+            30--60               & 2.8 & 1.6 & 5.3 \\
+            $>$60                & 1.5 & 1.0 & 3.4
+        \end{tabular}
+    \end{center}
+    Interaction:
+    \begin{center}
+        \begin{tabular}{c|ccc}
+            Age$\backslash$ Type & A   & B   & C   \\
+            \hline
+            $<$30                & 3.2 & 1.4 & 6.5 \\
+            30--60               & 6.2 & 1.2 & 2.5 \\
+            $>$60                & 5.8 & 1.3 & 2.1
+        \end{tabular}
+    \end{center}
+    Look at the plots.
+\end{Example}
+\section*{Two-Way Crossed Classification (Interaction) Part I}
 \[ Y_{ijk}=\mu+\alpha_i+\beta_j+\gamma_{ij}+\varepsilon_{ijk}, \]
 where $ i=1,\ldots,a $; $ j=1,\ldots,b $;
 $ k=1,\ldots,n_{ij} $ where $ n_{ij}\ge 1 $.
-\[ \begin{array}{ccccc}
-        i\backslash j & 1      & 2      & \cdots & b \\
-        1             & n_{11} & n_{12}              \\
-        \vdots                                       \\
-        a
+\[ \begin{array}{c|cccc}
+        i\backslash j & 1      & 2      & \cdots & b      \\
+        \hline
+        1             & n_{11} & n_{12} & \cdots & n_{1b} \\
+        2             & n_{21} & n_{22} & \cdots & n_{2b} \\
+        \vdots        & \vdots & \vdots & \ddots & \vdots \\
+        a             & n_{a1} & n_{a2} & \cdots & n_{ab}
     \end{array} \]
 Let $ s= $ total number of non-empty cells.
 \begin{align*}
@@ -86,21 +111,16 @@ where $ n_{ij}\ge 1 $. A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
         \Matrix{O} & \Matrix{D}
     \end{pmatrix}\in\R^{m\times m}. \]
 A solution to the normal equation is
-\begin{align*}
-    \Vector{\beta}_0
-     & =\Matrix{F}\Matrix{X}'\Vector{Y}                             \\
-     & =\begin{pmatrix}
-            0 & 0 & \cdots & 0 & \bar{Y}_{11.} & \cdots & \bar{Y}_{ab.}
-        \end{pmatrix},
-\end{align*}
+\[ \Vector{\beta}_0=\Matrix{F}\Matrix{X}'\Vector{Y}=\begin{pNiceMatrix}
+        \Matrix{O}_{1\times(1+a+b)} & \bar{Y}_{11.} & \cdots & \bar{Y}_{ab.}
+    \end{pNiceMatrix}, \]
 where we only keep the non-empty cells (i.e., $ n_{ij}\ge 1 $).
 We can test $ \HN $: $ \Matrix{B}'\Vector{\beta}=\Vector{m} $
 versus $ \Matrix{B}'\Vector{\beta}\ne \Vector{m} $.
-\begin{align*}
-    \SST                                   & =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\frac{Y_{...}^2}{n_{..}}.                            \\
-    \SSE                                   & =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij}^2}{n_{ij}}. \\
-    \text{SS}(\alpha,\beta,\gamma\mid \mu) & =\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij}.^2}{n_{ij}}-\frac{Y_{...}^2}{n_{..}}.
-\end{align*}
+\begin{itemize}
+    \item $ \displaystyle \SST =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\frac{Y_{...}^2}{n_{..}} $.
+    \item $ \displaystyle \SSE =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij}^2}{n_{ij}} $.
+\end{itemize}
 \subsection*{ANOVA Table I}
 \[ \begin{array}{lllll}
         \toprule
@@ -112,6 +132,9 @@ versus $ \Matrix{B}'\Vector{\beta}\ne \Vector{m} $.
         \text{Total}                & n-1       & \SST                                                                                                             \\
         \bottomrule
     \end{array} \]
+\begin{itemize}
+    \item $ \displaystyle \text{SS}(\alpha,\beta,\gamma\mid \mu) =\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}}-\frac{Y_{...}^2}{n_{..}} $
+\end{itemize}
 \subsection*{ANOVA Table II}
 Fitting $ \alpha $, then $ \beta $, followed by $ \gamma $. In compact notation,
 $ \alpha\to\beta\to \gamma $.
@@ -128,37 +151,18 @@ $ \alpha\to\beta\to \gamma $.
         \text{Total}                & n-1       & \SST                                                                                                             \\
         \bottomrule
     \end{array} \]
-\begin{align*}
-    \text{SS}(\alpha\mid \mu)              & =\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\frac{Y_{...}^2}{n_{..}}.                                                                  \\
-    \text{SS}(\beta\mid \mu,\alpha)        & =(\Vector{\beta}_{b-1}^0)' \Vector{r}.                                                                                             \\
-    \text{SS}(\gamma\mid \mu,\alpha,\beta) & =\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}}-\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-(\Vector{\beta}_{b-1}^0)' \Vector{r},
-\end{align*}
-where
-\[ \Vector{\beta}_0=\begin{pmatrix}
-        \mu^0 & \alpha_1^0 & \cdots & \alpha_a^0 & \beta_1^0 & \cdots & \beta_b^0 & (\gamma_{ij})^0
-    \end{pmatrix}'. \]
-\[ \Vector{\beta}_{b-1}^0=\begin{pmatrix}
-        \beta_1^0 & \cdots & \beta_{b-1}^0
-    \end{pmatrix}'. \]
-To obtain $ \Vector{\beta}_{b-1}^0 $ and $ \Vector{r} $,
-replace $ Y_{.j} $ and $ \bar{Y}_{i.} $ by
-$ Y_{.j.} $ by $ \bar{Y}_{i..} $.
-\subsection*{Detection of Interaction}
-\begin{center}
-    \begin{tabular}{c|ccc}
-        Age$\backslash$ Type & A   & B   & C   \\
-        \hline
-        $<$30                & 3.2 & 1.8 & 6.5 \\
-        30--60               & 2.8 & 1.6 & 5.3 \\
-        $>$60                & 1.5 & 1.0 & 3.4
-    \end{tabular}
-\end{center}
-\begin{center}
-    \begin{tabular}{c|ccc}
-        Age$\backslash$ Type & A   & B   & C   \\
-        \hline
-        $<$30                & 3.2 & 1.4 & 6.5 \\
-        30--60               & 6.2 & 1.2 & 2.5 \\
-        $>$60                & 5.8 & 1.3 & 2.1
-    \end{tabular}
-\end{center}
+\begin{itemize}
+    \item $ \displaystyle \text{SS}(\alpha\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-\frac{Y_{...}^2}{n_{..}} $.
+    \item $ \displaystyle \text{SS}(\beta\mid \mu,\alpha)=(\Vector{\beta}_{b-1}^0)' \Vector{r} $.
+    \item $ \displaystyle \text{SS}(\gamma\mid \mu,\alpha,\beta)=\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}}-\sum_{i=1}^{a}\frac{Y_{i..}^2}{n_{i.}}-(\Vector{\beta}_{b-1}^0)' \Vector{r} $,
+          where
+          \[ \Vector{\beta}_0=\begin{pmatrix}
+                  \mu^0 & \alpha_1^0 & \cdots & \alpha_a^0 & \beta_1^0 & \cdots & \beta_b^0 & (\gamma_{ij})^0
+              \end{pmatrix}'. \]
+          \[ \Vector{\beta}_{b-1}^0=\begin{pmatrix}
+                  \beta_1^0 & \cdots & \beta_{b-1}^0
+              \end{pmatrix}'. \]
+          To obtain $ \Vector{\beta}_{b-1}^0 $ and $ \Vector{r} $, we
+          replace $ Y_{.j} $ and $ \bar{Y}_{i.} $ by
+          $ Y_{.j.} $ and $ \bar{Y}_{i..} $, respectively.
+\end{itemize}

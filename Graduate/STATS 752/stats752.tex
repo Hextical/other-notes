@@ -17,6 +17,7 @@
 \usepackage[scaled=.98]{XCharter}
 \usepackage[scaled=1.04,varqu,varl]{inconsolata}% inconsolata typewriter
 \usepackage{amssymb}
+\usepackage{esvect}
 
 \makeatletter
 \@namedef{T1/zi4/m/it}{<->ssub*XCharterx/m/it}
@@ -114,7 +115,7 @@
 \DeclarePairedDelimiterX\norm[1]\lVert\rVert{#1}
 
 \DeclarePairedDelimiterX\Set[1]\{\}{\renewcommand\given{\SetSymbol[\delimsize]}#1}
-\providecommand{\Vector}[1]{\vec{#1}}
+\providecommand{\Vector}[1]{\vv{#1}}
 \providecommand{\Matrix}[1]{\mathbf{#1}}
 
 \usepackage{stackengine}
@@ -212,8 +213,16 @@
 \newcommand{\MSE}{\text{MSE}}%
 \newcommand{\R}{\mathbb{R}}%
 
+\NewCommandCopy{\oldbar}{\bar}
+\renewcommand{\bar}[1]{\overline{#1}}
+
 \usepackage{nicematrix}
 \setcounter{MaxMatrixCols}{20}
+\NiceMatrixOptions{
+    code-for-first-row = \color{purple},
+    code-for-last-row = \color{purple},
+    code-for-first-col = \color{purple},
+    code-for-last-col = \color{purple}}
 \begin{document}
 \maketitle
 \tableofcontents

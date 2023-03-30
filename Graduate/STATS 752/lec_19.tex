@@ -1,7 +1,7 @@
 \makeheading{Lecture 19}{\printdate{2023-03-20}}%chktex 8
-\section{Lecture 19}
+\section{Lecture 19: Two-way Crossed Classification (No Interaction) Part III}
 \begin{itemize}
-    \item $ n_{..}=\sum_{i=1}^{a}\sum_{j=1}^{b_i} n_{ij} $
+    \item $ n_{..}=\sum_{i=1}^{a}\sum_{j=1}^{b_i} n_{ij} $.
     \item $ \Vector{n}_{a.}=(n_{1.},\ldots,n_{a.})' $.
     \item $ \Vector{n}_{.b}=(n_{.1},\ldots,n_{.b})' $.
     \item $ \Matrix{D}_{a.}=\diag{n_{1.},\ldots,n_{a.}} $.
@@ -166,10 +166,10 @@ We will compute the following quantity.
 Therefore,
 \[ \Matrix{F}\Matrix{X}'\Matrix{X}
     =\begin{pmatrix}
-        \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}        \\
+        0            & \Matrix{O}   & \Matrix{O}       & 0                 \\
         \Vector{j}_a & \Matrix{I}_a & \Matrix{O}       & \Vector{j}_a      \\
         \Matrix{O}   & \Matrix{O}   & \Matrix{I}_{b-1} & -\Vector{j}_{b-1} \\
-        \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}
+        0            & \Matrix{O}   & \Matrix{O}       & 0
     \end{pmatrix}. \]
 \subsection*{Estimable Combinations}
 $ \Vector{w}'\Matrix{F}\Matrix{X}'\Matrix{X}=\Vector{w} $,
@@ -186,10 +186,10 @@ where $ \Vector{w}=\begin{pmatrix}
 \end{align*}
 \begin{align*}
     \Vector{w}'\begin{pmatrix}
-                   \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}        \\
+                   0            & \Matrix{O}   & \Matrix{O}       & 0                 \\
                    \Vector{j}_a & \Matrix{I}_a & \Matrix{O}       & \Vector{j}_a      \\
                    \Matrix{O}   & \Matrix{O}   & \Matrix{I}_{b-1} & -\Vector{j}_{b-1} \\
-                   \Matrix{O}   & \Matrix{O}   & \Matrix{O}       & \Matrix{O}
+                   0            & \Matrix{O}   & \Matrix{O}       & 0
                \end{pmatrix}
      & =\begin{pmatrix}
             w_1+\cdots+w_a                          \\
@@ -211,4 +211,4 @@ Therefore,
           For $ k=a+b $, choose $ w_i=n_{ik} $, $ w_{a+j}=0 $ for all $ j $. Hence,
           \[ \Vector{w}'\Vector{\beta}=n_{.k}\mu+\biggl(n_{.k}\beta_k+\sum_{i=1}^{a}n_{ik}\alpha_i\biggr) \]
 \end{enumerate}
-\underline{Exercise}: Verify that $ \Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{X}'\Matrix{X} $ (why would anyone do this).
+\underline{Deadly Exercise}: Verify that $ \Matrix{X}'\Matrix{X}\Matrix{F}\Matrix{X}'\Matrix{X}=\Matrix{X}'\Matrix{X} $.

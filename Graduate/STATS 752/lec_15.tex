@@ -83,16 +83,16 @@ To get a CI for $ \beta_i-\beta_j $, we need to consider
 we have $ \Vector{b}'\Vector{\beta}=\Vector{\beta}_i-\Vector{\beta}_j $. Hence,
 \begin{align*}
     \Vector{b}'\Matrix{F}\Vector{b}
-     & \begin{pmatrix}
-           0 & \cdots & 0 & 1/n_i & \cdots & -1/n_j & 0 & \cdots & 0
-       \end{pmatrix}\Vector{\beta} \\
+     & =\begin{pmatrix}
+            0 & \cdots & 0 & 1/n_i & \cdots & -1/n_j & 0 & \cdots & 0
+        \end{pmatrix}\Vector{\beta} \\
      & =\frac{1}{n_i}+\frac{1}{n_j}.
 \end{align*}
 Therefore, $ \hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}} $ is the standard
 error for the CI of $ \beta_i-\beta_j $, and a $ 100(1-\alpha)\% $ confidence
 interval for $ \beta_i-\beta_j $ is
 \[ \beta_i^0-\beta_j^0\pm t_{n-\alpha,\alpha/2}\hat{\sigma}\sqrt{\frac{1}{n_i}+\frac{1}{n_j}}. \]
-\subsection*{Two-Way Nested Classification}
+\section*{Two-way Nested Classification Part I}
 \[ Y_{ijk}=\mu+\alpha_i+\beta_{ij}+\varepsilon_{ijk}, \]
 where $ i=1,\ldots,a $ (category $ i $), $ j=1,\ldots,b_i $ (subclass $ j $),
 $ k=1,\ldots,n_{ij} $ (observation $ k $).

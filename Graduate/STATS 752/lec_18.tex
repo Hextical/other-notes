@@ -1,40 +1,37 @@
 \makeheading{Lecture 18}{\printdate{2023-03-16}}%chktex 8
-\section{Lecture 18: Two-Way Crossed Classification (No Interaction)}
-Model: $ Y_{ij}+\mu+\alpha_i+\beta_j+\varepsilon_{ij} $. We know that
-$ \sum_{i=1}^{a}\alpha=0 $ and $ \sum_{j=1}^{b}\beta_j=0 $.
+\section{Lecture 18: Two-way Crossed Classification (No Interaction) Part II}
+We know that
+$ \sum_{i=1}^{a}\alpha_i=0 $ and $ \sum_{j=1}^{b}\beta_j=0 $.
+\begin{itemize}
+    \item $ \SST=\displaystyle \sum_{i=1}^{a}\sum_{j=1}^{b}Y_{ij}^2-\frac{Y_{..}^2}{n} $.
+\end{itemize}
 \begin{align*}
-    \SST
-     & =\sum_{i=1}^{a}\sum_{j=1}^{b}Y_{ij}^2-\frac{Y_{..}^2}{n}.                                                                                                                     \\
     \text{SS}(\alpha,\beta\mid \mu)
      & =\Vector{\beta}_0'\Matrix{X}'\Vector{Y}-\frac{Y_{..}^2}{n}                                                                                                                    \\
      & =\Vector{\beta}_0'\begin{pmatrix}
                              Y_{..}              \\
                              \Vector{Y}_{a.}     \\
                              \Vector{Y}_{.(b-1)} \\
-                             \Vector{Y}_{.b}
-                         \end{pmatrix}                                                                                                                                         \\
+                             Y_{.b}
+                         \end{pmatrix}  -\frac{Y_{..}^2}{n}                                                                                                                          \\
      & =\begin{pmatrix}
-            \Matrix{O}                                                    &
+            0                                                             &
             ( \Vector{\bar{Y}}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r})' &
             ( \Matrix{C}^{-1}\Vector{r} )'                                &
-            \Matrix{O}
+            0
         \end{pmatrix}\begin{pmatrix}
                          Y_{..}              \\
                          \Vector{Y}_{a.}     \\
                          \Vector{Y}_{.(b-1)} \\
-                         \Vector{Y}_{.b}
-                     \end{pmatrix}                                                                                                \\
+                         Y_{.b}
+                     \end{pmatrix}   -\frac{Y_{..}^2}{n}                                                                                                \\
      & =(\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{a.}+(\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{.(b-1)}-\frac{Y_{..}^2}{n}                 \\
      & =\Vector{Y}_{a.}'\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-(\Matrix{M}\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{a.}+(\Matrix{C}^{-1}\Vector{r})'\Vector{Y}_{.(b-1)}-\frac{Y_{..}^2}{n} \\
      & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}+(\Matrix{C}^{-1}\Vector{r})'(\Vector{Y}_{.(b-1)}-\Matrix{M}'\Vector{Y}_{a.})-\frac{Y_{..}^2}{n}                                        \\
      & =\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}+\Vector{\beta}_{b-1}'\Vector{r}-\frac{Y_{..}^2}{n},
 \end{align*}
-where $ \Matrix{C}^{-1}\Vector{r}=\Vector{\beta}_{b-1} $.
-Therefore,
-\begin{itemize}
-    \item $\text{SS}(\alpha\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}-\frac{Y_{..}^2}{n}$.
-    \item $ \text{SS}(\beta\mid \mu,\alpha)=\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\alpha\mid \mu)=\Vector{\beta}_{b-1}'\Vector{r} $.
-\end{itemize}
+where $ \Matrix{C}^{-1}\Vector{r}=\Vector{\beta}_{b-1} $,
+and $ \Vector{r} =\Vector{Y}_{.(b-1)}-\Matrix{M}'\Vector{Y}_{a.} $.
 \subsection*{ANOVA Table I}
 \[ \begin{array}{lllll}
         \toprule
@@ -46,7 +43,9 @@ Therefore,
         \text{Total}                                 & n-1                       & \SST                                                                                        \\
         \bottomrule
     \end{array} \]
-$ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a-b) $.
+\begin{itemize}
+    \item $ \displaystyle \text{SS}(\alpha,\beta\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}+\Vector{\beta}_{b-1}'\Vector{r}-\frac{Y_{..}^2}{n} $.
+\end{itemize}
 \subsection*{ANOVA Table II}
 \[ \begin{array}{lllll}
         \toprule
@@ -59,6 +58,10 @@ $ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a
         \text{Total}                                  & n-1                       & \SST                                                                               \\
         \bottomrule
     \end{array} \]
+\begin{itemize}
+    \item $ \displaystyle \text{SS}(\alpha\mid \mu)=\sum_{i=1}^{a}\frac{Y_{i.}^2}{n_{i.}}-\frac{Y_{..}^2}{n}$.
+    \item $ \displaystyle \text{SS}(\beta\mid \mu,\alpha)=\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\alpha\mid \mu)=\Vector{\beta}_{b-1}'\Vector{r} $.
+\end{itemize}
 \subsection*{ANOVA Table III}
 \[ \begin{array}{lllll}
         \toprule
@@ -72,8 +75,8 @@ $ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a
         \bottomrule
     \end{array} \]
 \begin{itemize}
-    \item $ \text{SS}(\beta\mid \mu) =\sum_{j=1}^{b}\frac{Y_{.j}^2}{n_{.j}}-\frac{Y_{..}^2}{n} $.
-    \item $ \text{SS}(\alpha\mid \mu,\beta) =\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\beta\mid \mu) $.
+    \item $ \displaystyle \text{SS}(\beta\mid \mu) =\sum_{j=1}^{b}\frac{Y_{.j}^2}{n_{.j}}-\frac{Y_{..}^2}{n} $.
+    \item $ \displaystyle \text{SS}(\alpha\mid \mu,\beta) =\text{SS}(\alpha,\beta\mid \mu)-\text{SS}(\beta\mid \mu) $.
 \end{itemize}
 \subsection*{Estimable Functions}
 \[ \E{Y_{ij}}=\mu+\alpha_i+\beta_j =\sum_{i,j}w_{ij}(\mu+\alpha_i+\beta_j). \]
@@ -203,7 +206,7 @@ $ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a
                                   0 & 0 & 0 & 0
                               \end{bmatrix}     & \begin{bmatrix}
                                                       0 & 0
-                                                  \end{bmatrix}             \\
+                                                  \end{bmatrix} & 0          \\
             \begin{bmatrix}
                 0 \\
                 0 \\
@@ -231,7 +234,10 @@ $ F(\alpha,\beta\mid \mu)=\text{MS}(\alpha,\beta\mid \mu)/\MSE\sim F(a+b-2,n+1-a
                             \end{bmatrix} & \begin{bmatrix}
                                                 8 & 4  \\
                                                 4 & 11
-                                            \end{bmatrix} & 0                \\
+                                            \end{bmatrix} & \begin{bmatrix}
+                                                                0 \\
+                                                                0
+                                                            \end{bmatrix}   \\
             0               & \begin{bmatrix}
                                   0 & 0 & 0 & 0
                               \end{bmatrix}     & \begin{bmatrix}

@@ -1,13 +1,14 @@
 \makeheading{Lecture 17}{\printdate{2023-03-13}}%chktex 8
-\section{Lecture 17: Two-Way Cross Classification}
+\section{Lecture 17: Two-way Crossed Classification (No Interaction) Part I}
 Basic Data Structure:
 \begin{itemize}
     \item Two factors $ A $ and $ B $, where
           factor $ A $ has $ a $ levels, and factor $ B $
           has $ b $ levels.
 \end{itemize}
-\[ \begin{array}{ccccc}
+\[ \begin{array}{c|cccc}
         A\backslash B & 1      & 2      & \cdots & b      \\
+        \hline
         1             & n_{11} & n_{12} & \cdots & n_{1b} \\
         2             & n_{21} & n_{22} & \cdots & n_{2b} \\
         \vdots        & \vdots & \vdots & \ddots & \vdots \\
@@ -17,7 +18,7 @@ Let $ n_{ij} $ be the number of observations at cell $ (i,j) $. The model with
 \textbf{no interaction} is defined as
 \[ Y_{ij}=\mu+\alpha_i+\beta_j+\varepsilon_{ij}. \]
 Write
-\[ \Vector{\beta}'=\begin{pmatrix}
+\[ \Vector{\beta}=\begin{pmatrix}
         \mu & \alpha_1 & \cdots & \alpha_a & \beta_1 & \cdots & \beta_b
     \end{pmatrix}'. \]
 For this model, $ n_{ij}=0 $ or $ 1 $. If $ n_{ij}=1 $ for all cells, the model
@@ -147,20 +148,20 @@ so solving for $ \Vector{\beta}_{b-1} $ (assuming that $ \Matrix{C}^{-1} $ exist
 Furthermore,
 \[ \Vector{\alpha}=\Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r}. \]
 Hence, one solution is
-\[ \Vector{\beta}_0=\begin{pmatrix}
-        \Matrix{O}                                                \\
-        \Vector{\bar{Y}}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} \\
-        \Matrix{C}^{-1}\Vector{r}                                 \\
-        \Matrix{O}
-    \end{pmatrix}, \]
+\[ \Vector{\beta}_0=\begin{pNiceMatrix}[last-col]
+        0                                                         & \mu                  \\
+        \Vector{\bar{Y}}_{a.}-\Matrix{M}\Matrix{C}^{-1}\Vector{r} & \Vector{\alpha}      \\
+        \Matrix{C}^{-1}\Vector{r}                                 & \Vector{\beta}_{b-1} \\
+        0                                                         & \beta_b
+    \end{pNiceMatrix}, \]
 where $ \Matrix{D}_{a.}^{-1}\Vector{Y}_{a.}=\Vector{\bar{Y}}_{a.} $.
 
 A $ g $-inverse of $ \Matrix{X}'\Matrix{X} $ is
 \[ \Matrix{F}=\begin{pmatrix}
-        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
+        0          & \Matrix{O}                                                & \Matrix{O}                 & 0          \\
         \Matrix{O} & \Matrix{D}_{a.}^{-1}+\Matrix{M}\Matrix{C}^{-1}\Matrix{M}' & -\Matrix{M}\Matrix{C}^{-1} & \Matrix{O} \\
         \Matrix{O} & -\Matrix{C}^{-1}\Matrix{M}'                               & \Matrix{C}^{-1}            & \Matrix{O} \\
-        \Matrix{O} & \Matrix{O}                                                & \Matrix{O}                 & \Matrix{O} \\
+        0          & \Matrix{O}                                                & \Matrix{O}                 & 0          \\
     \end{pmatrix}. \]
 To verify this, we must check the following (exercise).
 \begin{align*}
