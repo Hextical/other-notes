@@ -1,0 +1,172 @@
+\makeheading{Lecture 22}{\printdate{2023-03-30}}%chktex 8
+\section{Lecture 22: Factorial Design}
+\begin{itemize}
+    \item Level of Factor I\@: $ a $;
+    \item Level of Factor II\@: $ b $;
+    \item Replications: $ n $ (i.e., balanced);
+    \item Total number of observations: $ nab $.
+\end{itemize}
+\begin{Example}{$ 2^2 $}{}
+    Consider the effect on the conversion in a chemical process
+    of the \emph{concentration of the reactor} and the \emph{amount of
+        catalyst}. Each factor has two levels:
+    low ($ - $) and high ($ + $).
+    \[ \begin{array}{c|cc}
+            \text{catalyst}\backslash \text{concentration} & -  & +  \\
+            \hline
+            -                                              & -- & -+ \\
+            +                                              & +- & ++
+        \end{array} \]
+    Replication:
+    \[ \begin{array}{c|ccc|c}
+               & \mathbf{1} & \mathbf{2} & \mathbf{3} & \text{Total} \\
+            \hline
+            -- & 28         & 25         & 27         & 80           \\
+            -+ & 36         & 32         & 32         & 100          \\
+            +- & 18         & 19         & 23         & 60           \\
+            ++ & 31         & 30         & 29         & 90
+        \end{array} \]
+    Let $ (1)=--=80 $, $ a=++=60 $, $ b=+-=100 $, and $ ab=++=90 $.
+    \begin{align*}
+        A  & =\frac{ab-b+a-(1)}{2n}\to\text{main effect of the catalyst}.           \\
+        B  & =\frac{ab-a+b-(1)}{2n}\to\text{main effect of the concentration}.      \\
+        AB & =\frac{ab-b-(a-(1))}{2n}=\frac{ab-a-(b-(1))}{2n}\to\text{interaction}.
+    \end{align*}
+    \begin{align*}
+        \text{Contrasts}_{A}  & =(ab+a)-(b+(1)). \\
+        \text{Contrasts}_B    & =(ab+b)-((1)+a). \\
+        \text{Contrasts}_{AB} & =(ab-a)-(b-(1)).
+    \end{align*}
+    $ Y_{ijk} $, where $ i=1,\ldots,a $; $ j=1,\ldots,b $; $ k=1,\ldots,n $.
+    We can define $ Y_{...} $, $ Y_{i..} $, and $ Y_{.j.} $ as before.
+    \begin{align*}
+        Y_{ijk}-\bar{Y}_{...}
+         & =(\bar{Y}_{i..}-\bar{Y}_{...})+(\bar{Y}_{.j.}-\bar{Y}_{...})
+        +(\bar{Y}_{ij.}-\bar{Y}_{i..}-\bar{Y}_{.j.}+\bar{Y}_{...})+(Y_{ijk}-\bar{Y}_{ij.}).
+    \end{align*}
+    Squaring and summing yields $ \SST $, where we note that the cross-terms will be zero. Hence,
+    \begin{itemize}
+        \item $ \displaystyle \SST=\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n}Y_{ijk}^2-\frac{Y_{...}^2}{nab} $.
+        \item $ \displaystyle \text{SS}_A=\frac{1}{bn}\sum_{i=1}^{a}Y_{i..}^2-\frac{Y_{...}^2}{nab} $.
+        \item $ \displaystyle \text{SS}_B=\frac{1}{an}\sum_{j=1}^{b}Y_{.j.}^2-\frac{Y_{...}^2}{nab} $.
+        \item $ \displaystyle \text{SS}_{AB}=\frac{1}{n}\sum_{i=1}^{a}\sum_{j=1}^{b}Y_{ij.}^2-\frac{Y_{...}^2}{nab} $.
+    \end{itemize}
+    \[ \begin{array}{llll}
+            \toprule
+            \text{Source of Variation} & \text{Degrees of Freedom} & \text{Sum of Squares} & \text{Mean Square} \\
+            \midrule
+            \text{Factor A}            & a-b                       & \text{SS}_A           & \text{MS}_A        \\
+            \text{Factor B}            & b-1                       & \text{SS}_B           & \text{MS}_B        \\
+            \text{Factor AB}           & (a-1)(b-1)                & \text{SS}_{AB}        & \text{MS}_{AB}     \\
+            \text{Error}               & ab(n-1)                   & \SSE                  & \MSE               \\
+            \midrule
+            \text{Total}               & n-1                       & \SST                                       \\
+            \bottomrule
+        \end{array} \]
+    In our case, $ a=b=2 $.
+    \[ \text{SS}_A=\frac{1}{4n}\biggl[2 \sum_{i=1}^{n}Y_{i..}^2-Y_{...}^2\biggr]
+        =\frac{1}{4n}(Y_{1..}-Y_{2..})^2. \]
+    We can also write $ Y=\beta_0+\beta_1 x_1+\beta_2 x_2+\beta_3 x_1 x_2+\varepsilon $,
+    where $ x_1=\pm 1 $, $ x_2=\pm 1 $, and $ x_1 x_2=\pm 1 $.
+\end{Example}
+\section*{Generalized Linear Models}
+In our usual case, $ \Vector{Y}=\Matrix{X}\Vector{\beta} $
+and we assume $ \E{\Vector{Y}}=\Matrix{X}\Vector{\beta} $. However,
+suppose we have $ \Vector{\mu}=\E{\Vector{Y}}=H(\Matrix{X}\Vector{\beta}) $,
+where $ g=H^{-1} $ and $ g(\Vector{\mu})=\Matrix{X}\Vector{\beta} $.
+$ g $ must be monotone and differentiable.
+\subsection*{Exponential Family}
+Let $ Y $ be a random variable with pmf or pdf
+$ f(y,\theta) $. $ Y $ is in the exponential family if
+\[ f(y,\theta)=\exp[\big]{a(y)b(\theta)+c(\theta)+d(y)}. \]
+The distribution of $ Y $ is in canonical form
+if $ a(y)=y $. Define $ \ell(y,\theta)=\log{f(y,\theta)} $.
+$ \odv{\ell}{\theta}=\frac{f'(y,\theta)}{f(y,\theta)}=U $
+is called the \textbf{score function}. $ \Var{U} $
+is called Fisher information.
+
+\begin{Remark}{(Proposition 22.1)}{}
+    Assume that $ b(\:\cdot\:) $ and $ c(\:\cdot\:) $
+    are second order differentiable. We have
+    \[ \E{a(Y)}=-\frac{c'(\theta)}{b'(\theta)},
+        \qquad \Var{a(Y)}=\frac{b''(\theta)c'(\theta)-c''(\theta)b'(\theta)}{[b'(\theta)]^3}. \]
+    \tcblower{}
+    \textbf{Proof}: Assume that $ Y $ is continuous. We know that
+    \[ \int f(y,\theta)\odif{y}=1\implies \int \odv*{f(y,\theta)}{y}\odif{y}=0. \]
+    So,
+    \[ \int f(y,\theta)[a(y)b'(\theta)+c'(\theta)]\odif{y}=0
+        \implies c'(\theta)+b'(\theta)\underbrace{\int a(y)f(y,\theta)\odif{y}}_{\E{a(Y)}}=0. \]
+    Rearranging yields the expectation. For the variance
+    \begin{align*}
+        0
+         & =\int \odv*[order=2]{f(y,\theta)}{\theta}\odif{y}                                 \\
+         & =\int \odv*{\biggl(f(y,\theta)[a(y)b'(\theta)+c'(\theta)]\biggr)}{\theta}\odif{y} \\
+         & =\int f(y,\theta)[a(y)b'(\theta)+c'(\theta)]^2\odif{y}
+        +\int f(y,\theta)[a(y)b''(\theta)+c''(\theta)]\odif{y}                               \\
+         & =[b'(\theta)]^2\E{a^2(Y)}+(2b'(\theta)c'(\theta)+b''(\theta))\E{a(Y)}
+        +[c'(\theta)]^2+c''(\theta).
+    \end{align*}
+    Use the formula $ \E{a^2(Y)}=\Var{a(Y)}+\E{a(Y)}^2 $, rearrange
+    and do a bunch of algebra (the usual) to get the variance.
+\end{Remark}
+\begin{Remark}{(Proposition 22.2)}{}
+    \begin{itemize}
+        \item $ \displaystyle \E{U}=0 $;
+        \item $ \displaystyle \Var{U}=\E*{\biggl(\odv{\ell}{\theta}\biggr)^2}=-\E*{\odv[order=2]{\ell}{\theta}}=-\E{U'} $.
+    \end{itemize}
+    \tcblower{}
+    \textbf{Proof}:
+    \[ U=\odv{\ell}{\theta}=\frac{f'}{f}\implies \E{U}=\int \frac{f'}{f}f\odif{y}=
+        \int f'\odif{y}=0. \]
+    \begin{align*}
+        \Var{U}
+         & =\E{U^2}                                                       \\
+         & =\E*{\biggl(\odv{\ell}{\theta}\biggr)^2}                       \\
+         & =\int \biggl(\frac{f'}{f}\biggr)^2 f\odif{y}                   \\
+         & =\int \frac{(f')^2}{f}\odif{y}-\underbrace{\int f''\odif{y}}_0 \\
+         & =\int \frac{(f')^2-f''f}{f}\odif{y}                            \\
+         & =-\int \biggl(\frac{f'}{f}\biggr)'\odif{y}                     \\
+         & =-\int \odv[order=2]{\ell}{\theta}\odif{y}.
+    \end{align*}
+\end{Remark}
+\begin{Remark}{}{}
+    For exponential family,
+    \begin{align*}
+        \Var{U}
+         & =-\E[\big]{a(Y)b''(\theta)+c''(\theta)}                          \\
+         & =-\E{a(Y)}b''(\theta)-c''(\theta)                                \\
+         & =\frac{c'}{b'}b''-c''                                            \\
+         & =\frac{b''(\theta)c'(\theta)-c''(\theta)b'(\theta)}{b'(\theta)}.
+    \end{align*}
+    Therefore, $ \Var{U}=[b'(\theta)]^2\Var{a(X)} $.
+\end{Remark}
+\begin{Definition}{Generalized Linear Model}{}
+    Let $ Y_1,\ldots,Y_N $ be independent with
+    the same type of distribution.
+    \begin{enumerate}[(1)]
+        \item The distribution of each $ Y_i $ is in the exponential family
+              with canonical form.
+        \item $ g $ is a monotone differentiable function such that
+              \[ g(\mu_i)=\sum_{k=1}^{r}X_{ik}\beta_k, \]
+              and $ \mu_i=\E{Y_i} $ for $ i=1,\ldots,r $, where
+              $ g $ is called a \textbf{link function}. We must have
+              $ r\ll n $.
+    \end{enumerate}
+    Goal: Estimation of $ r $, $ \beta_1,\ldots,\beta_r $.
+    We define the \textbf{explanatory matrix} as
+    \[ \begin{pmatrix}
+            X_{11} & \cdots & X_{1r} \\
+            X_{21} & \cdots & X_{2r} \\
+            \vdots & \ddots & \vdots \\
+            X_{n1} & \cdots & X_{nr}
+        \end{pmatrix}. \]
+\end{Definition}
+\begin{Example}{}{}
+    Suppose $ Y \sim \POI{\lambda} $. $ Y=\E{Y}+\text{noise} $,
+    hence $ \E{Y}=\lambda $, where $ \text{noise}\in\mathbb{N} $, but this
+    does not make sense.
+    The reason is because we cannot write $ \lambda=\beta_1 x_1+\beta_2 x_2+\cdots+\beta_r x_r $
+    since $ \lambda>0 $. Hence, we instead consider
+    \[ \log{\lambda}=\beta_1x_1+\cdots+\beta_r x_r\implies
+        \lambda=\exp{\beta_1 x_1+\cdots+\beta_r x_r}. \]
+\end{Example}
