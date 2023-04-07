@@ -96,11 +96,14 @@ $ k=1,\ldots,n_{ij} $ where $ n_{ij}\ge 1 $.
         \vdots        & \vdots & \vdots & \ddots & \vdots \\
         a             & n_{a1} & n_{a2} & \cdots & n_{ab}
     \end{array} \]
-Let $ s= $ total number of non-empty cells.
 \begin{align*}
-    Y_{ij.} & =\sum_{k=1}^{n_{ij}}Y_{ijk},\; \bar{Y}_{ij.}=\frac{1}{n_{ij.}}Y_{ij.}. \\
-    Y_{i..} & =\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk},                             \\
-    Y_{.j.} & =\sum_{i=1}^{a}\sum_{k=1}^{n_{ij}}Y_{ijk}.
+    Y_{ij.} & =\sum_{k=1}^{n_{ij}}Y_{ijk}\implies \bar{Y}_{ij.}=\frac{1}{n_{ij}}Y_{ij.}. \\
+    Y_{i..} & =\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk},                                 \\
+    Y_{.j.} & =\sum_{i=1}^{a}\sum_{k=1}^{n_{ij}}Y_{ijk},                                 \\
+    n_{i.}  & =\sum_{j=1}^{b}n_{ij},                                                     \\
+    n_{.j}  & =\sum_{i=1}^{a}n_{ij},                                                     \\
+    n_{..}  & =\sum_{i=1}^{a}\sum_{j=1}^{b}n_{ij},                                       \\
+    s       & =\text{total number of non-empty cells}.
 \end{align*}
 The design matrix $ \Matrix{X} $ is $ n_{..}\times m $,
 where $ m=1+a+b+s $ and $ \rank{\Matrix{X}'\Matrix{X}}=s $.
@@ -119,7 +122,7 @@ We can test $ \HN $: $ \Matrix{B}'\Vector{\beta}=\Vector{m} $
 versus $ \Matrix{B}'\Vector{\beta}\ne \Vector{m} $.
 \begin{itemize}
     \item $ \displaystyle \SST =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\frac{Y_{...}^2}{n_{..}} $.
-    \item $ \displaystyle \SSE =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij}^2}{n_{ij}} $.
+    \item $ \displaystyle \SSE =\sum_{i=1}^{a}\sum_{j=1}^{b}\sum_{k=1}^{n_{ij}}Y_{ijk}^2-\sum_{i=1}^{a}\sum_{j=1}^{b}\frac{Y_{ij.}^2}{n_{ij}} $.
 \end{itemize}
 \subsection*{ANOVA Table I}
 \[ \begin{array}{lllll}
