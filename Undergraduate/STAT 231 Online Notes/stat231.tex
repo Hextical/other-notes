@@ -1,4 +1,4 @@
-\documentclass[oneside]{book}\usepackage[]{graphicx}\usepackage[]{color}
+\documentclass[oneside]{book}\usepackage[]{graphicx}\usepackage[svgnames]{xcolor}
 % maxwidth is the original width if it is less than linewidth
 % otherwise use linewidth (to make sure the graphics do not exceed the margin)
 \makeatletter
@@ -13,10 +13,10 @@
 
 \definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
 \newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
-\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
 \newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
 \newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
-\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
 \newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
 \newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
 \newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
@@ -315,54 +315,98 @@ Recall that $ -1\le r\le 1 $.
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
-\hlstd{dat} \hlkwb{<-} \hlkwd{read.table}\hlstd{(}\hlstr{"data-6.1"}\hlstd{,}\hlkwc{header}\hlstd{=T)}
-\hlstd{x} \hlkwb{<-} \hlstd{dat}\hlopt{$}\hlstd{s230}
-\hlstd{y} \hlkwb{<-} \hlstd{dat}\hlopt{$}\hlstd{s231}
-\hlstd{xbar} \hlkwb{<-} \hlkwd{mean}\hlstd{(x)}
-\hlstd{ybar} \hlkwb{<-} \hlkwd{mean}\hlstd{(y)}
-\hlstd{n} \hlkwb{<-} \hlkwd{length}\hlstd{(x)}
-\hlstd{Sxx} \hlkwb{<-} \hlkwd{sum}\hlstd{(x}\hlopt{^}\hlnum{2}\hlstd{)}\hlopt{-}\hlstd{n}\hlopt{*}\hlstd{(}\hlkwd{mean}\hlstd{(x))}\hlopt{^}\hlnum{2}
-\hlstd{Syy} \hlkwb{<-} \hlkwd{sum}\hlstd{(y}\hlopt{^}\hlnum{2}\hlstd{)}\hlopt{-}\hlstd{n}\hlopt{*}\hlstd{(}\hlkwd{mean}\hlstd{(y))}\hlopt{^}\hlnum{2}
-\hlstd{Sxy} \hlkwb{<-} \hlkwd{sum}\hlstd{(x}\hlopt{*}\hlstd{y)}\hlopt{-}\hlstd{n}\hlopt{*}\hlkwd{mean}\hlstd{(x)}\hlopt{*}\hlkwd{mean}\hlstd{(y)}
-\hlstd{Sxx}
+\hldef{dat} \hlkwb{<-} \hlkwd{read.table}\hldef{(}\hlsng{"data-6.1"}\hldef{,}\hlkwc{header}\hldef{=T)}
 \end{alltt}
-\begin{verbatim}
-## [1] 5135.867
-\end{verbatim}
-\begin{alltt}
-\hlstd{Syy}
+
+
+{\ttfamily\noindent\color{warningcolor}{\#\# Warning in file(file, "{}rt"{}): cannot open file 'data-6.1': No such file or directory}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in file(file, "{}rt"{}): cannot open the connection}}\begin{alltt}
+\hldef{x} \hlkwb{<-} \hldef{dat}\hlopt{$}\hldef{s230}
 \end{alltt}
-\begin{verbatim}
-## [1] 7585.367
-\end{verbatim}
-\begin{alltt}
-\hlstd{Sxy}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'dat' not found}}\begin{alltt}
+\hldef{y} \hlkwb{<-} \hldef{dat}\hlopt{$}\hldef{s231}
 \end{alltt}
-\begin{verbatim}
-## [1] 5106.867
-\end{verbatim}
-\begin{alltt}
-\hlstd{r} \hlkwb{<-} \hlstd{Sxy}\hlopt{/}\hlkwd{sqrt}\hlstd{(Sxx}\hlopt{*}\hlstd{Syy)}
-\hlstd{r}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'dat' not found}}\begin{alltt}
+\hldef{xbar} \hlkwb{<-} \hlkwd{mean}\hldef{(x)}
 \end{alltt}
-\begin{verbatim}
-## [1] 0.8181998
-\end{verbatim}
-\end{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}\begin{alltt}
+\hldef{ybar} \hlkwb{<-} \hlkwd{mean}\hldef{(y)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'y' not found}}\begin{alltt}
+\hldef{n} \hlkwb{<-} \hlkwd{length}\hldef{(x)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}\begin{alltt}
+\hldef{Sxx} \hlkwb{<-} \hlkwd{sum}\hldef{(x}\hlopt{^}\hlnum{2}\hldef{)}\hlopt{-}\hldef{n}\hlopt{*}\hldef{(}\hlkwd{mean}\hldef{(x))}\hlopt{^}\hlnum{2}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}\begin{alltt}
+\hldef{Syy} \hlkwb{<-} \hlkwd{sum}\hldef{(y}\hlopt{^}\hlnum{2}\hldef{)}\hlopt{-}\hldef{n}\hlopt{*}\hldef{(}\hlkwd{mean}\hldef{(y))}\hlopt{^}\hlnum{2}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'y' not found}}\begin{alltt}
+\hldef{Sxy} \hlkwb{<-} \hlkwd{sum}\hldef{(x}\hlopt{*}\hldef{y)}\hlopt{-}\hldef{n}\hlopt{*}\hlkwd{mean}\hldef{(x)}\hlopt{*}\hlkwd{mean}\hldef{(y)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}\begin{alltt}
+\hldef{Sxx}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Sxx' not found}}\begin{alltt}
+\hldef{Syy}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Syy' not found}}\begin{alltt}
+\hldef{Sxy}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Sxy' not found}}\begin{alltt}
+\hldef{r} \hlkwb{<-} \hldef{Sxy}\hlopt{/}\hlkwd{sqrt}\hldef{(Sxx}\hlopt{*}\hldef{Syy)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'Sxy' not found}}\begin{alltt}
+\hldef{r}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'r' not found}}\end{kframe}
 \end{knitrout}
     %\end{noindent}
     %\begin{noindent}
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-3-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}\end{kframe}
 \end{knitrout}
     %\end{noindent}
 \end{Example}
 \subsection{Least Squares Estimates}
 %\begin{noindent}
 \begin{knitrout}
-\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
-\includegraphics[width=\maxwidth]{figure/unnamed-chunk-4-1} 
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): object 'x' not found}}
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(predvars, data, env): object 'y' not found}}\end{kframe}
 \end{knitrout}
 %\end{noindent}
 To determine the fitted line $ y=\alpha+\beta x $, which minimizes the sum of the squares

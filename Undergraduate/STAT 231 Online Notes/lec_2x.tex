@@ -1,3 +1,294 @@
+\documentclass[oneside]{book}
+\usepackage[dvipsnames,table,xcdraw]{xcolor}
+\usepackage{fontspec}
+\usepackage{anyfontsize}
+\usepackage{microtype}
+
+% -----------------------------------------------------------------------------
+
+% CS 246
+\usepackage{float}
+\usepackage{listings}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\Vector}[1]{\boldsymbol{#1}}
+
+% -----------------------------------------------------------------------------
+
+% CO 250
+\usepackage{tkz-berge}
+
+% -----------------------------------------------------------------------------
+
+% Core Packages
+\usepackage{xfrac}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage[shortlabels]{enumitem}
+\usepackage[parfill]{parskip}
+\usepackage[theorems,breakable]{tcolorbox}
+\usepackage{graphicx}
+\usepackage[ruled,linesnumbered,vlined,dotocloa]{algorithm2e}
+\usepackage[delims=\lbrack\rbrack]{spalign}
+\usepackage{mathtools}
+\usepackage{cleveref}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{framed}
+
+
+% -----------------------------------------------------------------------------
+
+% Better Tables
+\usepackage{multicol}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{Z}{>{\centering\arraybackslash\columncolor{light-gray}}X}
+\newcolumntype{B}{>{\centering\arraybackslash\bfseries}X}
+\usepackage{multirow}
+\usepackage[skip=1ex]{caption}
+
+% -----------------------------------------------------------------------------
+
+% Intervals
+\usepackage{interval}
+\intervalconfig{
+    soft open fences,
+    separator symbol={,}
+}
+
+% -----------------------------------------------------------------------------
+
+\graphicspath{ {./figures/} }
+
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\slack}{slack}
+\DeclareMathOperator{\row}{row}
+\DeclareMathOperator{\cone}{cone}
+\DeclareMathOperator{\nullspace}{Null}
+\DeclareMathOperator{\ch}{char}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\lcm}{lcm}
+
+\usepackage{etoolbox}
+
+% Functions
+\providecommand\given{} % just to make sure it exists
+\DeclarePairedDelimiterXPP{\E}[1]{\operatorname{\mathbb{E}}}[]{}{
+    \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}
+    #1}
+\DeclarePairedDelimiterXPP{\Var}[1]{\operatorname{\mathbb{V}}}(){}{
+    \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}
+    #1}
+\DeclarePairedDelimiterXPP\Prob[1]{\operatorname{\mathbb{P}}}(){}{
+    \renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}
+    \ifblank{#1}{\:\cdot\:}
+    #1}
+\DeclarePairedDelimiterXPP\Ind[1]{\mathbb{I}}\{\}{}{
+\renewcommand\given{\nonscript\:\delimsize\vert\nonscript\:\mathopen{}}
+\ifblank{#1}{\:\cdot\:}
+#1}
+\newcommand{\indep}{\perp\!\!\!\perp}
+\DeclarePairedDelimiterXPP{\Corr}[1]{\text{Corr}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Cov}[1]{\text{Cov}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Sd}[1]{\text{Sd}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Se}[1]{\text{Se}}(){}{#1}
+\let\SS=\relax
+\DeclarePairedDelimiterXPP{\SS}[1]{\text{SS}}(){}{\text{#1}}
+\DeclarePairedDelimiterXPP{\MS}[1]{\text{MS}}(){}{\text{#1}}
+\DeclarePairedDelimiterXPP{\Span}[1]{\text{Span}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Spanc}[1]{\overline{\text{Span}}}(){}{#1}
+\DeclareMathOperator{\VIF}{VIF}
+\DeclarePairedDelimiterXPP{\expon}[1]{\text{exp}}\{\}{}{#1}
+
+% Distributions
+\DeclarePairedDelimiterXPP{\uniform}[1]{\text{Uniform}}(){}{#1}
+\DeclarePairedDelimiterXPP{\hyp}[1]{\text{Hypergeometric}}(){}{#1}
+\DeclarePairedDelimiterXPP{\bern}[1]{\text{Bernoulli}}(){}{#1}
+\DeclarePairedDelimiterXPP{\bin}[1]{\text{Binomial}}(){}{#1}
+\DeclarePairedDelimiterXPP{\nb}[1]{\text{Negative Binomial}}(){}{#1}
+\DeclarePairedDelimiterXPP{\geo}[1]{\text{Geometric}}(){}{#1}
+\DeclarePairedDelimiterXPP{\poi}[1]{\text{Poisson}}(){}{#1}
+\DeclarePairedDelimiterXPP{\mult}[1]{\text{Multinomial}}(){}{#1}
+\DeclarePairedDelimiterXPP{\gam}[1]{\text{Gamma}}(){}{#1}
+\DeclarePairedDelimiterXPP{\weib}[1]{\text{Weibull}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Mvn}[1]{\text{MVN}}(){}{#1}
+\DeclarePairedDelimiterXPP{\Bvn}[1]{\text{BVN}}(){}{#1}
+\DeclarePairedDelimiterXPP{\exponential}[1]{\text{Exponential}}(){}{#1}
+
+\DeclarePairedDelimiterXPP{\tr}[1]{\text{trace}}(){}{#1}
+
+\DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{
+    \ifblank{#1}{\:\cdot\:,}#1,
+    \ifblank{#2}{\:\cdot\:}#2
+}
+
+\DeclarePairedDelimiterXPP{\MA}[1]{\text{MA}}(){}{#1}
+\DeclarePairedDelimiterXPP{\AR}[1]{\text{AR}}(){}{#1}
+\DeclarePairedDelimiterXPP{\ARMA}[1]{\text{ARMA}}(){}{#1}
+\DeclarePairedDelimiterXPP{\AIC}[1]{\text{AIC}}(){}{#1}
+\DeclarePairedDelimiterXPP{\BIC}[1]{\text{BIC}}(){}{#1}
+\DeclarePairedDelimiterXPP{\ARIMA}[1]{\text{ARIMA}}(){}{#1}
+\DeclarePairedDelimiterXPP{\GARCH}[1]{\text{GARCH}}(){}{#1}
+\DeclarePairedDelimiterXPP{\NNAR}[1]{\text{NNAR}}(){}{#1}
+\DeclarePairedDelimiterXPP{\NNSAR}[2]{\text{NNSAR}}(){_{#2}}{#1}
+\DeclarePairedDelimiterXPP{\ARCH}[1]{\text{ARCH}}(){}{#1}
+
+\DeclareMathOperator{\FWER}{FWER}
+\DeclareMathOperator{\FDR}{FDR}
+
+% -----------------------------------------------------------------------------
+
+% Table of Contents
+\hypersetup{colorlinks, linkcolor=[rgb]{0,0.5,1}}
+
+% -----------------------------------------------------------------------------
+
+% Heading Dates
+\newcommand{\makeheading}[1]
+{
+    \begin{figure}[H]
+        \centering
+        \rule{\columnwidth}{1pt}\\
+        {\large \scshape{#1}}\\[-0.6\baselineskip]
+        \rule{\columnwidth}{1pt}
+        \vspace*{-20pt}
+    \end{figure}
+}
+
+% -----------------------------------------------------------------------------
+
+% Definitions
+\definecolor{myyellow}{RGB}{255,255,168}
+% Theorems
+\definecolor{mypurple}{RGB}{216,216,255}
+% Algorithms
+\definecolor{mygray}{RGB}{232,232,232}
+% Examples
+\definecolor{mygreen}{RGB}{216,255,216}
+% Exercises
+\definecolor{myred}{RGB}{255,216,216}
+% Remarks
+\definecolor{mycyan}{RGB}{204,229,229}
+
+\tcbset{
+    common/.style={
+            fonttitle=\bfseries,
+            coltitle=black,
+            boxrule=0pt,
+            breakable
+        },
+    theorem/.style={
+            common,
+            colback=mypurple,
+            colframe=mypurple!95!black,
+            fontupper=\itshape{}
+        },
+}
+
+
+\newtcbtheorem[number within=section, crefname={definition}{definitions}]
+{Definition}{DEFINITION}{
+    common,
+    colback=myyellow,
+    colframe=myyellow!95!black
+}{def}
+
+\newtcbtheorem[use counter from=Definition, crefname={example}{examples}]
+{Example}{EXAMPLE}{
+    common,
+    colback=mygreen,
+    colframe=mygreen!95!black,
+}{ex}
+
+\newtcbtheorem[use counter from=Definition, crefname={exercise}{exercises}]
+{Exercise}{EXERCISE}{
+    common,
+    colback=myred,
+    colframe=myred!95!black,
+}{exercise}
+
+\newtcbtheorem[use counter from=Definition, crefname={remark}{remarks}]
+{Remark}{REMARK}{
+    common,
+    colback=mycyan,
+    colframe=mycyan!95!black,
+}{remark}
+
+\newtcbtheorem[use counter from=Definition, crefname={statistical Test}{statistical Tests}]
+{Statistical_Test}{STATISTICAL TEST}{
+    common,
+    colback=Magenta!25!white,
+    colframe=Magenta!50!white,
+}{stest}
+
+\newtcbtheorem[use counter from=Definition, crefname={theorem}{theorems}]
+{Theorem}{THEOREM}{
+    theorem
+}{thm}
+
+\newtcbtheorem[use counter from=Definition, crefname={proposition}{propositions}]
+{Proposition}{PROPOSITION}{
+    theorem
+}{prop}
+
+\newtcbtheorem[use counter from=Definition, crefname={corollary}{corollaries}]
+{Corollary}{COROLLARY}{
+    theorem
+}{cor}
+
+\newtcbtheorem[use counter from=Definition, crefname={lemma}{lemmas}]
+{Lemma}{LEMMA}{
+    theorem
+}{lem}
+
+\newtcbtheorem[no counter]
+{Proof}{Proof of}{
+    common,
+    colframe=black!10,
+    separator sign={}
+}{pf}
+
+\DeclarePairedDelimiterX\norm[1]\lVert\rVert{\ifblank{#1}{\:\cdot\:}{#1}}
+\DeclarePairedDelimiterX\abs[1]\lvert\rvert{\ifblank{#1}{\:\cdot\:}{#1}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\arginf}{arg\,inf}
+\DeclareMathOperator*{\argsup}{arg\,sup}
+
+% just to make sure it exists
+\providecommand\onto{}
+% can be useful to refer to this outside \Set
+\newcommand\SetSymbol[1][]{%
+    \nonscript\:#1\vert{}
+    \allowbreak\nonscript\:
+    \mathopen{}}
+\DeclarePairedDelimiterXPP\Proj[1]{\text{Proj}}(){}{%
+    \renewcommand\onto{\SetSymbol[\delimsize]}
+    #1
+}
+
+\AtBeginDocument{%
+    \let\mathbb\relax
+    \DeclareMathAlphabet{\mathbb}{U}{msb}{m}{n}%
+}
+
+\newenvironment{tightcenter}{%
+    \setlength\topsep{0pt}%
+    \setlength\parskip{0pt}%
+    \par\centering}{\par\noindent\ignorespacesafterend}
+
+\usepackage{nicematrix}
+
+\begin{document}
+
 \section{Gaussian Response Models}
 \subsection{Intro}
 
@@ -73,7 +364,7 @@ It is defined as
 \[S_{x x}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}=\sum_{i=1}^{n} x_{i}^{2}-n(\bar{x})^{2}\]
 \[S_{x y}=\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)=\sum_{i=1}^{n} x_{i} y_{i}-n \bar{x} \bar{y}\]
 \[S_{y y}=\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}=\sum_{i=1}^{n} y_{i}^{2}-n(\bar{y})^{2}\]
-Recall that $ -1\leqslant r\leqslant 1 $
+Recall that $ -1\leq r\leq 1 $
 
 \begin{Example}{Sample Correlation for STAT 230/231 Final Grades}{}
     Let $ x $ be the STAT 230 final grade, and $ y $ be the STAT 231 final grade.
@@ -296,7 +587,7 @@ Thus, by a theorem learned in STAT 230, $ \tilde{\beta} $ has a normal distribut
 
 We only need to find $ \E{\tilde{\beta}} $ and $ \Var{\tilde{\beta}} $.
 \[\begin{aligned}
-        \symbf{\mathrm{E}}\Bigl[\tilde{\beta}\Bigr]
+        \E{\tilde{\beta}}
          & =\sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)}{S_{x x}} \E{Y_{i}}                                                                                                                                                                                \\
          & =\sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)}{S_{x x}}\left(\alpha+\beta x_{i}\right) & \quad & \text{since} \E{Y_{i}}=\alpha+\beta x_{i}                                                                                                       \\
          & =\beta \sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)}{S_{x x}} x_{i}                    &       & \text{since} \sum_{i=1}^{n} \frac{\left(x_{i}-\bar{x}\right)}{S_{x x}} \alpha=\frac{\alpha}{S_{x x}} \sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)=0 \\
@@ -364,7 +655,7 @@ and tests of hypotheses for $ \beta $.
 
 A $ 100p\% $ confidence interval for $ \beta $ is given by
 \[\hat{\beta} \pm a \frac{s_{e}}{\sqrt{S_{x x}}}\]
-where $ P(T\leqslant a)=\frac{(1+p)}{2} $ and $ T\sim t(n-2) $.
+where $ P(T\leq a)=\frac{(1+p)}{2} $ and $ T\sim t(n-2) $.
 
 For testing $ H_0: \beta=\beta_0 $,
 \[p \text{-value }=2\left[1-P\left(T \leq \frac{\left|\hat{\beta}-\beta_{0}\right|}{s_{e} / \sqrt{S_{x x}}}\right)\right], \text{where} T \sim t(n-2)\]
@@ -447,8 +738,8 @@ for a unit change of $ 1 $ mark in the STAT 230 final grade in the study populat
              & =2[1-P(T \leq 0.0428)]
         \end{aligned}
     \]
-    Since $ P(T\leqslant 0.2558)=0.6 $,
-    \[ p\text{-value}\geqslant 2(1-0.6)=0.8 \]
+    Since $ P(T\leq 0.2558)=0.6 $,
+    \[ p\text{-value}\geq 2(1-0.6)=0.8 \]
 \end{Example}
 
 
@@ -540,12 +831,12 @@ and to test hypotheses about $ \mu(x) $.
 A $ 100p\% $ confidence interval for $ \mu(x)=\alpha+\beta x $ is given by
 \[ \hat{\mu}(x)\pm a s_e\sqrt{\frac{1}{n}+\frac{\left( x-\bar{x} \right)^2}{S_{xx}}}=
     \hat{\alpha}+\hat{\beta}x\pm as_e \sqrt{\frac{1}{n}+\frac{\left( x-\bar{x} \right)^2}{S_{xx}}}\]
-where $ P(T\leqslant a)=\frac{1+p}{2} $ and $ T \sim t(n-2) $.
+where $ P(T\leq a)=\frac{1+p}{2} $ and $ T \sim t(n-2) $.
 
 
 \begin{Example}{$ 95\% $ Confidence Interval for the Mean STAT 231 Final Grade}{}
     Since
-    \[ P(T\leqslant 2.0484)=\frac{1+0.95}{2}=0.975\quad\text{where}\quad T\sim t(28) \]
+    \[ P(T\leq 2.0484)=\frac{1+0.95}{2}=0.975\quad\text{where}\quad T\sim t(28) \]
     a $ 95\% $ confidence interval for the mean STAT 231 final grade for students who obtained
     a final grade of $ 75 $ in STAT 230 is
     \begin{align*}
@@ -577,7 +868,7 @@ can be used to construct intervals for $ \sigma^2 $.
 A $ 100p\% $ confidence interval for $ \sigma^2 $ is given by
 \[ \left[ \frac{(n-2)s_e^2}{b} , \frac{(n-2)s_e^2}{a}  \right] \]
 where
-\[ P(U\leqslant a)=\frac{1-p}{2}=P(U>b),\quad\text{where}\quad U\sim \chi^2(n-2) \]
+\[ P(U\leq a)=\frac{1-p}{2}=P(U>b),\quad\text{where}\quad U\sim \chi^2(n-2) \]
 A $ 100p\% $ confidence interval for $ \sigma $ is given by
 \[ \left[ \sqrt{\frac{(n-2)s_e^2}{b}} , \sqrt{\frac{(n-2)s_e^2}{a}}  \right] \]
 
@@ -935,7 +1226,7 @@ then the $ p $-value is
 
 
 \begin{Example}{Hand Span Example: $ 95\% $ Confidence Interval for $ \mu_1-\mu_2 $}{}
-    Using R, we obtain $ P(T\leqslant 1.97705)=0.975 $, where $ T\sim t(140) $.
+    Using R, we obtain $ P(T\leq 1.97705)=0.975 $, where $ T\sim t(140) $.
     A $ 95\% $ confidence interval for $ \mu_1-\mu_2 $ is given by
     \[\begin{aligned}
             \bar{y}_{1}-\bar{y}_{2} \pm a s_{p} \sqrt{\frac{1}{n_{1}}+\frac{1}{n_{2}}} & =2.14 \pm(1.97705)(1.6768) \sqrt{\frac{1}{78}+\frac{1}{64}} \\
@@ -1249,7 +1540,7 @@ or more simply
 \]
 The maximum likelihood estimates are
 \[
-    \hat{\symbf{\theta}}_{j}=\frac{\symbf{y}_{j}}{n}, \quad j=1,2, \ldots, k
+    \hat{\Vector{\theta}}_{j}=\frac{\Vector{y}_{j}}{n}, \quad j=1,2, \ldots, k
 \]
 and the maximum likelihood estimators are
 \[
@@ -1270,7 +1561,7 @@ Now
 \[
     \begin{aligned}
         \frac{L\left(\theta_{0}\right)}{\mathcal{L}(\tilde{\theta})} & =\left[\prod_{j=1}^{k}\left(\frac{1}{k}\right)^{Y_{j}}\right] \div\left[\prod_{j=1}^{k}\left(\frac{Y_{j}}{n}\right)^{Y_{j}}\right]                                               \\
-                                                           & =\prod_{j=1}^{k}\left(\frac{n / k}{Y_{j}}\right)^{Y_{j}}=\prod_{j=1}^{k}\left(\frac{E_{j}}{Y_{j}}\right)^{Y_{j}}, \quad \text{where} E_{j}=n\left(\frac{1}{k}\right)=\frac{n}{k}
+                                                                     & =\prod_{j=1}^{k}\left(\frac{n / k}{Y_{j}}\right)^{Y_{j}}=\prod_{j=1}^{k}\left(\frac{E_{j}}{Y_{j}}\right)^{Y_{j}}, \quad \text{where} E_{j}=n\left(\frac{1}{k}\right)=\frac{n}{k}
     \end{aligned}
 \]
 Note that $Y_{j}$ is the observed number, and $E_{j}$ is the expected number of observations in category $j$ if $H_{0}$ is true.
@@ -1279,7 +1570,7 @@ Therefore, the likelihood ratio test statistic for testing $H_{0}: \theta=\theta
 \[
     \begin{aligned}
         \Lambda\left(\theta_{0}\right) & =-2 \log \left[\frac{L\left(\theta_{0}\right)}{\mathcal{L}(\tilde{\theta})}\right]=-2 \log \left[\prod_{j=1}^{k}\left(\frac{E_{j}}{Y_{j}}\right)^{Y_{j}}\right] \\
-                                       & =2 \sum_{j=1}^{k} Y_{j} \log \left(\frac{Y_{j}}{E_{j}}\right)                                                                                         \\
+                                       & =2 \sum_{j=1}^{k} Y_{j} \log \left(\frac{Y_{j}}{E_{j}}\right)                                                                                                   \\
                                        & =2 \sum_{j=1}^{k}(\text{observed frequency }) \times \log \left(\frac{\text{ observed frequency }}{\text{ expected frequency}}\right)
     \end{aligned}
 \]
@@ -1302,7 +1593,7 @@ So large values of $\Lambda\left(\theta_{0}\right)$ give evidence against $H_{0}
 The likelihood ratio test statistic for testing $H_{0}: \theta_{j}=\frac{1}{8}, j=1,2, \ldots, 8$ is
 \[
     \begin{aligned}
-        \Lambda\left(\theta_{0}\right) & =-2 \log \left[\frac{L\left(\theta_{0}\right)}{\mathcal{L}(\tilde{\theta})}\right]                          \\
+        \Lambda\left(\theta_{0}\right) & =-2 \log \left[\frac{L\left(\theta_{0}\right)}{\mathcal{L}(\tilde{\theta})}\right]                \\
                                        & =2 \sum_{j=1}^{8} Y_{j} \log \left(\frac{Y_{j}}{E_{j}}\right)                                     \\
                                        & =2 \sum_{j=1}^{8}(\text{observed frequency }) \times \log \left(\frac{\text{ observed frequency}}
         {\text{expected frequency}}\right)
@@ -1392,28 +1683,28 @@ We examined the fit of the Poisson model to these data by comparing the observed
 
 \[ \begin{array}{|c|c|c|}
         \hline \begin{array}{c}
-            \text{Number of} \\
-            \text{Alpha-Particles Detected}
-        \end{array} & \begin{array}{c}
-            \text{Freq.} \\
-            f_{j}
-        \end{array} & \begin{array}{c}
-            \text{Expected Freq.} \\
-            e_{j}
-        \end{array} \\
-        \hline 0                          & 57                         & 54.42                      \\
-        \hline 1                          & 203                        & 210.42                     \\
-        \hline 2                          & 383                        & 407.43                     \\
-        \hline 3                          & 525                        & 525.54                     \\
-        \hline 4                          & 532                        & 508.41                     \\
-        \hline 5                          & 408                        & 393.47                     \\
-        \hline 6                          & 273                        & 253.77                     \\
-        \hline 7                          & 139                        & 140.28                     \\
-        \hline 8                          & 45                         & 67.86                      \\
-        \hline 9                          & 27                         & 29.18                      \\
-        \hline 10                         & 10                         & 11.29                      \\
-        \hline 11+                        & 6                          & 5.77                       \\
-        \hline \text{Total}               & 2608                       & 2607.99                    \\
+                   \text{Number of} \\
+                   \text{Alpha-Particles Detected}
+               \end{array} & \begin{array}{c}
+                                 \text{Freq.} \\
+                                 f_{j}
+                             \end{array} & \begin{array}{c}
+                                               \text{Expected Freq.} \\
+                                               e_{j}
+                                           \end{array}     \\
+        \hline 0                        & 57               & 54.42   \\
+        \hline 1                        & 203              & 210.42  \\
+        \hline 2                        & 383              & 407.43  \\
+        \hline 3                        & 525              & 525.54  \\
+        \hline 4                        & 532              & 508.41  \\
+        \hline 5                        & 408              & 393.47  \\
+        \hline 6                        & 273              & 253.77  \\
+        \hline 7                        & 139              & 140.28  \\
+        \hline 8                        & 45               & 67.86   \\
+        \hline 9                        & 27               & 29.18   \\
+        \hline 10                       & 10               & 11.29   \\
+        \hline 11+                      & 6                & 5.77    \\
+        \hline \text{Total}             & 2608             & 2607.99 \\
         \hline
     \end{array} \]
 
@@ -1483,18 +1774,18 @@ Usually we collapse two or more adjacent categories with the smallest expected f
 
 \[ \begin{array}{|c|c|c|}
         \hline \text{Category} & \begin{array}{c}
-            \text{Observed} \\
-            \text{Number}
-        \end{array} & \begin{array}{c}
-            \text{Expected} \\
-            \text{Number}
-        \end{array} \\
-        \hline 1               & 53                         & 50                         \\
-        \hline 2               & 21                         & 25                         \\
-        \hline 3               & 11                         & 12.5                       \\
-        \hline 4               & 8                          & 6.25                       \\
-        \hline \geqslant{5}    & 7                          & 6.25                       \\
-        \hline \text{Total}    & 100                        & 100                        \\
+                                     \text{Observed} \\
+                                     \text{Number}
+                                 \end{array} & \begin{array}{c}
+                                                   \text{Expected} \\
+                                                   \text{Number}
+                                               \end{array} \\
+        \hline 1               & 53                 & 50       \\
+        \hline 2               & 21                 & 25       \\
+        \hline 3               & 11                 & 12.5     \\
+        \hline 4               & 8                  & 6.25     \\
+        \hline \geq{5}         & 7                  & 6.25     \\
+        \hline \text{Total}    & 100                & 100      \\
         \hline
     \end{array} \]
 
@@ -1502,21 +1793,21 @@ Usually we collapse two or more adjacent categories with the smallest expected f
 
 \[ \begin{array}{|c|c|c|c|}
         \hline \begin{array}{c}
-            \text{Program/} \\
-            \text{Hometown}
-        \end{array} & \begin{array}{c}
-            \text{Canadian} \\
-            \text{Hometown}
-        \end{array} & \begin{array}{c}
-            \text{Non-Canadian} \\
-            \text{Hometown}
-        \end{array} & \text{Total} \\
-        \hline \text{Computer Science}    & 33                         & 14                         & 47           \\
+                   \text{Program/} \\
+                   \text{Hometown}
+               \end{array}        & \begin{array}{c}
+                                        \text{Canadian} \\
+                                        \text{Hometown}
+                                    \end{array} & \begin{array}{c}
+                                                      \text{Non-Canadian} \\
+                                                      \text{Hometown}
+                                                  \end{array} & \text{Total}               \\
+        \hline \text{Computer Science} & 33                 & 14                     & 47  \\
         \begin{array}{c}
             \text{Non-Computer} \\
             \text{Science}
-        \end{array}        & 39                         & 46                         & 85           \\
-        \hline \text{Total}               & 72                         & 60                         & 132          \\
+        \end{array}         & 39                 & 46                     & 85             \\
+        \hline \text{Total}            & 72                 & 60                     & 132 \\
         \hline
     \end{array} \]
 Is there a relationship between a student's program and their hometown?
@@ -1588,7 +1879,7 @@ If $H_{0}: \theta_{11}=\alpha \beta$ is true, then the likelihood function under
 \[
     \begin{aligned}
         \mathcal{L}(\alpha, \beta) & =(\alpha \beta)^{y_{11}}[\alpha(1-\beta)]^{y_{12}}[(1-\alpha) \beta]^{y_{21}}[(1-\alpha)(1-\beta)]^{y_{22}}                               \\
-                         & =\alpha^{y_{11}+y_{12}}(1-\alpha)^{y_{21}+y_{22}} \cdot \beta^{y_{11}+y_{21}}(1-\beta)^{y_{12}+y_{22}}, \quad 0<\alpha<1, \quad 0<\beta<1
+                                   & =\alpha^{y_{11}+y_{12}}(1-\alpha)^{y_{21}+y_{22}} \cdot \beta^{y_{11}+y_{21}}(1-\beta)^{y_{12}+y_{22}}, \quad 0<\alpha<1, \quad 0<\beta<1
     \end{aligned}
 \]
 which is maximized for
@@ -1661,16 +1952,16 @@ Why do the degrees of freedom make sense?
 \begin{Example}{Program/Hometown Example: Two-Way Table}{}
     \[ \begin{array}{|c|c|c|c|}
             \hline \begin{array}{c}
-                \text{Program /} \\
-                \text{Hometown}
-            \end{array} & \text{Canadian Hometown}               & \begin{array}{c}
-                \text{Non-Canadian} \\
-                \text{Hometown}
-            \end{array} & \text{Total} \\
+                       \text{Program /} \\
+                       \text{Hometown}
+                   \end{array}     & \text{Canadian Hometown}               & \begin{array}{c}
+                                                                                  \text{Non-Canadian} \\
+                                                                                  \text{Hometown}
+                                                                              \end{array} & \text{Total}        \\
             \hline
-            \text{Computer Science}           & e_{11}=\frac{47 \times{72}}{132}=25.64 & e_{12}=47-25.64=21.36      & 47           \\
-            \text{Non-Computer Science}       & e_{21}=72-25.64=46.36                  & e_{22}=60-21.36=38.64      & 85           \\
-            \text{Total}                      & 72                                     & 60                         & 132          \\
+            \text{Computer Science}     & e_{11}=\frac{47 \times{72}}{132}=25.64 & e_{12}=47-25.64=21.36  & 47  \\
+            \text{Non-Computer Science} & e_{21}=72-25.64=46.36                  & e_{22}=60-21.36=38.64  & 85  \\
+            \text{Total}                & 72                                     & 60                     & 132 \\
             \hline
         \end{array} \]
 
@@ -1687,3 +1978,5 @@ Why do the degrees of freedom make sense?
 \end{Example}
 
 
+
+\end{document}
