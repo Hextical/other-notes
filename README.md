@@ -1,5 +1,7 @@
 # Cameron's Notes
 
+Completed notes can be found [here](https://github.com/Hextical/university-notes).
+
 # Graduate
 
 |                      Course                       | Completion |
